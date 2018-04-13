@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.MaintainRecoveryMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="probability" property="probability" jdbcType="REAL" />
+    <result column="frequency" property="frequency" jdbcType="REAL" />
+    <result column="success_rate" property="successRate" jdbcType="REAL" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, probability, frequency, success_rate, device_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintain_recovery
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from maintain_recovery
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
+    insert into maintain_recovery (id, probability, frequency, 
+      success_rate, device_id)
+    values (#{id,jdbcType=BIGINT}, #{probability,jdbcType=REAL}, #{frequency,jdbcType=REAL}, 
+      #{successRate,jdbcType=REAL}, #{deviceId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
+    insert into maintain_recovery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="probability != null" >
+        probability,
+      </if>
+      <if test="frequency != null" >
+        frequency,
+      </if>
+      <if test="successRate != null" >
+        success_rate,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="probability != null" >
+        #{probability,jdbcType=REAL},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=REAL},
+      </if>
+      <if test="successRate != null" >
+        #{successRate,jdbcType=REAL},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
+    update maintain_recovery
+    <set >
+      <if test="probability != null" >
+        probability = #{probability,jdbcType=REAL},
+      </if>
+      <if test="frequency != null" >
+        frequency = #{frequency,jdbcType=REAL},
+      </if>
+      <if test="successRate != null" >
+        success_rate = #{successRate,jdbcType=REAL},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
+    update maintain_recovery
+    set probability = #{probability,jdbcType=REAL},
+      frequency = #{frequency,jdbcType=REAL},
+      success_rate = #{successRate,jdbcType=REAL},
+      device_id = #{deviceId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.MaintainMalfunctionMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="solved_time" property="solvedTime" jdbcType="TIMESTAMP" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, start_time, code, description, method, solved_time, device_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from maintain_malfunction
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from maintain_malfunction
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
+    insert into maintain_malfunction (id, start_time, code, 
+      description, method, solved_time, 
+      device_id)
+    values (#{id,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{solvedTime,jdbcType=TIMESTAMP}, 
+      #{deviceId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
+    insert into maintain_malfunction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="solvedTime != null" >
+        solved_time,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="solvedTime != null" >
+        #{solvedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
+    update maintain_malfunction
+    <set >
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="solvedTime != null" >
+        solved_time = #{solvedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
+    update maintain_malfunction
+    set start_time = #{startTime,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      solved_time = #{solvedTime,jdbcType=TIMESTAMP},
+      device_id = #{deviceId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

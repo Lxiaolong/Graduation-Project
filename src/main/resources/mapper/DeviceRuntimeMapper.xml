@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceRuntimeMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceRuntime" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="runtime_output" property="runtimeOutput" jdbcType="BIGINT" />
+    <result column="additive_output" property="additiveOutput" jdbcType="BIGINT" />
+    <result column="work_time" property="workTime" jdbcType="TIMESTAMP" />
+    <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
+    <result column="down_time" property="downTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, runtime_output, additive_output, work_time, test_time, down_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_runtime
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_runtime
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceRuntime" >
+    insert into device_runtime (id, device_id, runtime_output, 
+      additive_output, work_time, test_time, 
+      down_time)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{runtimeOutput,jdbcType=BIGINT}, 
+      #{additiveOutput,jdbcType=BIGINT}, #{workTime,jdbcType=TIMESTAMP}, #{testTime,jdbcType=TIMESTAMP}, 
+      #{downTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceRuntime" >
+    insert into device_runtime
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="runtimeOutput != null" >
+        runtime_output,
+      </if>
+      <if test="additiveOutput != null" >
+        additive_output,
+      </if>
+      <if test="workTime != null" >
+        work_time,
+      </if>
+      <if test="testTime != null" >
+        test_time,
+      </if>
+      <if test="downTime != null" >
+        down_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="runtimeOutput != null" >
+        #{runtimeOutput,jdbcType=BIGINT},
+      </if>
+      <if test="additiveOutput != null" >
+        #{additiveOutput,jdbcType=BIGINT},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testTime != null" >
+        #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downTime != null" >
+        #{downTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceRuntime" >
+    update device_runtime
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="runtimeOutput != null" >
+        runtime_output = #{runtimeOutput,jdbcType=BIGINT},
+      </if>
+      <if test="additiveOutput != null" >
+        additive_output = #{additiveOutput,jdbcType=BIGINT},
+      </if>
+      <if test="workTime != null" >
+        work_time = #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testTime != null" >
+        test_time = #{testTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="downTime != null" >
+        down_time = #{downTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceRuntime" >
+    update device_runtime
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      runtime_output = #{runtimeOutput,jdbcType=BIGINT},
+      additive_output = #{additiveOutput,jdbcType=BIGINT},
+      work_time = #{workTime,jdbcType=TIMESTAMP},
+      test_time = #{testTime,jdbcType=TIMESTAMP},
+      down_time = #{downTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

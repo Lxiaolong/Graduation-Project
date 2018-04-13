@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceExpenseMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceExpense" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="spare_part_quantity" property="sparePartQuantity" jdbcType="INTEGER" />
+    <result column="spare_part_exchange_quantity" property="sparePartExchangeQuantity" jdbcType="INTEGER" />
+    <result column="spare_part_exchange_price" property="sparePartExchangePrice" jdbcType="REAL" />
+    <result column="spare_part_exchange_cost" property="sparePartExchangeCost" jdbcType="REAL" />
+    <result column="spare_part_exchange_cost_rate" property="sparePartExchangeCostRate" jdbcType="REAL" />
+    <result column="spare_part_occupation_rate" property="sparePartOccupationRate" jdbcType="REAL" />
+    <result column="spare_part_turnover_rate" property="sparePartTurnoverRate" jdbcType="REAL" />
+    <result column="auxiliary_total_quantity" property="auxiliaryTotalQuantity" jdbcType="INTEGER" />
+    <result column="auxiliary_damage_quantity" property="auxiliaryDamageQuantity" jdbcType="INTEGER" />
+    <result column="auxiliary_price" property="auxiliaryPrice" jdbcType="REAL" />
+    <result column="auxiliary_damage_rate" property="auxiliaryDamageRate" jdbcType="REAL" />
+    <result column="auxiliary_damage_cost" property="auxiliaryDamageCost" jdbcType="REAL" />
+    <result column="auxiliary_damage_cost_rate" property="auxiliaryDamageCostRate" jdbcType="REAL" />
+    <result column="raw_material_total_quantity" property="rawMaterialTotalQuantity" jdbcType="INTEGER" />
+    <result column="raw_material_consumption_quantity" property="rawMaterialConsumptionQuantity" jdbcType="INTEGER" />
+    <result column="raw_material_price" property="rawMaterialPrice" jdbcType="REAL" />
+    <result column="raw_material_consumption_rate" property="rawMaterialConsumptionRate" jdbcType="REAL" />
+    <result column="raw_material_consumption_cost" property="rawMaterialConsumptionCost" jdbcType="REAL" />
+    <result column="raw_material_consumption_cost_rate" property="rawMaterialConsumptionCostRate" jdbcType="REAL" />
+    <result column="outsourced_maintenance_expense" property="outsourcedMaintenanceExpense" jdbcType="REAL" />
+    <result column="other_maintenance_expense" property="otherMaintenanceExpense" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, spare_part_quantity, spare_part_exchange_quantity, spare_part_exchange_price, 
+    spare_part_exchange_cost, spare_part_exchange_cost_rate, spare_part_occupation_rate, 
+    spare_part_turnover_rate, auxiliary_total_quantity, auxiliary_damage_quantity, auxiliary_price, 
+    auxiliary_damage_rate, auxiliary_damage_cost, auxiliary_damage_cost_rate, raw_material_total_quantity, 
+    raw_material_consumption_quantity, raw_material_price, raw_material_consumption_rate, 
+    raw_material_consumption_cost, raw_material_consumption_cost_rate, outsourced_maintenance_expense, 
+    other_maintenance_expense
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_expense
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_expense
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceExpense" >
+    insert into device_expense (id, device_id, spare_part_quantity, 
+      spare_part_exchange_quantity, spare_part_exchange_price, 
+      spare_part_exchange_cost, spare_part_exchange_cost_rate, 
+      spare_part_occupation_rate, spare_part_turnover_rate, 
+      auxiliary_total_quantity, auxiliary_damage_quantity, 
+      auxiliary_price, auxiliary_damage_rate, auxiliary_damage_cost, 
+      auxiliary_damage_cost_rate, raw_material_total_quantity, 
+      raw_material_consumption_quantity, raw_material_price, 
+      raw_material_consumption_rate, raw_material_consumption_cost, 
+      raw_material_consumption_cost_rate, outsourced_maintenance_expense, 
+      other_maintenance_expense)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{sparePartQuantity,jdbcType=INTEGER}, 
+      #{sparePartExchangeQuantity,jdbcType=INTEGER}, #{sparePartExchangePrice,jdbcType=REAL}, 
+      #{sparePartExchangeCost,jdbcType=REAL}, #{sparePartExchangeCostRate,jdbcType=REAL}, 
+      #{sparePartOccupationRate,jdbcType=REAL}, #{sparePartTurnoverRate,jdbcType=REAL}, 
+      #{auxiliaryTotalQuantity,jdbcType=INTEGER}, #{auxiliaryDamageQuantity,jdbcType=INTEGER}, 
+      #{auxiliaryPrice,jdbcType=REAL}, #{auxiliaryDamageRate,jdbcType=REAL}, #{auxiliaryDamageCost,jdbcType=REAL}, 
+      #{auxiliaryDamageCostRate,jdbcType=REAL}, #{rawMaterialTotalQuantity,jdbcType=INTEGER}, 
+      #{rawMaterialConsumptionQuantity,jdbcType=INTEGER}, #{rawMaterialPrice,jdbcType=REAL}, 
+      #{rawMaterialConsumptionRate,jdbcType=REAL}, #{rawMaterialConsumptionCost,jdbcType=REAL}, 
+      #{rawMaterialConsumptionCostRate,jdbcType=REAL}, #{outsourcedMaintenanceExpense,jdbcType=REAL}, 
+      #{otherMaintenanceExpense,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceExpense" >
+    insert into device_expense
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="sparePartQuantity != null" >
+        spare_part_quantity,
+      </if>
+      <if test="sparePartExchangeQuantity != null" >
+        spare_part_exchange_quantity,
+      </if>
+      <if test="sparePartExchangePrice != null" >
+        spare_part_exchange_price,
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        spare_part_exchange_cost,
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        spare_part_exchange_cost_rate,
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        spare_part_occupation_rate,
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        spare_part_turnover_rate,
+      </if>
+      <if test="auxiliaryTotalQuantity != null" >
+        auxiliary_total_quantity,
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        auxiliary_damage_quantity,
+      </if>
+      <if test="auxiliaryPrice != null" >
+        auxiliary_price,
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        auxiliary_damage_rate,
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        auxiliary_damage_cost,
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        auxiliary_damage_cost_rate,
+      </if>
+      <if test="rawMaterialTotalQuantity != null" >
+        raw_material_total_quantity,
+      </if>
+      <if test="rawMaterialConsumptionQuantity != null" >
+        raw_material_consumption_quantity,
+      </if>
+      <if test="rawMaterialPrice != null" >
+        raw_material_price,
+      </if>
+      <if test="rawMaterialConsumptionRate != null" >
+        raw_material_consumption_rate,
+      </if>
+      <if test="rawMaterialConsumptionCost != null" >
+        raw_material_consumption_cost,
+      </if>
+      <if test="rawMaterialConsumptionCostRate != null" >
+        raw_material_consumption_cost_rate,
+      </if>
+      <if test="outsourcedMaintenanceExpense != null" >
+        outsourced_maintenance_expense,
+      </if>
+      <if test="otherMaintenanceExpense != null" >
+        other_maintenance_expense,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sparePartQuantity != null" >
+        #{sparePartQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sparePartExchangeQuantity != null" >
+        #{sparePartExchangeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sparePartExchangePrice != null" >
+        #{sparePartExchangePrice,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        #{sparePartExchangeCost,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        #{sparePartExchangeCostRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        #{sparePartOccupationRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        #{sparePartTurnoverRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryTotalQuantity != null" >
+        #{auxiliaryTotalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryPrice != null" >
+        #{auxiliaryPrice,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        #{auxiliaryDamageRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        #{auxiliaryDamageCost,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        #{auxiliaryDamageCostRate,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialTotalQuantity != null" >
+        #{rawMaterialTotalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="rawMaterialConsumptionQuantity != null" >
+        #{rawMaterialConsumptionQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="rawMaterialPrice != null" >
+        #{rawMaterialPrice,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionRate != null" >
+        #{rawMaterialConsumptionRate,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionCost != null" >
+        #{rawMaterialConsumptionCost,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionCostRate != null" >
+        #{rawMaterialConsumptionCostRate,jdbcType=REAL},
+      </if>
+      <if test="outsourcedMaintenanceExpense != null" >
+        #{outsourcedMaintenanceExpense,jdbcType=REAL},
+      </if>
+      <if test="otherMaintenanceExpense != null" >
+        #{otherMaintenanceExpense,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceExpense" >
+    update device_expense
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sparePartQuantity != null" >
+        spare_part_quantity = #{sparePartQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sparePartExchangeQuantity != null" >
+        spare_part_exchange_quantity = #{sparePartExchangeQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="sparePartExchangePrice != null" >
+        spare_part_exchange_price = #{sparePartExchangePrice,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        spare_part_exchange_cost = #{sparePartExchangeCost,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        spare_part_exchange_cost_rate = #{sparePartExchangeCostRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        spare_part_occupation_rate = #{sparePartOccupationRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        spare_part_turnover_rate = #{sparePartTurnoverRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryTotalQuantity != null" >
+        auxiliary_total_quantity = #{auxiliaryTotalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        auxiliary_damage_quantity = #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryPrice != null" >
+        auxiliary_price = #{auxiliaryPrice,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        auxiliary_damage_rate = #{auxiliaryDamageRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        auxiliary_damage_cost = #{auxiliaryDamageCost,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        auxiliary_damage_cost_rate = #{auxiliaryDamageCostRate,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialTotalQuantity != null" >
+        raw_material_total_quantity = #{rawMaterialTotalQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="rawMaterialConsumptionQuantity != null" >
+        raw_material_consumption_quantity = #{rawMaterialConsumptionQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="rawMaterialPrice != null" >
+        raw_material_price = #{rawMaterialPrice,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionRate != null" >
+        raw_material_consumption_rate = #{rawMaterialConsumptionRate,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionCost != null" >
+        raw_material_consumption_cost = #{rawMaterialConsumptionCost,jdbcType=REAL},
+      </if>
+      <if test="rawMaterialConsumptionCostRate != null" >
+        raw_material_consumption_cost_rate = #{rawMaterialConsumptionCostRate,jdbcType=REAL},
+      </if>
+      <if test="outsourcedMaintenanceExpense != null" >
+        outsourced_maintenance_expense = #{outsourcedMaintenanceExpense,jdbcType=REAL},
+      </if>
+      <if test="otherMaintenanceExpense != null" >
+        other_maintenance_expense = #{otherMaintenanceExpense,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceExpense" >
+    update device_expense
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      spare_part_quantity = #{sparePartQuantity,jdbcType=INTEGER},
+      spare_part_exchange_quantity = #{sparePartExchangeQuantity,jdbcType=INTEGER},
+      spare_part_exchange_price = #{sparePartExchangePrice,jdbcType=REAL},
+      spare_part_exchange_cost = #{sparePartExchangeCost,jdbcType=REAL},
+      spare_part_exchange_cost_rate = #{sparePartExchangeCostRate,jdbcType=REAL},
+      spare_part_occupation_rate = #{sparePartOccupationRate,jdbcType=REAL},
+      spare_part_turnover_rate = #{sparePartTurnoverRate,jdbcType=REAL},
+      auxiliary_total_quantity = #{auxiliaryTotalQuantity,jdbcType=INTEGER},
+      auxiliary_damage_quantity = #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      auxiliary_price = #{auxiliaryPrice,jdbcType=REAL},
+      auxiliary_damage_rate = #{auxiliaryDamageRate,jdbcType=REAL},
+      auxiliary_damage_cost = #{auxiliaryDamageCost,jdbcType=REAL},
+      auxiliary_damage_cost_rate = #{auxiliaryDamageCostRate,jdbcType=REAL},
+      raw_material_total_quantity = #{rawMaterialTotalQuantity,jdbcType=INTEGER},
+      raw_material_consumption_quantity = #{rawMaterialConsumptionQuantity,jdbcType=INTEGER},
+      raw_material_price = #{rawMaterialPrice,jdbcType=REAL},
+      raw_material_consumption_rate = #{rawMaterialConsumptionRate,jdbcType=REAL},
+      raw_material_consumption_cost = #{rawMaterialConsumptionCost,jdbcType=REAL},
+      raw_material_consumption_cost_rate = #{rawMaterialConsumptionCostRate,jdbcType=REAL},
+      outsourced_maintenance_expense = #{outsourcedMaintenanceExpense,jdbcType=REAL},
+      other_maintenance_expense = #{otherMaintenanceExpense,jdbcType=REAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

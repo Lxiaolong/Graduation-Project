@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DevicePerformanceMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="malfunction_time" property="malfunctionTime" jdbcType="TIMESTAMP" />
+    <result column="malfuntion_recovery_time" property="malfuntionRecoveryTime" jdbcType="TIMESTAMP" />
+    <result column="run_time" property="runTime" jdbcType="TIMESTAMP" />
+    <result column="mttr_time" property="mttrTime" jdbcType="TIMESTAMP" />
+    <result column="mtbf_time" property="mtbfTime" jdbcType="TIMESTAMP" />
+    <result column="malfuntion_person_id" property="malfuntionPersonId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, malfunction_time, malfuntion_recovery_time, run_time, mttr_time, mtbf_time, 
+    malfuntion_person_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_performance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_performance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
+    insert into device_performance (id, device_id, malfunction_time, 
+      malfuntion_recovery_time, run_time, mttr_time, 
+      mtbf_time, malfuntion_person_id)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{malfunctionTime,jdbcType=TIMESTAMP}, 
+      #{malfuntionRecoveryTime,jdbcType=TIMESTAMP}, #{runTime,jdbcType=TIMESTAMP}, #{mttrTime,jdbcType=TIMESTAMP}, 
+      #{mtbfTime,jdbcType=TIMESTAMP}, #{malfuntionPersonId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
+    insert into device_performance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="malfunctionTime != null" >
+        malfunction_time,
+      </if>
+      <if test="malfuntionRecoveryTime != null" >
+        malfuntion_recovery_time,
+      </if>
+      <if test="runTime != null" >
+        run_time,
+      </if>
+      <if test="mttrTime != null" >
+        mttr_time,
+      </if>
+      <if test="mtbfTime != null" >
+        mtbf_time,
+      </if>
+      <if test="malfuntionPersonId != null" >
+        malfuntion_person_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="malfunctionTime != null" >
+        #{malfunctionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="malfuntionRecoveryTime != null" >
+        #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runTime != null" >
+        #{runTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mttrTime != null" >
+        #{mttrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtbfTime != null" >
+        #{mtbfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="malfuntionPersonId != null" >
+        #{malfuntionPersonId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
+    update device_performance
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="malfunctionTime != null" >
+        malfunction_time = #{malfunctionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="malfuntionRecoveryTime != null" >
+        malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runTime != null" >
+        run_time = #{runTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mttrTime != null" >
+        mttr_time = #{mttrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtbfTime != null" >
+        mtbf_time = #{mtbfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="malfuntionPersonId != null" >
+        malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
+    update device_performance
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      malfunction_time = #{malfunctionTime,jdbcType=TIMESTAMP},
+      malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
+      run_time = #{runTime,jdbcType=TIMESTAMP},
+      mttr_time = #{mttrTime,jdbcType=TIMESTAMP},
+      mtbf_time = #{mtbfTime,jdbcType=TIMESTAMP},
+      malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
