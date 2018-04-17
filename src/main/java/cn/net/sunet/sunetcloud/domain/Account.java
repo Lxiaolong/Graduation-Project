@@ -11,7 +11,7 @@ public class Account {
 
     private Integer employeeNumber;
 
-    private String department;
+    private Integer departmentId;
 
     private String gender;
 
@@ -24,6 +24,18 @@ public class Account {
     private Integer accountTypeId;
 
     private Byte isCheck;
+
+    private Byte isLock;
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    private AccountType accountType;
 
     public Long getId() {
         return id;
@@ -65,12 +77,12 @@ public class Account {
         this.employeeNumber = employeeNumber;
     }
 
-    public String getDepartment() {
-        return department;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment(String department) {
-        this.department = department == null ? null : department.trim();
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getGender() {
@@ -119,5 +131,13 @@ public class Account {
 
     public void setIsCheck(Byte isCheck) {
         this.isCheck = isCheck;
+    }
+
+    public Byte getIsLock() {
+        return isLock;
+    }
+
+    public void setIsLock(Byte isLock) {
+        this.isLock = isLock;
     }
 }

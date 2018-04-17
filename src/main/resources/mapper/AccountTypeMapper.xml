@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.AccountType" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="roles" property="roles" jdbcType="VARCHAR" />
     <result column="add" property="add" jdbcType="TINYINT" />
     <result column="delete" property="delete" jdbcType="TINYINT" />
     <result column="query" property="query" jdbcType="TINYINT" />
@@ -11,7 +12,7 @@
     <result column="config" property="config" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, add, delete, query, modify, config
+    id, name, roles, add, delete, query, modify, config
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,12 +25,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.AccountType" >
-    insert into account_type (id, name, add, 
-      delete, query, modify, 
-      config)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{add,jdbcType=TINYINT}, 
-      #{delete,jdbcType=TINYINT}, #{query,jdbcType=TINYINT}, #{modify,jdbcType=TINYINT}, 
-      #{config,jdbcType=TINYINT})
+    insert into account_type (id, name, roles, 
+      add, delete, query, 
+      modify, config)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{roles,jdbcType=VARCHAR}, 
+      #{add,jdbcType=TINYINT}, #{delete,jdbcType=TINYINT}, #{query,jdbcType=TINYINT}, 
+      #{modify,jdbcType=TINYINT}, #{config,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.AccountType" >
     insert into account_type
@@ -39,6 +40,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="roles != null" >
+        roles,
       </if>
       <if test="add != null" >
         add,
@@ -63,6 +67,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="roles != null" >
+        #{roles,jdbcType=VARCHAR},
+      </if>
       <if test="add != null" >
         #{add,jdbcType=TINYINT},
       </if>
@@ -86,6 +93,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="roles != null" >
+        roles = #{roles,jdbcType=VARCHAR},
+      </if>
       <if test="add != null" >
         add = #{add,jdbcType=TINYINT},
       </if>
@@ -107,6 +117,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.AccountType" >
     update account_type
     set name = #{name,jdbcType=VARCHAR},
+      roles = #{roles,jdbcType=VARCHAR},
       add = #{add,jdbcType=TINYINT},
       delete = #{delete,jdbcType=TINYINT},
       query = #{query,jdbcType=TINYINT},

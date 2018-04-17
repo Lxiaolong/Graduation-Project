@@ -23,16 +23,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account user = userRepository.selectByUserName(username);
         if (user == null) {
-            user=userRepository.selectByPhone(username);
-            if (user==null){
-                user=userRepository.selectByEmail(username);
-                if (user==null){
+            user = userRepository.selectByPhone(username);
+            if (user == null) {
+                user = userRepository.selectByEmail(username);
+                if (user == null) {
                     throw new UsernameIsExitedException("该用户不存在");
                 }
             }
         }
-        ArrayList<GrantedAuthorityImpl> roles= new ArrayList<GrantedAuthorityImpl>();
-        roles.add(new GrantedAuthorityImpl(user.getAvatarUrl()));
+        ArrayList<GrantedAuthorityImpl> roles = new ArrayList<GrantedAuthorityImpl>();
+        roles.add(new GrantedAuthorityImpl(user.getAccountType().getRoles()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 roles);
 

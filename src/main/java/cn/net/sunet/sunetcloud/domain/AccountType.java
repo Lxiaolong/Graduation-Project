@@ -5,6 +5,8 @@ public class AccountType {
 
     private String name;
 
+    private String roles;
+
     private Byte add;
 
     private Byte delete;
@@ -29,6 +31,14 @@ public class AccountType {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles == null ? null : roles.trim();
     }
 
     public Byte getAdd() {

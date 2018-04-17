@@ -7,9 +7,9 @@ public class MaintainSpareParts {
 
     private Long quantity;
 
-    private String place;
+    private Float price;
 
-    private Integer typeId;
+    private String place;
 
     public Long getId() {
         return id;
@@ -35,19 +35,19 @@ public class MaintainSpareParts {
         this.quantity = quantity;
     }
 
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
     public String getPlace() {
         return place;
     }
 
     public void setPlace(String place) {
         this.place = place == null ? null : place.trim();
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
     }
 }

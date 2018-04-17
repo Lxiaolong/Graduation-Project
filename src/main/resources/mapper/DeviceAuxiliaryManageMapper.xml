@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceAuxiliaryManageMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
+    <result column="auxiliary_id" property="auxiliaryId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_type_id, auxiliary_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_auxiliary_manage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_auxiliary_manage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage" >
+    insert into device_auxiliary_manage (id, device_type_id, auxiliary_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{deviceTypeId,jdbcType=INTEGER}, #{auxiliaryId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage" >
+    insert into device_auxiliary_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceTypeId != null" >
+        device_type_id,
+      </if>
+      <if test="auxiliaryId != null" >
+        auxiliary_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceTypeId != null" >
+        #{deviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryId != null" >
+        #{auxiliaryId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage" >
+    update device_auxiliary_manage
+    <set >
+      <if test="deviceTypeId != null" >
+        device_type_id = #{deviceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryId != null" >
+        auxiliary_id = #{auxiliaryId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage" >
+    update device_auxiliary_manage
+    set device_type_id = #{deviceTypeId,jdbcType=INTEGER},
+      auxiliary_id = #{auxiliaryId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

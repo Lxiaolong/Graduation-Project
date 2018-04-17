@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceSparePartsConsumptionMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="spare_part_exchange_cost" property="sparePartExchangeCost" jdbcType="REAL" />
+    <result column="spare_part_exchange_cost_rate" property="sparePartExchangeCostRate" jdbcType="REAL" />
+    <result column="spare_part_occupation_rate" property="sparePartOccupationRate" jdbcType="REAL" />
+    <result column="spare_part_turnover_rate" property="sparePartTurnoverRate" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, spare_part_exchange_cost, spare_part_exchange_cost_rate, spare_part_occupation_rate, 
+    spare_part_turnover_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_spare_parts_consumption
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_spare_parts_consumption
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption" >
+    insert into device_spare_parts_consumption (id, device_id, spare_part_exchange_cost, 
+      spare_part_exchange_cost_rate, spare_part_occupation_rate, 
+      spare_part_turnover_rate)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{sparePartExchangeCost,jdbcType=REAL}, 
+      #{sparePartExchangeCostRate,jdbcType=REAL}, #{sparePartOccupationRate,jdbcType=REAL}, 
+      #{sparePartTurnoverRate,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption" >
+    insert into device_spare_parts_consumption
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        spare_part_exchange_cost,
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        spare_part_exchange_cost_rate,
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        spare_part_occupation_rate,
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        spare_part_turnover_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        #{sparePartExchangeCost,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        #{sparePartExchangeCostRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        #{sparePartOccupationRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        #{sparePartTurnoverRate,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption" >
+    update device_spare_parts_consumption
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="sparePartExchangeCost != null" >
+        spare_part_exchange_cost = #{sparePartExchangeCost,jdbcType=REAL},
+      </if>
+      <if test="sparePartExchangeCostRate != null" >
+        spare_part_exchange_cost_rate = #{sparePartExchangeCostRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartOccupationRate != null" >
+        spare_part_occupation_rate = #{sparePartOccupationRate,jdbcType=REAL},
+      </if>
+      <if test="sparePartTurnoverRate != null" >
+        spare_part_turnover_rate = #{sparePartTurnoverRate,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption" >
+    update device_spare_parts_consumption
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      spare_part_exchange_cost = #{sparePartExchangeCost,jdbcType=REAL},
+      spare_part_exchange_cost_rate = #{sparePartExchangeCostRate,jdbcType=REAL},
+      spare_part_occupation_rate = #{sparePartOccupationRate,jdbcType=REAL},
+      spare_part_turnover_rate = #{sparePartTurnoverRate,jdbcType=REAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

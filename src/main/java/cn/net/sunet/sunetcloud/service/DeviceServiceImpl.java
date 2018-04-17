@@ -8,6 +8,7 @@ package cn.net.sunet.sunetcloud.service;
  */
 
 import cn.net.sunet.sunetcloud.dao.DeviceMapper;
+import cn.net.sunet.sunetcloud.dao.DeviceTypeMapper;
 import cn.net.sunet.sunetcloud.domain.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,14 @@ import org.springframework.stereotype.Service;
 public class DeviceServiceImpl {
     @Autowired
     private DeviceMapper deviceMapper;
-    public Boolean insert(Device device){
-        int flag=deviceMapper.insert(device);
-        if (flag==1){
+
+    public Boolean insert(Device device) {
+        int flag = deviceMapper.insert(device);
+        if (flag == 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceAuxiliaryConsumptionMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="auxiliary_damage_quantity" property="auxiliaryDamageQuantity" jdbcType="INTEGER" />
+    <result column="auxiliary_damage_rate" property="auxiliaryDamageRate" jdbcType="REAL" />
+    <result column="auxiliary_damage_cost" property="auxiliaryDamageCost" jdbcType="REAL" />
+    <result column="auxiliary_damage_cost_rate" property="auxiliaryDamageCostRate" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, device_id, auxiliary_damage_quantity, auxiliary_damage_rate, auxiliary_damage_cost, 
+    auxiliary_damage_cost_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from device_auxiliary_consumption
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from device_auxiliary_consumption
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption" >
+    insert into device_auxiliary_consumption (id, device_id, auxiliary_damage_quantity, 
+      auxiliary_damage_rate, auxiliary_damage_cost, auxiliary_damage_cost_rate
+      )
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{auxiliaryDamageQuantity,jdbcType=INTEGER}, 
+      #{auxiliaryDamageRate,jdbcType=REAL}, #{auxiliaryDamageCost,jdbcType=REAL}, #{auxiliaryDamageCostRate,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption" >
+    insert into device_auxiliary_consumption
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        auxiliary_damage_quantity,
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        auxiliary_damage_rate,
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        auxiliary_damage_cost,
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        auxiliary_damage_cost_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        #{auxiliaryDamageRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        #{auxiliaryDamageCost,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        #{auxiliaryDamageCostRate,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption" >
+    update device_auxiliary_consumption
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="auxiliaryDamageQuantity != null" >
+        auxiliary_damage_quantity = #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="auxiliaryDamageRate != null" >
+        auxiliary_damage_rate = #{auxiliaryDamageRate,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCost != null" >
+        auxiliary_damage_cost = #{auxiliaryDamageCost,jdbcType=REAL},
+      </if>
+      <if test="auxiliaryDamageCostRate != null" >
+        auxiliary_damage_cost_rate = #{auxiliaryDamageCostRate,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption" >
+    update device_auxiliary_consumption
+    set device_id = #{deviceId,jdbcType=BIGINT},
+      auxiliary_damage_quantity = #{auxiliaryDamageQuantity,jdbcType=INTEGER},
+      auxiliary_damage_rate = #{auxiliaryDamageRate,jdbcType=REAL},
+      auxiliary_damage_cost = #{auxiliaryDamageCost,jdbcType=REAL},
+      auxiliary_damage_cost_rate = #{auxiliaryDamageCostRate,jdbcType=REAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

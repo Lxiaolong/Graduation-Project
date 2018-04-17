@@ -11,11 +11,13 @@ public class DeviceRuntime {
 
     private Long additiveOutput;
 
-    private Date workTime;
-
     private Date testTime;
 
+    private Date workTime;
+
     private Date downTime;
+
+    private Integer statusId;
 
     public Long getId() {
         return id;
@@ -49,14 +51,6 @@ public class DeviceRuntime {
         this.additiveOutput = additiveOutput;
     }
 
-    public Date getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(Date workTime) {
-        this.workTime = workTime;
-    }
-
     public Date getTestTime() {
         return testTime;
     }
@@ -65,11 +59,27 @@ public class DeviceRuntime {
         this.testTime = testTime;
     }
 
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
+    }
+
     public Date getDownTime() {
         return downTime;
     }
 
     public void setDownTime(Date downTime) {
         this.downTime = downTime;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 }

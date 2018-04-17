@@ -1,13 +1,17 @@
 package cn.net.sunet.sunetcloud.domain;
 
+import java.util.Date;
+
 public class MaintainRecovery {
     private Long id;
 
     private Float probability;
 
-    private Float frequency;
+    private Integer frequency;
 
     private Float successRate;
+
+    private Date time;
 
     private Long deviceId;
 
@@ -27,11 +31,11 @@ public class MaintainRecovery {
         this.probability = probability;
     }
 
-    public Float getFrequency() {
+    public Integer getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(Float frequency) {
+    public void setFrequency(Integer frequency) {
         this.frequency = frequency;
     }
 
@@ -41,6 +45,14 @@ public class MaintainRecovery {
 
     public void setSuccessRate(Float successRate) {
         this.successRate = successRate;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public Long getDeviceId() {

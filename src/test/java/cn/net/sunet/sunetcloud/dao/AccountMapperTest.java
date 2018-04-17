@@ -1,6 +1,8 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.Account;
+import cn.net.sunet.sunetcloud.domain.Service;
+import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.swing.*;
+import java.util.List;
 
 /*
  * Copyright 2018. sunet corporation All rights reserved.
@@ -20,20 +23,11 @@ import javax.swing.*;
 @SpringBootTest
 public class AccountMapperTest {
     @Autowired
-    private AccountMapper accountMapper;
+    private ServiceMapper serviceMapper;
     @Test
-    public void insert() throws Exception {
-        Account account=new Account();
-        account.setUsername("1");
-        account.setPassword("11");
-        account.setTelephone("1");
-        account.setEmail("1");
-        account.setNickname("11");
-        account.setEmployeeNumber(1);
-        account.setGender("男");
-        account.setAccountTypeId(1);
-        account.setIsCheck((byte)0);
-        System.out.println(accountMapper.insert(account)+"qqq");
+    public void query(){
+        List<Service> services=serviceMapper.query();
+        System.out.println(new JSONGenerator().setData(services).asJson());
     }
 
 }

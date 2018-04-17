@@ -121,12 +121,12 @@ public class Device {
         this.connectDevice = connectDevice == null ? null : connectDevice.trim();
     }
 
-    public Float getDeviceNewRate() {
+    public Float getDeviceNewValue() {
         return deviceNewValue;
     }
 
-    public void setDeviceNewRate(Float deviceNewRate) {
-        this.deviceNewValue = deviceNewRate;
+    public void setDeviceNewValue(Float deviceNewValue) {
+        this.deviceNewValue = deviceNewValue;
     }
 
     public Float getDeviceOriginValue() {

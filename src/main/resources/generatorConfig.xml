@@ -52,20 +52,32 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+        <table schema="sunetcloud" tableName="department"
+               domainObjectName="Department"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
         <table schema="sunetcloud" tableName="device_conditions"
                domainObjectName="DeviceConditions"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table schema="sunetcloud" tableName="device_expense"
-               domainObjectName="DeviceExpense"
+        <table schema="sunetcloud" tableName="device_type"
+               domainObjectName="DeviceType"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table schema="sunetcloud" tableName="device_information"
-               domainObjectName="DeviceInformation"
+        <table schema="sunetcloud" tableName="device_auxiliary_consumption"
+               domainObjectName="DeviceAuxiliaryConsumption"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="device_auxiliary_manage"
+               domainObjectName="DeviceAuxiliaryManage"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -88,8 +100,27 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+        <table schema="sunetcloud" tableName="device_raw_material_consumption"
+               domainObjectName="DeviceRawMaterialConsumption"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="device_raw_material_manage"
+               domainObjectName="DeviceRawMaterialManage"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+
         <table schema="sunetcloud" tableName="device_spare_parts_manage"
                domainObjectName="DeviceParePartsManage"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="device_spare_parts_consumption"
+               domainObjectName="DeviceSparePartsConsumption"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -112,14 +143,14 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table schema="sunetcloud" tableName="maintain_spare_parts_type"
-               domainObjectName="MaintainSparePartsType"
+        <table schema="sunetcloud" tableName="maintian_auxiliary"
+               domainObjectName="MaintainAuxiliary"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
-        <table schema="sunetcloud" tableName="device_remote_funtion"
-               domainObjectName="DeviceRemoteFunction"
+        <table schema="sunetcloud" tableName="maintian_raw_material"
+               domainObjectName="MaintainRawMaterial"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -132,6 +163,24 @@
         </table>
         <table schema="sunetcloud" tableName="account"
                domainObjectName="Account"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="service"
+               domainObjectName="Service"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="role_service_control"
+               domainObjectName="RoleServiceControl"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table schema="sunetcloud" tableName="device_status"
+               domainObjectName="DeviceStatus"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

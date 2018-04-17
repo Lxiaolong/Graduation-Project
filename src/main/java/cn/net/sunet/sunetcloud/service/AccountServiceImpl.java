@@ -21,14 +21,14 @@ public class AccountServiceImpl {
     private AccountMapper accountMapper;
 
     public Account selectByUserName(String username) {
-        return accountMapper.selectByUserName(username);
+        return accountMapper.selectByUsername(username);
     }
 
     public Account selectByPhone(String phone) {
-        return accountMapper.selectByUserName(phone);
+        return accountMapper.selectByUsername(phone);
     }
 
     public Account selectByEmail(String email) {
-        return accountMapper.selectByUserName(email);
+        return accountMapper.selectByUsername(email);
     }
 }

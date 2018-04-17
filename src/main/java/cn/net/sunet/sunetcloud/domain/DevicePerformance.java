@@ -13,9 +13,9 @@ public class DevicePerformance {
 
     private Date runTime;
 
-    private Date mttrTime;
+    private Long mttrTime;
 
-    private Date mtbfTime;
+    private Long mtbfTime;
 
     private Long malfuntionPersonId;
 
@@ -59,19 +59,19 @@ public class DevicePerformance {
         this.runTime = runTime;
     }
 
-    public Date getMttrTime() {
+    public Long getMttrTime() {
         return mttrTime;
     }
 
-    public void setMttrTime(Date mttrTime) {
+    public void setMttrTime(Long mttrTime) {
         this.mttrTime = mttrTime;
     }
 
-    public Date getMtbfTime() {
+    public Long getMtbfTime() {
         return mtbfTime;
     }
 
-    public void setMtbfTime(Date mtbfTime) {
+    public void setMtbfTime(Long mtbfTime) {
         this.mtbfTime = mtbfTime;
     }
 

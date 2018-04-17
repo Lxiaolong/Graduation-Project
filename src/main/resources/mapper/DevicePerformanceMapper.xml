@@ -7,8 +7,8 @@
     <result column="malfunction_time" property="malfunctionTime" jdbcType="TIMESTAMP" />
     <result column="malfuntion_recovery_time" property="malfuntionRecoveryTime" jdbcType="TIMESTAMP" />
     <result column="run_time" property="runTime" jdbcType="TIMESTAMP" />
-    <result column="mttr_time" property="mttrTime" jdbcType="TIMESTAMP" />
-    <result column="mtbf_time" property="mtbfTime" jdbcType="TIMESTAMP" />
+    <result column="mttr_time" property="mttrTime" jdbcType="BIGINT" />
+    <result column="mtbf_time" property="mtbfTime" jdbcType="BIGINT" />
     <result column="malfuntion_person_id" property="malfuntionPersonId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -30,8 +30,8 @@
       malfuntion_recovery_time, run_time, mttr_time, 
       mtbf_time, malfuntion_person_id)
     values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{malfunctionTime,jdbcType=TIMESTAMP}, 
-      #{malfuntionRecoveryTime,jdbcType=TIMESTAMP}, #{runTime,jdbcType=TIMESTAMP}, #{mttrTime,jdbcType=TIMESTAMP}, 
-      #{mtbfTime,jdbcType=TIMESTAMP}, #{malfuntionPersonId,jdbcType=BIGINT})
+      #{malfuntionRecoveryTime,jdbcType=TIMESTAMP}, #{runTime,jdbcType=TIMESTAMP}, #{mttrTime,jdbcType=BIGINT}, 
+      #{mtbfTime,jdbcType=BIGINT}, #{malfuntionPersonId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
     insert into device_performance
@@ -78,10 +78,10 @@
         #{runTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mttrTime != null" >
-        #{mttrTime,jdbcType=TIMESTAMP},
+        #{mttrTime,jdbcType=BIGINT},
       </if>
       <if test="mtbfTime != null" >
-        #{mtbfTime,jdbcType=TIMESTAMP},
+        #{mtbfTime,jdbcType=BIGINT},
       </if>
       <if test="malfuntionPersonId != null" >
         #{malfuntionPersonId,jdbcType=BIGINT},
@@ -104,10 +104,10 @@
         run_time = #{runTime,jdbcType=TIMESTAMP},
       </if>
       <if test="mttrTime != null" >
-        mttr_time = #{mttrTime,jdbcType=TIMESTAMP},
+        mttr_time = #{mttrTime,jdbcType=BIGINT},
       </if>
       <if test="mtbfTime != null" >
-        mtbf_time = #{mtbfTime,jdbcType=TIMESTAMP},
+        mtbf_time = #{mtbfTime,jdbcType=BIGINT},
       </if>
       <if test="malfuntionPersonId != null" >
         malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT},
@@ -121,8 +121,8 @@
       malfunction_time = #{malfunctionTime,jdbcType=TIMESTAMP},
       malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
       run_time = #{runTime,jdbcType=TIMESTAMP},
-      mttr_time = #{mttrTime,jdbcType=TIMESTAMP},
-      mtbf_time = #{mtbfTime,jdbcType=TIMESTAMP},
+      mttr_time = #{mttrTime,jdbcType=BIGINT},
+      mtbf_time = #{mtbfTime,jdbcType=BIGINT},
       malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>

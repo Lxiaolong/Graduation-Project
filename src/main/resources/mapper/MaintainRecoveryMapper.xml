@@ -4,12 +4,13 @@
   <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="probability" property="probability" jdbcType="REAL" />
-    <result column="frequency" property="frequency" jdbcType="REAL" />
+    <result column="frequency" property="frequency" jdbcType="INTEGER" />
     <result column="success_rate" property="successRate" jdbcType="REAL" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
     <result column="device_id" property="deviceId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, probability, frequency, success_rate, device_id
+    id, probability, frequency, success_rate, time, device_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
     insert into maintain_recovery (id, probability, frequency, 
-      success_rate, device_id)
-    values (#{id,jdbcType=BIGINT}, #{probability,jdbcType=REAL}, #{frequency,jdbcType=REAL}, 
-      #{successRate,jdbcType=REAL}, #{deviceId,jdbcType=BIGINT})
+      success_rate, time, device_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{probability,jdbcType=REAL}, #{frequency,jdbcType=INTEGER}, 
+      #{successRate,jdbcType=REAL}, #{time,jdbcType=TIMESTAMP}, #{deviceId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
     insert into maintain_recovery
@@ -42,6 +45,9 @@
       <if test="successRate != null" >
         success_rate,
       </if>
+      <if test="time != null" >
+        time,
+      </if>
       <if test="deviceId != null" >
         device_id,
       </if>
@@ -54,10 +60,13 @@
         #{probability,jdbcType=REAL},
       </if>
       <if test="frequency != null" >
-        #{frequency,jdbcType=REAL},
+        #{frequency,jdbcType=INTEGER},
       </if>
       <if test="successRate != null" >
         #{successRate,jdbcType=REAL},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="deviceId != null" >
         #{deviceId,jdbcType=BIGINT},
@@ -71,10 +80,13 @@
         probability = #{probability,jdbcType=REAL},
       </if>
       <if test="frequency != null" >
-        frequency = #{frequency,jdbcType=REAL},
+        frequency = #{frequency,jdbcType=INTEGER},
       </if>
       <if test="successRate != null" >
         success_rate = #{successRate,jdbcType=REAL},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
       </if>
       <if test="deviceId != null" >
         device_id = #{deviceId,jdbcType=BIGINT},
@@ -85,8 +97,9 @@
   <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRecovery" >
     update maintain_recovery
     set probability = #{probability,jdbcType=REAL},
-      frequency = #{frequency,jdbcType=REAL},
+      frequency = #{frequency,jdbcType=INTEGER},
       success_rate = #{successRate,jdbcType=REAL},
+      time = #{time,jdbcType=TIMESTAMP},
       device_id = #{deviceId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>

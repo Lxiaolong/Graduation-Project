@@ -1,6 +1,6 @@
 package cn.net.sunet.sunetcloud.domain;
 
-public class MaintainSparePartsType {
+public class Department {
     private Integer id;
 
     private String name;

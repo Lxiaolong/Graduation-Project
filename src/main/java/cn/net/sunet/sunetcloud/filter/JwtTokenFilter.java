@@ -22,6 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -39,7 +40,7 @@ public class JwtTokenFilter extends GenericFilterBean {
     }*/
 
 
-/**
+    /**
      * 在此方法中检验客户端请求头中的token,
      * 如果存在并合法,就把token中的信息封装到 Authentication 类型的对象中,
      * 最后使用  SecurityContextHolder.getContext().setAuthentication(authentication); 改变或删除当前已经验证的 pricipal
@@ -48,7 +49,8 @@ public class JwtTokenFilter extends GenericFilterBean {
      * @param servletResponse
      * @param filterChain
      * @throws IOException
-     * @throws ServletException*/
+     * @throws ServletException
+     */
 
 
     @Override
@@ -62,18 +64,19 @@ public class JwtTokenFilter extends GenericFilterBean {
             filterChain.doFilter(request, response);
         } else {
             UsernamePasswordAuthenticationToken authenticationToken = getAuthencation(token, response);
-            if (authenticationToken==null){
+            if (authenticationToken == null) {
                 setErrorResponse(HttpStatus.BAD_REQUEST, (HttpServletResponse) servletResponse, Constant.TOKEN_AUTHENTICATE_FAIL,
                         "账号已注销登录");
-            }
-            else {
+            } else {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
             }
         }
     }
 
-    /** 统一处理由过滤器引发的异常*/
+    /**
+     * 统一处理由过滤器引发的异常
+     */
 
     public void setErrorResponse(HttpStatus status, HttpServletResponse response, int code, String msg) {
         response.setStatus(status.value());
@@ -88,7 +91,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         }
     }
 
-/**
+    /**
      * 判断token是否过期，包括用户是否退出登录和是否时间过期
      */
 
@@ -128,8 +131,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         } catch (RuntimeException e) {
             e.printStackTrace();
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse, 550, e.getMessage());
-        }
-       finally {
+        } finally {
             return null;
         }
 

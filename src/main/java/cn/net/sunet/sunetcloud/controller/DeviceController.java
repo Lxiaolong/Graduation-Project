@@ -11,7 +11,6 @@ import cn.net.sunet.sunetcloud.constant.Constant;
 import cn.net.sunet.sunetcloud.domain.Device;
 import cn.net.sunet.sunetcloud.service.DeviceServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,12 +28,11 @@ public class DeviceController {
     @Autowired
     private JSONGenerator jsonGenerator;
 
-    @RequestMapping(value = "/insert",method = RequestMethod.PUT)
-    public String inset(@ModelAttribute Device device){
-        if(deviceService.insert(device)){
+    @RequestMapping(value = "/insert", method = RequestMethod.PUT)
+    public String inset(@ModelAttribute Device device) {
+        if (deviceService.insert(device)) {
             return jsonGenerator.setCode(Constant.SUCCESS).setMsg("添加成功").asJson();
-        }
-        else {
+        } else {
             return jsonGenerator.setCode(Constant.DATABASE_ERROR).setMsg("添加失败").asJson();
         }
     }

@@ -15,9 +15,5 @@ public interface AccountMapper {
 
     int updateByPrimaryKey(Account record);
 
-    Account selectByUserName(String username);
-
-    Account selectByPhone(String phone);
-
-    Account selectByEmail(String email);
+    Account selectByUsername(String username);
 }
