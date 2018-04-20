@@ -8,6 +8,7 @@ package cn.net.sunet.sunetcloud.filter;
  */
 
 
+import cn.net.sunet.sunetcloud.constant.Constant;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import cn.net.sunet.sunetcloud.utils.Jedisutils;
 import io.jsonwebtoken.Claims;
@@ -33,7 +34,7 @@ public class JwtLogoutFilter implements LogoutHandler {
         try{
             PrintWriter out=httpServletResponse.getWriter();
             //HashMap jsonGenerator = (HashMap) new JSONGenerator().setCode(200).setMsg("注销成功").getJson();
-            out.write(new JSONGenerator().setCode(200).setMsg("注销成功").asJson());
+            out.write(new JSONGenerator().setStatus(Constant.SUCCESS).setMsg("注销成功").asJson());
             out.flush();
             out.close();
         } catch (IOException e) {

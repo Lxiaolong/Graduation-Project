@@ -5,20 +5,25 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="roles" property="roles" jdbcType="VARCHAR" />
-    <result column="add" property="add" jdbcType="TINYINT" />
-    <result column="delete" property="delete" jdbcType="TINYINT" />
-    <result column="query" property="query" jdbcType="TINYINT" />
-    <result column="modify" property="modify" jdbcType="TINYINT" />
-    <result column="config" property="config" jdbcType="TINYINT" />
+    <result column="a_add" property="add" jdbcType="TINYINT" />
+    <result column="a_delete" property="delete" jdbcType="TINYINT" />
+    <result column="a_query" property="query" jdbcType="TINYINT" />
+    <result column="a_modify" property="modify" jdbcType="TINYINT" />
+    <result column="a_config" property="config" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, roles, add, delete, query, modify, config
+    id, name, roles, a_add, a_delete, a_query, a_modify, a_config
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from account_type
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="query" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from account_type
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from account_type

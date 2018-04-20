@@ -1,9 +1,9 @@
 package cn.net.sunet.sunetcloud.domain;
 
 public class AccountType {
-    private Integer id;
+    private Integer typeId;
 
-    private String name;
+    private String accountType;
 
     private String roles;
 
@@ -18,19 +18,19 @@ public class AccountType {
     private Byte config;
 
     public Integer getId() {
-        return id;
+        return typeId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.typeId = id;
     }
 
     public String getName() {
-        return name;
+        return accountType;
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.accountType = name == null ? null : name.trim();
     }
 
     public String getRoles() {

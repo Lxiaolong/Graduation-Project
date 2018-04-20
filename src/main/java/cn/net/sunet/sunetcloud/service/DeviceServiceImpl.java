@@ -29,5 +29,8 @@ public class DeviceServiceImpl {
             return false;
         }
     }
+    public Device selectById(long id){
+        return deviceMapper.selectByPrimaryKey(id);
+    }
 
 }

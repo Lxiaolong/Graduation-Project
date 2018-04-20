@@ -37,6 +37,16 @@ public class Account {
 
     private AccountType accountType;
 
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public Long getId() {
         return id;
     }

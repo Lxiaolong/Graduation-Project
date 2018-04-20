@@ -1,5 +1,7 @@
 package cn.net.sunet.sunetcloud.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Device {
@@ -11,14 +13,14 @@ public class Device {
 
     private String assetCode;
 
-    private Float ratedUph;
+    private Float ratedUPH;
 
     private Float ratedVoltage;
 
     private Float ratedPower;
 
     private Float ratedPressure;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date productDate;
 
     private Integer lifeCycle;
@@ -32,6 +34,24 @@ public class Device {
     private Long accountId;
 
     private Integer deviceTypeId;
+
+    public Float getRatedUPH() {
+        return ratedUPH;
+    }
+
+    public void setRatedUPH(Float ratedUPH) {
+        this.ratedUPH = ratedUPH;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
+    }
+
+    private String certificate;
 
     public Long getId() {
         return id;
@@ -65,13 +85,6 @@ public class Device {
         this.assetCode = assetCode == null ? null : assetCode.trim();
     }
 
-    public Float getRatedUph() {
-        return ratedUph;
-    }
-
-    public void setRatedUph(Float ratedUph) {
-        this.ratedUph = ratedUph;
-    }
 
     public Float getRatedVoltage() {
         return ratedVoltage;

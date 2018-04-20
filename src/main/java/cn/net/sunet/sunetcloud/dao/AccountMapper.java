@@ -1,6 +1,9 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.Account;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AccountMapper {
     int deleteByPrimaryKey(Long id);
@@ -16,4 +19,12 @@ public interface AccountMapper {
     int updateByPrimaryKey(Account record);
 
     Account selectByUsername(String username);
+
+    Account selectByPhone(String phone);
+
+    Account selectByEmail(String email);
+
+    List<Account> query();
+
+    int updateLock(@Param("username") String username, @Param("flag") byte flag);
 }

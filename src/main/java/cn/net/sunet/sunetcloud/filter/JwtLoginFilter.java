@@ -11,6 +11,7 @@ package cn.net.sunet.sunetcloud.filter;
 
 
 
+import cn.net.sunet.sunetcloud.constant.Constant;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import cn.net.sunet.sunetcloud.utils.Jedisutils;
 import io.jsonwebtoken.Jwts;
@@ -107,7 +108,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(200);
         try {
             PrintWriter out = response.getWriter();
-            out.write(new JSONGenerator().setCode(200).setMsg("ok").setData(authResult.getAuthorities().iterator()).asJson());
+            out.write(new JSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setData(authResult.getAuthorities()
+                    .iterator())
+                    .asJson
+                    ());
             out.flush();
             out.close();
         } catch (IOException e) {

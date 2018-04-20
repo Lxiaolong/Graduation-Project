@@ -7,6 +7,8 @@ public class DeviceQuality {
 
     private Long deviceId;
 
+    private Integer statusId;
+
     private Float throughRate;
 
     private Float leakageRate;
@@ -43,6 +45,14 @@ public class DeviceQuality {
 
     public void setDeviceId(Long deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
     public Float getThroughRate() {

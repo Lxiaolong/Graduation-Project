@@ -16,8 +16,13 @@
     <result column="is_check" property="isCheck" jdbcType="TINYINT" />
     <result column="is_lock" property="isLock" jdbcType="TINYINT" />
     <association property="accountType" javaType="cn.net.sunet.sunetcloud.domain.AccountType">
-      <result column="name" property="name"/>
+      <result column="a_id" property="typeId"/>
+      <result column="name" property="accountType"/>
       <result column="roles" property="roles"/>
+    </association>
+    <association property="department" javaType="cn.net.sunet.sunetcloud.domain.Department">
+      <result column="d_id" property="id"/>
+      <result column="d_name" property="name"/>
     </association>
   </resultMap>
   <sql id="Base_Column_List" >
@@ -30,13 +35,37 @@
     from account
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
     a.email, a.avatar_url, a.account_type_id, a.is_check, a.is_lock
     ,ac.name,ac.roles
     from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id
     where username = #{username}
+  </select>
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
+    a.email, a.avatar_url, a.account_type_id, a.is_check, a.is_lock
+    ,ac.name,ac.roles
+    from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id
+    where a.telephone = #{phone}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
+    a.email, a.avatar_url, a.account_type_id, a.is_check, a.is_lock
+    ,ac.name,ac.roles
+    from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id
+    where a.email = #{email}
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
+    a.email, a.avatar_url, a.account_type_id, a.is_check, a.is_lock,a.department_id,
+    ac.name,ac.roles,ac.id a_id,d.id d_id,d.name d_name
+    from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id LEFT JOIN department d ON a
+    .department_id=d.id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from account
@@ -179,7 +208,7 @@
         is_lock = #{isLock,jdbcType=TINYINT},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where username = #{username,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.Account" >
     update account
@@ -196,5 +225,11 @@
       is_check = #{isCheck,jdbcType=TINYINT},
       is_lock = #{isLock,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateLock"  >
+    update account
+    set
+    is_lock = #{flag,jdbcType=TINYINT}
+    where username = #{username,jdbcType=BIGINT}
   </update>
 </mapper>

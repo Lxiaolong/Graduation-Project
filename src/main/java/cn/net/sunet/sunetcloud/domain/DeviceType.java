@@ -1,23 +1,23 @@
 package cn.net.sunet.sunetcloud.domain;
 
 public class DeviceType {
-    private Integer id;
+    private Integer deviceTypeId;
 
-    private String name;
+    private String deviceCategoryname;
 
-    public Integer getId() {
-        return id;
+    public Integer getDeviceTypeId() {
+        return deviceTypeId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDeviceTypeId(Integer deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
     }
 
-    public String getName() {
-        return name;
+    public String getDeviceCategoryname() {
+        return deviceCategoryname;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setDeviceCategoryname(String deviceCategoryname) {
+        this.deviceCategoryname = deviceCategoryname;
     }
 }

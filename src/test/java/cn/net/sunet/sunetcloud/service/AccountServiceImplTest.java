@@ -1,33 +1,35 @@
-package cn.net.sunet.sunetcloud.dao;
+package cn.net.sunet.sunetcloud.service;
 
-import cn.net.sunet.sunetcloud.domain.Account;
-import cn.net.sunet.sunetcloud.domain.Service;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
+import java.util.HashMap;
 import java.util.List;
 
 /*
  * Copyright 2018. sunet corporation All rights reserved.
  * 作者： xiaolong
- * 日期： 2018/4/13
+ * 日期： 2018/4/19
  * 邮箱： 623585001@qq.com
  * 网址： www.sunet.net.cn
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AccountMapperTest {
+public class AccountServiceImplTest {
     @Autowired
-    private AccountMapper serviceMapper;
+    private AccountServiceImpl accountService;
+
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
     @Test
-    public void query(){
-        List<Account> services=serviceMapper.query();
-        System.out.println(new JSONGenerator().setData(services).asJson());
+    public void query() throws Exception {
+        List<HashMap> list=accountService.query();
+        logger.info(new JSONGenerator().setData(list).asJson());
     }
 
 }

@@ -21,7 +21,15 @@ import java.util.List;
 public class DeviceTypeServiceImpl {
     @Autowired
     private DeviceTypeMapper deviceTypeMapper;
-
+    public Boolean insert(DeviceType deviceType){
+        int flag=deviceTypeMapper.insert(deviceType);
+        if(flag==1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public List<DeviceType> query(){
         return deviceTypeMapper.query();
     }

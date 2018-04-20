@@ -28,7 +28,7 @@ public class JSONGenerator {
     public JSONGenerator() {
         json = new HashMap<>();
         data = new HashMap<>();
-        json.put("code", 0);
+        json.put("status", 0);
         json.put("msg", "");
         json.put("data", data);
     }
@@ -37,8 +37,8 @@ public class JSONGenerator {
         return json;
     }
 
-    public JSONGenerator setCode(int code) {
-        json.put("code", code);
+    public JSONGenerator setStatus(int status) {
+        json.put("status", status);
         return this;
     }
 

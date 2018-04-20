@@ -24,28 +24,30 @@ public class UnifiedExceptionHandler {
     public Map otherException(HttpServletRequest httpServletRequest, OtherException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setCode(Constant.OTHER_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
 
     }
     @ExceptionHandler(value = DatabaseException.class)
     public Map databaseException(HttpServletRequest httpServletRequest, DatabaseException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setCode(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
 
     }
     @ExceptionHandler(value = RequestParameterException.class)
     public Map serverException(HttpServletRequest httpServletRequest, RequestParameterException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setCode(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data)
+                .asJsonObject();
 
     }
     @ExceptionHandler(value = ExpiredJwtException.class)
     public Map expiredJwtException(HttpServletRequest httpServletRequest, ExpiredJwtException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setCode(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data)
+                .asJsonObject();
 
     }
 /*    @ExceptionHandler(value = RuntimeException.class)

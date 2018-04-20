@@ -8,7 +8,7 @@ package cn.net.sunet.sunetcloud.constant;/*
 
 public class Constant {
     final static public int SUCCESS=200;
-    final static public int INVALIB=210;
+    final static public int INVALID=210;
     final static public int REQUEST_ERROR=440;
     final static public int SEVER_ERROR=550;
     final static public int REQUEST_PARAMETER_ERROR=441;

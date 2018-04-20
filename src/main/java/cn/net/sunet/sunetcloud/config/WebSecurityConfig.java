@@ -67,7 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/images/**",
                         "/v2/api-docs","swagger.json","/configuration/ui","/configuration/security","/staff/**",
                         "/index","/deviceinformation/**","/devicereport/**","/devicestatus/**","/mobile_login",
-                        "/app/greetings","/portfolio","/monitor/dump","/login","/register")
+                        "/app/greetings","/portfolio","/monitor/dump","/login","/register","/acount/**","/device/**",
+                        "/devicetype/**","/collection/**")
                 .permitAll()
                 // 所有请求需要身份认证
                 .anyRequest().authenticated()

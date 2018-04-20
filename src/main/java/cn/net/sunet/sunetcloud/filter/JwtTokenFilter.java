@@ -83,7 +83,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         response.setContentType("application/json");
         // A class used for errors
         try {
-            response.getWriter().write(new JSONGenerator().setCode(code).setMsg(msg).asJson());
+            response.getWriter().write(new JSONGenerator().setStatus(code).setMsg(msg).asJson());
             response.getWriter().flush();
             response.getWriter().close();
         } catch (IOException e) {

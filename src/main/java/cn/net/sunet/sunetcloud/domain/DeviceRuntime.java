@@ -1,5 +1,7 @@
 package cn.net.sunet.sunetcloud.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class DeviceRuntime {
@@ -10,14 +12,12 @@ public class DeviceRuntime {
     private Long runtimeOutput;
 
     private Long additiveOutput;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date testTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date workTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date downTime;
-
-    private Integer statusId;
 
     public Long getId() {
         return id;
@@ -73,13 +73,5 @@ public class DeviceRuntime {
 
     public void setDownTime(Date downTime) {
         this.downTime = downTime;
-    }
-
-    public Integer getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
     }
 }
