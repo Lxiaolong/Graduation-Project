@@ -40,7 +40,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 数据表进行生成操作 schema:相当于库名; tableName:表名; domainObjectName:对应的DO -->
-       <!-- <table schema="sunetcloud" tableName="account_type"
+        <!--<table schema="sunetcloud" tableName="account_type"
                domainObjectName="AccountType"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
@@ -81,14 +81,14 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>
+        </table>-->
         <table schema="sunetcloud" tableName="device_performance"
                domainObjectName="DevicePerformance"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>-->
-        <table schema="sunetcloud" tableName="device_quality"
+        </table>
+    <!--    <table schema="sunetcloud" tableName="device_quality"
                domainObjectName="DeviceQuality"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
@@ -99,7 +99,7 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>
+        </table>-->
        <!-- <table schema="sunetcloud" tableName="device_raw_material_consumption"
                domainObjectName="DeviceRawMaterialConsumption"
                enableCountByExample="false" enableUpdateByExample="false"

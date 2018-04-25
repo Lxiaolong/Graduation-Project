@@ -4,22 +4,29 @@
   <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="device_id" property="deviceId" jdbcType="BIGINT" />
-    <result column="malfunction_time" property="malfunctionTime" jdbcType="TIMESTAMP" />
-    <result column="malfuntion_recovery_time" property="malfuntionRecoveryTime" jdbcType="TIMESTAMP" />
-    <result column="run_time" property="runTime" jdbcType="TIMESTAMP" />
-    <result column="mttr_time" property="mttrTime" jdbcType="BIGINT" />
-    <result column="mtbf_time" property="mtbfTime" jdbcType="BIGINT" />
+    <result column="malfunction_time" property="malfunctionTime" jdbcType="REAL" />
+    <result column="malfuntion_recovery_time" property="malfuntionRecoveryTime" jdbcType="REAL" />
+    <result column="run_time" property="runTime" jdbcType="REAL" />
+    <result column="mttr_time" property="mttrTime" jdbcType="REAL" />
+    <result column="mtbf_time" property="mtbfTime" jdbcType="REAL" />
     <result column="malfuntion_person_id" property="malfuntionPersonId" jdbcType="BIGINT" />
+    <result column="malfunction_number" property="malfunctionNumber" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, device_id, malfunction_time, malfuntion_recovery_time, run_time, mttr_time, mtbf_time, 
-    malfuntion_person_id
+    malfuntion_person_id, malfunction_number
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from device_performance
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByDeviceId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from device_performance
+    where device_id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from device_performance
@@ -28,10 +35,12 @@
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
     insert into device_performance (id, device_id, malfunction_time, 
       malfuntion_recovery_time, run_time, mttr_time, 
-      mtbf_time, malfuntion_person_id)
-    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{malfunctionTime,jdbcType=TIMESTAMP}, 
-      #{malfuntionRecoveryTime,jdbcType=TIMESTAMP}, #{runTime,jdbcType=TIMESTAMP}, #{mttrTime,jdbcType=BIGINT}, 
-      #{mtbfTime,jdbcType=BIGINT}, #{malfuntionPersonId,jdbcType=BIGINT})
+      mtbf_time, malfuntion_person_id, malfunction_number
+      )
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{malfunctionTime,jdbcType=REAL}, 
+      #{malfuntionRecoveryTime,jdbcType=REAL}, #{runTime,jdbcType=REAL}, #{mttrTime,jdbcType=REAL}, 
+      #{mtbfTime,jdbcType=REAL}, #{malfuntionPersonId,jdbcType=BIGINT}, #{malfunctionNumber,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
     insert into device_performance
@@ -60,6 +69,9 @@
       <if test="malfuntionPersonId != null" >
         malfuntion_person_id,
       </if>
+      <if test="malfunctionNumber != null" >
+        malfunction_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -69,22 +81,25 @@
         #{deviceId,jdbcType=BIGINT},
       </if>
       <if test="malfunctionTime != null" >
-        #{malfunctionTime,jdbcType=TIMESTAMP},
+        #{malfunctionTime,jdbcType=REAL},
       </if>
       <if test="malfuntionRecoveryTime != null" >
-        #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
+        #{malfuntionRecoveryTime,jdbcType=REAL},
       </if>
       <if test="runTime != null" >
-        #{runTime,jdbcType=TIMESTAMP},
+        #{runTime,jdbcType=REAL},
       </if>
       <if test="mttrTime != null" >
-        #{mttrTime,jdbcType=BIGINT},
+        #{mttrTime,jdbcType=REAL},
       </if>
       <if test="mtbfTime != null" >
-        #{mtbfTime,jdbcType=BIGINT},
+        #{mtbfTime,jdbcType=REAL},
       </if>
       <if test="malfuntionPersonId != null" >
         #{malfuntionPersonId,jdbcType=BIGINT},
+      </if>
+      <if test="malfunctionNumber != null" >
+        #{malfunctionNumber,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -95,22 +110,25 @@
         device_id = #{deviceId,jdbcType=BIGINT},
       </if>
       <if test="malfunctionTime != null" >
-        malfunction_time = #{malfunctionTime,jdbcType=TIMESTAMP},
+        malfunction_time = #{malfunctionTime,jdbcType=REAL},
       </if>
       <if test="malfuntionRecoveryTime != null" >
-        malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
+        malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=REAL},
       </if>
       <if test="runTime != null" >
-        run_time = #{runTime,jdbcType=TIMESTAMP},
+        run_time = #{runTime,jdbcType=REAL},
       </if>
       <if test="mttrTime != null" >
-        mttr_time = #{mttrTime,jdbcType=BIGINT},
+        mttr_time = #{mttrTime,jdbcType=REAL},
       </if>
       <if test="mtbfTime != null" >
-        mtbf_time = #{mtbfTime,jdbcType=BIGINT},
+        mtbf_time = #{mtbfTime,jdbcType=REAL},
       </if>
       <if test="malfuntionPersonId != null" >
         malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT},
+      </if>
+      <if test="malfunctionNumber != null" >
+        malfunction_number = #{malfunctionNumber,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -118,12 +136,13 @@
   <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DevicePerformance" >
     update device_performance
     set device_id = #{deviceId,jdbcType=BIGINT},
-      malfunction_time = #{malfunctionTime,jdbcType=TIMESTAMP},
-      malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=TIMESTAMP},
-      run_time = #{runTime,jdbcType=TIMESTAMP},
-      mttr_time = #{mttrTime,jdbcType=BIGINT},
-      mtbf_time = #{mtbfTime,jdbcType=BIGINT},
-      malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT}
+      malfunction_time = #{malfunctionTime,jdbcType=REAL},
+      malfuntion_recovery_time = #{malfuntionRecoveryTime,jdbcType=REAL},
+      run_time = #{runTime,jdbcType=REAL},
+      mttr_time = #{mttrTime,jdbcType=REAL},
+      mtbf_time = #{mtbfTime,jdbcType=REAL},
+      malfuntion_person_id = #{malfuntionPersonId,jdbcType=BIGINT},
+      malfunction_number = #{malfunctionNumber,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

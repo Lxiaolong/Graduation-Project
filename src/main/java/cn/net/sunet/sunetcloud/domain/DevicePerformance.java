@@ -1,23 +1,23 @@
 package cn.net.sunet.sunetcloud.domain;
 
-import java.util.Date;
-
 public class DevicePerformance {
     private Long id;
 
     private Long deviceId;
 
-    private Date malfunctionTime;
+    private Float malfunctionTime;
 
-    private Date malfuntionRecoveryTime;
+    private Float malfuntionRecoveryTime;
 
-    private Date runTime;
+    private Float runTime;
 
-    private Long mttrTime;
+    private Float mttrTime;
 
-    private Long mtbfTime;
+    private Float mtbfTime;
 
     private Long malfuntionPersonId;
+
+    private Integer malfunctionNumber;
 
     public Long getId() {
         return id;
@@ -35,43 +35,43 @@ public class DevicePerformance {
         this.deviceId = deviceId;
     }
 
-    public Date getMalfunctionTime() {
+    public Float getMalfunctionTime() {
         return malfunctionTime;
     }
 
-    public void setMalfunctionTime(Date malfunctionTime) {
+    public void setMalfunctionTime(Float malfunctionTime) {
         this.malfunctionTime = malfunctionTime;
     }
 
-    public Date getMalfuntionRecoveryTime() {
+    public Float getMalfuntionRecoveryTime() {
         return malfuntionRecoveryTime;
     }
 
-    public void setMalfuntionRecoveryTime(Date malfuntionRecoveryTime) {
+    public void setMalfuntionRecoveryTime(Float malfuntionRecoveryTime) {
         this.malfuntionRecoveryTime = malfuntionRecoveryTime;
     }
 
-    public Date getRunTime() {
+    public Float getRunTime() {
         return runTime;
     }
 
-    public void setRunTime(Date runTime) {
+    public void setRunTime(Float runTime) {
         this.runTime = runTime;
     }
 
-    public Long getMttrTime() {
+    public Float getMttrTime() {
         return mttrTime;
     }
 
-    public void setMttrTime(Long mttrTime) {
+    public void setMttrTime(Float mttrTime) {
         this.mttrTime = mttrTime;
     }
 
-    public Long getMtbfTime() {
+    public Float getMtbfTime() {
         return mtbfTime;
     }
 
-    public void setMtbfTime(Long mtbfTime) {
+    public void setMtbfTime(Float mtbfTime) {
         this.mtbfTime = mtbfTime;
     }
 
@@ -81,5 +81,13 @@ public class DevicePerformance {
 
     public void setMalfuntionPersonId(Long malfuntionPersonId) {
         this.malfuntionPersonId = malfuntionPersonId;
+    }
+
+    public Integer getMalfunctionNumber() {
+        return malfunctionNumber;
+    }
+
+    public void setMalfunctionNumber(Integer malfunctionNumber) {
+        this.malfunctionNumber = malfunctionNumber;
     }
 }

@@ -9,12 +9,27 @@
     <result column="method" property="method" jdbcType="VARCHAR" />
     <result column="solved_time" property="solvedTime" jdbcType="TIMESTAMP" />
     <result column="device_id" property="deviceId" jdbcType="BIGINT" />
+    <result column="schedule" property="schedule" jdbcType="INTEGER"/>
+    <result column="devicename" property="deviceName" />
+    <result column="devicecode" property="deviceCode"/>
+    <result column="accountname" property="accountName"/>
+    <result column="accountphone" property="accountPhone"/>
+    <result column="maintainemail" property="maintainEmail"/>
+    <result column="accountemail" property="accountEmail"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, start_time, code, description, method, solved_time, device_id
   </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+     m.id, m.start_time, m.code, m.description, m.method, m.solved_time, m.device_id,d.asset_code
+     devicecode,d.chinese_name devicename,a.nickname accountname,a.telephone accountphone,a.email accountemail,c.email maintainemail
+    from (maintain_malfunction m LEFT  JOIN device d ON device_id =d.id)LEFT  JOIN account a ON d.account_id=a.id
+    LEFT JOIN device_performance p ON d.id=p.malfuntion_person_id LEFT JOIN account c on p.malfuntion_person_id=c.id
+    where m.id =#{id,jdbcType=BIGINT}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from maintain_malfunction
     where id = #{id,jdbcType=BIGINT}
@@ -23,13 +38,14 @@
     delete from maintain_malfunction
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
-    insert into maintain_malfunction (id, start_time, code, 
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into maintain_malfunction (start_time, code,
       description, method, solved_time, 
-      device_id)
-    values (#{id,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      device_id,schedule)
+    values (#{startTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR},
       #{description,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{solvedTime,jdbcType=TIMESTAMP}, 
-      #{deviceId,jdbcType=BIGINT})
+      #{deviceId,jdbcType=BIGINT},#{schedule,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainMalfunction" >
     insert into maintain_malfunction

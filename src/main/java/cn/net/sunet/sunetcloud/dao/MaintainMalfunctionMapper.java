@@ -14,4 +14,5 @@ public interface MaintainMalfunctionMapper {
     int updateByPrimaryKeySelective(MaintainMalfunction record);
 
     int updateByPrimaryKey(MaintainMalfunction record);
+    MaintainMalfunction selectById(Long id);
 }

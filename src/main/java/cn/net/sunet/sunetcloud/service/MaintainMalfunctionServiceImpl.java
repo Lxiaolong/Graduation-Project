@@ -19,8 +19,16 @@ import org.springframework.stereotype.Service;
 public class MaintainMalfunctionServiceImpl {
     @Autowired
     private MaintainMalfunctionMapper maintainMalfunctionMapper;
-    public void insert(MaintainMalfunction maintainMalfunction){
-        maintainMalfunctionMapper.insert(maintainMalfunction);
+
+    public int insert(MaintainMalfunction maintainMalfunction) {
+        return maintainMalfunctionMapper.insert(maintainMalfunction);
+    }
+
+    public void update(MaintainMalfunction maintainMalfunction) {
+        maintainMalfunctionMapper.updateByPrimaryKeySelective(maintainMalfunction);
+    }
+    public MaintainMalfunction selectById(Long id){
+       return maintainMalfunctionMapper.selectById(id);
     }
 
 }
