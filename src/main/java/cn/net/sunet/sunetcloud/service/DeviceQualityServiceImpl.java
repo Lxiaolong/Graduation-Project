@@ -24,7 +24,11 @@ public class DeviceQualityServiceImpl {
     public DeviceQualityServiceImpl(DeviceQualityMapper deviceQualityMapper) {
         this.deviceQualityMapper = deviceQualityMapper;
     }
-    public int insert(DeviceQuality deviceQuality){
-        return deviceQualityMapper.insert(deviceQuality);
+    public void insert(DeviceQuality deviceQuality){
+        deviceQuality.setRetestRate(deviceQuality.getRetestNumber()/(float)deviceQuality.getFeedNumber());
+        deviceQuality.setLeakageRate(deviceQuality.getLeakageNumber()/(float)deviceQuality.getFeedNumber());
+        deviceQuality.setThroughRate(deviceQuality.getDischargeNumber()/(float)deviceQuality.getFeedNumber());
+        deviceQuality.setErrorLoadingRate(deviceQuality.getErrorLoadingNumber()/(float)deviceQuality.getFeedNumber());
+        deviceQualityMapper.insert(deviceQuality);
     }
 }

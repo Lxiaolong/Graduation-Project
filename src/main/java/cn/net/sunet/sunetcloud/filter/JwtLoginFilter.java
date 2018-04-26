@@ -10,7 +10,6 @@ package cn.net.sunet.sunetcloud.filter;
 */
 
 
-
 import cn.net.sunet.sunetcloud.constant.Constant;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import cn.net.sunet.sunetcloud.utils.Jedisutils;
@@ -48,7 +47,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     }
 
-/**
+    /**
      * 接收并解析用户登陆信息  /login,
      * 为已验证的用户返回一个已填充的身份验证令牌，表示成功的身份验证
      * 返回null，表明身份验证过程仍在进行中。在返回之前，实现应该执行完成该过程所需的任何额外工作。
@@ -80,7 +79,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     }
 
-/**
+    /**
      * 登陆成功后,此方法会被调用,因此我们可以在次方法中生成token,并返回给客户端
      *
      * @param request
@@ -95,7 +94,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         String token = Jwts.builder()
                 .setAudience(authResult.getName())
                 //有效期为两个小时
-                .setExpiration(new Date(System.currentTimeMillis() + 60  * 1000*60*2))
+                .setExpiration(new Date(System.currentTimeMillis() + 60 * 1000 * 60 * 2))
                 .setIssuer(authResult.getAuthorities().toArray(new GrantedAuthority[authResult.getAuthorities().size
                         ()])[0].getAuthority())
                 //采用HS384加密方式，密钥为sunet
@@ -105,13 +104,14 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         Jedisutils.getInstance().getJedis().set(authResult.getName(), token);
         response.addHeader("token", "sunet" + token);
-        response.setStatus(200);
+        response.setStatus(Constant.SUCCESS);
         try {
             PrintWriter out = response.getWriter();
-            out.write(new JSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setData(authResult.getAuthorities()
-                    .iterator())
+            out.write(new JSONGenerator().createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setData
+                    (authResult.getAuthorities()
+                            .iterator())
                     .asJson
-                    ());
+                            ());
             out.flush();
             out.close();
         } catch (IOException e) {
@@ -119,4 +119,15 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
 
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(Constant.AUTHENTICATE);
+        response.setContentType("application/json");
+        response.getWriter().write(new JSONGenerator().createJSONGenerator().setStatus(Constant
+                .AUTHENTICATE).setMsg(failed.getMessage()).asJson());
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
 }
+

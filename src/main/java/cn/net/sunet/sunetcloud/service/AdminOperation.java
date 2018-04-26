@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AdminOperation {
+    private final AccountServiceImpl accountService;
+
     @Autowired
-    private AccountServiceImpl accountService;
+    public AdminOperation(AccountServiceImpl accountService) {
+        this.accountService = accountService;
+    }
 
     public void insertAccount(Account account) throws DatabaseException {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

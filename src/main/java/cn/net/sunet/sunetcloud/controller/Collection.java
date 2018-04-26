@@ -8,7 +8,10 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
-import cn.net.sunet.sunetcloud.domain.*;
+import cn.net.sunet.sunetcloud.domain.DevicePerformance;
+import cn.net.sunet.sunetcloud.domain.DeviceQuality;
+import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
+import cn.net.sunet.sunetcloud.domain.MaintainMalfunction;
 import cn.net.sunet.sunetcloud.exception.DatabaseException;
 import cn.net.sunet.sunetcloud.service.*;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
@@ -24,8 +27,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
@@ -58,7 +59,6 @@ public class Collection {
     /**
      * 在ScheduledFuture中有一个cancel可以停止定时任务。
      */
-
     private ScheduledFuture<?> future;
 
     @Bean
@@ -66,7 +66,7 @@ public class Collection {
         return new ThreadPoolTaskScheduler();
     }
 
-    @RequestMapping(value = "/devicequality", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/devicequality", method = RequestMethod.POST)
     public String devicequality(@ModelAttribute DeviceQuality deviceQuality, @RequestParam String certificate) {
         long id = deviceQuality.getDeviceId();
         Device device = deviceService.selectById(id);
@@ -87,7 +87,7 @@ public class Collection {
             }
         }
         return jsonGenerator.setStatus(Constant.REQUEST_PARAMETER_ERROR).asJson();
-    }
+    }*/
 
     @RequestMapping(value = "/deviceruntime/test_time", method = RequestMethod.POST)
     public String testTime(@ModelAttribute DeviceRuntime deviceRuntime) throws DatabaseException {
@@ -138,7 +138,7 @@ public class Collection {
 
     @RequestMapping(value = "/devicemaintain", method = RequestMethod.POST)
     public String maintain(@RequestParam long deviceId,
-                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")
+                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                    Date startTime,
                            @RequestParam String code) {
         MaintainMalfunction maintainMalfunction=new MaintainMalfunction();
@@ -187,7 +187,7 @@ public class Collection {
     public String complete(@RequestParam long id,
                            @RequestParam String description,
                            @RequestParam String method,
-                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")
+                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
                                        Date solvedTime) {
         MaintainMalfunction maintainMalfunction=new MaintainMalfunction();
         maintainMalfunction.setId(id);
@@ -214,6 +214,34 @@ public class Collection {
         devicePerformanceService.update(devicePerformance);
         return "ok";
 
+    }
+    @RequestMapping(value = "devicequality",method = RequestMethod.POST)
+    public String devicequality(@RequestParam int feed_number,
+                                @RequestParam int discharge_number,
+                                @RequestParam int ng_number,
+                                @RequestParam int leakage_number,
+                                @RequestParam int retest_number,
+                                @RequestParam int error_loading_number,
+                                @RequestParam long deviceId,
+                                @RequestParam int statusId,
+                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date collection_time){
+
+        DeviceQuality deviceQuality=new DeviceQuality();
+        deviceQuality.setCollectionTime(collection_time);
+        deviceQuality.setDeviceId(deviceId);
+        deviceQuality.setStatusId(statusId);
+        deviceQuality.setDischargeNumber(discharge_number);
+        deviceQuality.setErrorLoadingNumber(error_loading_number);
+        deviceQuality.setLeakageNumber(leakage_number);
+        deviceQuality.setRetestNumber(retest_number);
+        deviceQuality.setFeedNumber(feed_number);
+        deviceQuality.setNgNumber(ng_number);
+        try {
+            deviceQualityService.insert(deviceQuality);
+        }catch (DataAccessException e){
+            return "notok";
+        }
+        return "ok";
     }
 
 }

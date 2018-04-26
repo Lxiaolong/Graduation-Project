@@ -25,12 +25,13 @@ import java.util.Map;
 public class JSONGenerator {
     private Map<String, Object> json, data;
 
-    public JSONGenerator() {
+    public  JSONGenerator createJSONGenerator() {
         json = new HashMap<>();
         data = new HashMap<>();
         json.put("status", 0);
         json.put("msg", "");
         json.put("data", data);
+        return this;
     }
 
     public Map<String, Object> getJson() {

@@ -38,9 +38,9 @@ public class DeviceController {
         certificate = bCryptPasswordEncoder.encode(certificate);
         device.setCertificate(certificate);
         if (deviceService.insert(device)){
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("添加成功").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("添加成功").asJson();
         } else {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg("添加失败").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("添加失败").asJson();
         }
     }
 }

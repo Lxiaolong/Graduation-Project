@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Lxiaolong
  */
-
+@org.springframework.stereotype.Service
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Autowired
     private ServiceMapper urlMapper;

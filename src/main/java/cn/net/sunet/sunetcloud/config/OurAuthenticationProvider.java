@@ -10,9 +10,9 @@ package cn.net.sunet.sunetcloud.config;
 */
 
 
-import cn.net.sunet.sunetcloud.exception.UsernameIsExitedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -55,7 +55,7 @@ public class OurAuthenticationProvider implements AuthenticationProvider {
         Boolean flag = bCryptPasswordEncoder.matches(password, dbPassword);
         System.out.println(password);
         if (!flag) {
-            throw new UsernameIsExitedException("密码错误");
+            throw new BadCredentialsException("密码错误");
         }
         // 还可以从数据库中查出该用户所拥有的权限,设置到 authorities 中去,这里模拟数据库查询.
 

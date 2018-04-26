@@ -34,13 +34,11 @@ import java.util.Date;
 @RestController
 @Api(value = "login", description = "登录注册管理")
 public class LoginModuleController {
-    private final AccountServiceImpl accountMapper;
 
     @Autowired
-    public LoginModuleController(AccountServiceImpl accountMapper) {
-        this.accountMapper = accountMapper;
-    }
-
+    private  AccountServiceImpl accountMapper;
+    @Autowired
+    private JSONGenerator jsonGenerator;
 
     @PostMapping("/register")
     public String doRegister(@RequestParam String username,
@@ -66,10 +64,10 @@ public class LoginModuleController {
         account.setIsCheck((byte) 1);
         // 此处省略校验逻辑
         try {
-            new AdminOperation().insertAccount(account);
-            return new JSONGenerator().setStatus(Constant.SUCCESS).setMsg("注册成功").asJson();}
+            new AdminOperation(accountMapper).insertAccount(account);
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("注册成功").asJson();}
         catch (DataAccessException e){
-            return new JSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("注册失败").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("注册失败").asJson();
         }
     }
 
@@ -77,7 +75,7 @@ public class LoginModuleController {
     @ApiOperation("测试")
     public String user() {
 
-        return new JSONGenerator().setData("测试").asJson();
+        return jsonGenerator.createJSONGenerator().setData("测试").asJson();
     }
 
     @RequestMapping(value = "/mobile_login", method = RequestMethod.POST)
@@ -100,11 +98,11 @@ public class LoginModuleController {
                         .signWith(SignatureAlgorithm.HS384, "sunet")
                         .compact();
                 httpServletResponse.addHeader("token", token);
-                return new JSONGenerator().setStatus(Constant.SUCCESS).setMsg("登陆成功").asJson();
+                return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("登陆成功").asJson();
             }
-            return new JSONGenerator().setStatus((Integer) jsonObject.get("status")).asJson();
+            return jsonGenerator.createJSONGenerator().setStatus((Integer) jsonObject.get("status")).asJson();
         }
 
-        return new JSONGenerator().setStatus((Integer) jsonObject.get("status")).asJson();
+        return jsonGenerator.createJSONGenerator().setStatus((Integer) jsonObject.get("status")).asJson();
     }
 }

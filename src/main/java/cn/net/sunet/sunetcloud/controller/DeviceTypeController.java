@@ -45,18 +45,19 @@ public class DeviceTypeController {
         hashMap.put("rank", accountTypes);
         hashMap.put("department", typeList);
         if (!hashMap.isEmpty()) {
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("查询成功").setData(hashMap).asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setData(hashMap)
+                    .asJson();
         } else {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg("无查询结果").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("无查询结果").asJson();
         }
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insert(@ModelAttribute DeviceType deviceType) {
         if (deviceTypeService.insert(deviceType)) {
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("添加部门成功").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("添加部门成功").asJson();
         } else {
-            return jsonGenerator.setStatus(Constant.OTHER_ERROR).setMsg("添加部门失败").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("添加部门失败").asJson();
         }
     }
 

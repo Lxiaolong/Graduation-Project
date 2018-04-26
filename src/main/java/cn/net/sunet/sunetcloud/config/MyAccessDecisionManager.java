@@ -13,6 +13,7 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ import java.util.Iterator;
 /**
  * @author Lxiaolong
  */
-
+@Service
 public class MyAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
@@ -33,11 +34,10 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             }
             Collection<? extends GrantedAuthority> authoritycollection = authentication.getAuthorities();
             for (GrantedAuthority grantedAuthority : authoritycollection) {
-                if (grantedAuthority.equals(needRole)) {
+                if (grantedAuthority.getAuthority().equals(needRole)) {
                     return;
                 }
             }
-
         }
         throw new AccessDeniedException("权限不足");
     }

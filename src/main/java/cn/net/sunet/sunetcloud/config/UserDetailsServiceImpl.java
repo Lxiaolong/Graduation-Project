@@ -2,7 +2,6 @@ package cn.net.sunet.sunetcloud.config;
 
 
 import cn.net.sunet.sunetcloud.domain.Account;
-import cn.net.sunet.sunetcloud.exception.UsernameIsExitedException;
 import cn.net.sunet.sunetcloud.service.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             if (user == null) {
                 user = userRepository.selectByEmail(username);
                 if (user == null) {
-                    throw new UsernameIsExitedException("该用户不存在");
+                    throw new UsernameNotFoundException("该用户不存在");
                 }
             }
         }

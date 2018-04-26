@@ -2,11 +2,12 @@ package cn.net.sunet.sunetcloud.config;
 
 
 import cn.net.sunet.sunetcloud.filter.JwtLoginFilter;
-import cn.net.sunet.sunetcloud.filter.JwtTokenFilter;
 import cn.net.sunet.sunetcloud.filter.JwtLogoutFilter;
+import cn.net.sunet.sunetcloud.filter.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -24,6 +26,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private MyAccessDeniedHandler myAccessDeniedHandler;
+    @Autowired
+    private MyAccessDecisionManager myAccessDecisionManager;
+    @Autowired
+    private MyFilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
 
 
 /*
@@ -47,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-@Autowired
+    @Autowired
     public WebSecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
 
@@ -63,18 +71,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-
                 .antMatchers("/logout", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/images/**",
-                        "/v2/api-docs","swagger.json","/configuration/ui","/configuration/security","/staff/**",
-                        "/index","/deviceinformation/**","/devicereport/**","/devicestatus/**","/mobile_login",
-                        "/app/greetings","/portfolio","/monitor/dump","/login","/register","/acount/**","/device/**",
-                        "/devicetype/**","/collection/**")
+                        "/v2/api-docs", "swagger.json", "/configuration/ui", "/configuration/security", "/staff/**",
+                        "/index", "/deviceinformation/**", "/devicereport/**", "/devicestatus/**", "/mobile_login",
+                        "/app/greetings", "/portfolio", "/monitor/dump", "/login", "/register", "/acount/**", "/device/**",
+                        /*"/devicetype/**",*/"/collection/**")
                 .permitAll()
                 // 所有请求需要身份认证
                 .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setSecurityMetadataSource(filterInvocationSecurityMetadataSource);
+                        o.setAccessDecisionManager(myAccessDecisionManager);
+                        return o;
+                    }
+                })
+                .and().formLogin()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new MyAuthenticationEntryPoint())
+                .accessDeniedHandler(myAccessDeniedHandler)
                 .and()
                 //注销组件
-                .logout().addLogoutHandler(ourLogoutHandler()).logoutUrl("/logout");
+                .logout()
+                .addLogoutHandler(ourLogoutHandler()).logoutUrl("/logout");
         // 登陆验证，验证用户名和密码，匹配则生成token
         http.addFilter(new JwtLoginFilter(authenticationManager()));
         // token验证
@@ -83,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-/**
+    /**
      * 自定义验证身份组件
      */
 

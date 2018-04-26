@@ -41,9 +41,10 @@ public class AccountController {
     public String qurry() {
         List<HashMap> list = accountService.query();
         if (!list.isEmpty()) {
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("查询成功").setData(list).asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setData(list)
+                    .asJson();
         } else {
-            return jsonGenerator.setStatus(Constant.OTHER_ERROR).setMsg("没有数据").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("没有数据").asJson();
         }
     }
 
@@ -51,9 +52,10 @@ public class AccountController {
     public String lock(@RequestParam String username) {
         int account = accountService.updateLock(username, (byte) 1);
         if (account != 1) {
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("锁定用户成功").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg("不存在该用户")
+                    .asJson();
         } else {
-            return jsonGenerator.setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg("不存在该用户").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("锁定用户成功").asJson();
         }
     }
 
@@ -87,10 +89,10 @@ public class AccountController {
         account.setNickname(nickname);
         int flag=accountService.update(account);
         if(flag==1){
-            return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("修改用户成功").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("修改用户成功").asJson();
         }
         else {
-            return jsonGenerator.setStatus(Constant.REQUEST_ERROR).setMsg("修改失败").asJson();
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.REQUEST_ERROR).setMsg("修改失败").asJson();
         }
     }
 }

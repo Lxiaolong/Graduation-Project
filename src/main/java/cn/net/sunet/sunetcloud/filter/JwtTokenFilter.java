@@ -10,13 +10,11 @@ package cn.net.sunet.sunetcloud.filter;
 
 import cn.net.sunet.sunetcloud.config.GrantedAuthorityImpl;
 import cn.net.sunet.sunetcloud.constant.Constant;
-import cn.net.sunet.sunetcloud.exception.UsernameIsExitedException;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import cn.net.sunet.sunetcloud.utils.Jedisutils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,8 +63,6 @@ public class JwtTokenFilter extends GenericFilterBean {
         } else {
             UsernamePasswordAuthenticationToken authenticationToken = getAuthencation(token, response);
             if (authenticationToken == null) {
-                setErrorResponse(HttpStatus.BAD_REQUEST, (HttpServletResponse) servletResponse, Constant.TOKEN_AUTHENTICATE_FAIL,
-                        "账号已注销登录");
             } else {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 filterChain.doFilter(request, response);
@@ -78,12 +74,11 @@ public class JwtTokenFilter extends GenericFilterBean {
      * 统一处理由过滤器引发的异常
      */
 
-    public void setErrorResponse(HttpStatus status, HttpServletResponse response, int code, String msg) {
-        response.setStatus(status.value());
+    public void setErrorResponse(int status, HttpServletResponse response, String msg) {
+        response.setStatus(status);
         response.setContentType("application/json");
-        // A class used for errors
         try {
-            response.getWriter().write(new JSONGenerator().setStatus(code).setMsg(msg).asJson());
+            response.getWriter().write(new JSONGenerator().createJSONGenerator().setStatus(status).setMsg(msg).asJson());
             response.getWriter().flush();
             response.getWriter().close();
         } catch (IOException e) {
@@ -112,26 +107,24 @@ public class JwtTokenFilter extends GenericFilterBean {
             roles.add(new GrantedAuthorityImpl(role));
             Date now = new Date();
             if (redistoken == null || !redistoken.equals(token.replace("sunet", ""))) {
-                logger.error("账号已注销登录");
-
+                setErrorResponse(Constant.INVAILD, httpServletResponse, "账号已注销，请重新登录");
+                return null;
             }
             if (date.getTime() < now.getTime()) {
-                throw new UsernameIsExitedException("该账号已过期请重新登录");
+                setErrorResponse(Constant.TIMEOUT, httpServletResponse, "token超时");
+                return null;
             }
             if (username != null) {
                 return new UsernamePasswordAuthenticationToken(username, null, roles);
             }
             return null;
 
-
         } catch (ExpiredJwtException e) {
-            setErrorResponse(HttpStatus.BAD_REQUEST, httpServletResponse, Constant.TOKEN_AUTHENTICATE_FAIL, e.getMessage());
+            setErrorResponse(Constant.TIMEOUT, httpServletResponse ,e.getMessage());
             return null;
 
         } catch (RuntimeException e) {
-            e.printStackTrace();
-            setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, httpServletResponse, 550, e.getMessage());
-        } finally {
+            setErrorResponse(Constant.TOKEN_ERROR, httpServletResponse, e.getMessage());
             return null;
         }
 
