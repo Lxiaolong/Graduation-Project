@@ -1,30 +1,30 @@
 package cn.net.sunet.sunetcloud.domain;
 
 public class MaintainAuxiliary {
-    private Long id;
+    private Long other_material_id;
 
-    private String name;
+    private String other_material_name;
 
     private Long quantity;
 
-    private Float price;
+    private Float other_material_price;
 
     private String place;
 
-    public Long getId() {
-        return id;
+    public Long getOther_material_id() {
+        return other_material_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOther_material_id(Long other_material_id) {
+        this.other_material_id = other_material_id;
     }
 
-    public String getName() {
-        return name;
+    public String getOther_material_name() {
+        return other_material_name;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setOther_material_name(String other_material_name) {
+        this.other_material_name = other_material_name;
     }
 
     public Long getQuantity() {
@@ -35,12 +35,12 @@ public class MaintainAuxiliary {
         this.quantity = quantity;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getOther_material_price() {
+        return other_material_price;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setOther_material_price(Float other_material_price) {
+        this.other_material_price = other_material_price;
     }
 
     public String getPlace() {

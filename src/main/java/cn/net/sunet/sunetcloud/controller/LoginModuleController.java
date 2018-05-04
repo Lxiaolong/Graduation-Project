@@ -19,7 +19,6 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
@@ -71,12 +70,7 @@ public class LoginModuleController {
         }
     }
 
-    @GetMapping(value = "/index")
-    @ApiOperation("测试")
-    public String user() {
 
-        return jsonGenerator.createJSONGenerator().setData("测试").asJson();
-    }
 
     @RequestMapping(value = "/mobile_login", method = RequestMethod.POST)
     public String login(@RequestParam String phone, @RequestParam String code, HttpServletResponse httpServletResponse) throws

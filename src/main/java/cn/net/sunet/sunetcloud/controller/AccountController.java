@@ -13,20 +13,20 @@ import cn.net.sunet.sunetcloud.service.AccountServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Lxiaolong
  */
 @RestController
 @RequestMapping(value = "/acount")
-@Api(value = "account",description = "账号管理")
+@Api(value = "account", description = "账号管理")
 public class AccountController {
     private final AccountServiceImpl accountService;
     private final JSONGenerator jsonGenerator;
@@ -38,33 +38,37 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
-    public String qurry() {
-        List<HashMap> list = accountService.query();
-        if (!list.isEmpty()) {
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setData(list)
+    public String query(@RequestParam int page,
+                        @RequestParam int count) {
+        try {
+            HashMap hashMap = accountService.queryPage(page, count);
+
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setContent(hashMap)
                     .asJson();
-        } else {
+        } catch (DataAccessException e) {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("没有数据").asJson();
         }
     }
 
     @RequestMapping(value = "/lock", method = RequestMethod.PUT)
     public String lock(@RequestParam String username) {
-        int account = accountService.updateLock(username, (byte) 1);
-        if (account != 1) {
+
+        try {
+            accountService.updateLock(username, (byte) 1);
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("锁定用户成功").asJson();
+
+        } catch (DataAccessException e) {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg("不存在该用户")
                     .asJson();
-        } else {
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("锁定用户成功").asJson();
         }
     }
 
     @RequestMapping(value = "/unlock", method = RequestMethod.PUT)
     public String unlock(@RequestParam String username) {
-        int account = accountService.updateLock(username, (byte) 0);
-        if (account == 1) {
+        try {
+            accountService.updateLock(username, (byte) 0);
             return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("解锁用户成功").asJson();
-        } else {
+        } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg("不存在该用户").asJson();
         }
     }
@@ -87,12 +91,29 @@ public class AccountController {
         account.setEmail(email);
         account.setEmployeeNumber(jobNumber);
         account.setNickname(nickname);
-        int flag=accountService.update(account);
-        if(flag==1){
+        try {
+            accountService.update(account);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("修改用户成功").asJson();
-        }
-        else {
+        } catch (DataAccessException e) {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.REQUEST_ERROR).setMsg("修改失败").asJson();
         }
+    }
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public String delete(@RequestParam String username,
+                         @RequestParam int page,
+                         @RequestParam int count){
+        try{
+            HashMap hashMap=accountService.delete(page, count, username);
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("删除成功").setContent(hashMap)
+                    .asJson();
+        }catch (DataAccessException e){
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg
+                    ("请把此员工负责或维修的设备转接后删除").asJson();
+        }
+    }
+    @RequestMapping(value = "/querymaintenance",method = RequestMethod.GET)
+    public String queryMaintenance(){
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查找成功").setContent(accountService
+                .queryMaintenance()).asJson();
     }
 }

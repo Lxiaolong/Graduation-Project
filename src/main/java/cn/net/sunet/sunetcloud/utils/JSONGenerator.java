@@ -1,6 +1,8 @@
 package cn.net.sunet.sunetcloud.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,14 +25,14 @@ import java.util.Map;
  */
 @Component
 public class JSONGenerator {
-    private Map<String, Object> json, data;
+    private Map<String, Object> json, content;
 
     public  JSONGenerator createJSONGenerator() {
         json = new HashMap<>();
-        data = new HashMap<>();
+        content = new HashMap<>();
         json.put("status", 0);
         json.put("msg", "");
-        json.put("data", data);
+        json.put("content", content);
         return this;
     }
 
@@ -48,13 +50,13 @@ public class JSONGenerator {
         return this;
     }
 
-    public JSONGenerator setData(Object data) {
-        json.put("data", data);
+    public JSONGenerator setContent(Object data) {
+        json.put("content", data);
         return this;
     }
 
     public JSONGenerator addToData(String key, Object value) {
-        data.put(key, value);
+        content.put(key, value);
         return this;
     }
 
@@ -64,15 +66,16 @@ public class JSONGenerator {
     }
 
     public String asJson() {
-        if (data.size() > 0)
-            json.put("data", data);
-        JSONObject jsonObject = new JSONObject(json);
-        return jsonObject.toJSONString();
+        if (content.size() > 0) {
+            json.put("content", content);
+        }
+        return JSON.toJSONString(json,SerializerFeature.WriteDateUseDateFormat);
     }
 
     public JSONObject asJsonObject() {
-        if (data.size() > 0)
-            json.put("data", data);
+        if (content.size() > 0) {
+            json.put("content", content);
+        }
         return new JSONObject(json);
     }
 

@@ -1,88 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.net.sunet.sunetcloud.dao.MaintainRawMaterialMapper" >
-  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="quantity" property="quantity" jdbcType="BIGINT" />
-    <result column="price" property="price" jdbcType="REAL" />
-    <result column="place" property="place" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.MaintainRawMaterialMapper">
+    <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial">
+        <id column="id" property="main_material_id" jdbcType="BIGINT"/>
+        <result column="name" property="main_material_name" jdbcType="VARCHAR"/>
+        <result column="quantity" property="quantity" jdbcType="BIGINT"/>
+        <result column="price" property="main_material_price" jdbcType="REAL"/>
+        <result column="place" property="place" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, name, quantity, price, place
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from maintian_raw_material
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="query" resultMap="BaseResultMap">
+    select
+    id,name
     from maintian_raw_material
-    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="queryPage" resultMap="BaseResultMap">
+    select
+    id,name,price
+    from maintian_raw_material ORDER BY id ASC LIMIT #{page}, #{count}
+  </select>
+    <select id="queryTotal" resultType="java.lang.Integer">
+    SELECT
+	COUNT(*)
+    FROM
+	maintian_raw_material
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from maintian_raw_material
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial" >
+    <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial">
     insert into maintian_raw_material (id, name, quantity, 
       price, place)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT}, 
       #{price,jdbcType=REAL}, #{place,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial" >
-    insert into maintian_raw_material
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="quantity != null" >
-        quantity,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="place != null" >
-        place,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="quantity != null" >
-        #{quantity,jdbcType=BIGINT},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=REAL},
-      </if>
-      <if test="place != null" >
-        #{place,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial" >
-    update maintian_raw_material
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="quantity != null" >
-        quantity = #{quantity,jdbcType=BIGINT},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=REAL},
-      </if>
-      <if test="place != null" >
-        place = #{place,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial" >
+    <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial">
+        insert into maintian_raw_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="main_material_id != null">
+                id,
+            </if>
+            <if test="main_material_name != null">
+                name,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="main_material_price != null">
+                price,
+            </if>
+            <if test="place != null">
+                place,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="main_material_id != null">
+                #{main_material_id,jdbcType=BIGINT},
+            </if>
+            <if test="main_material_name != null">
+                #{main_material_name,jdbcType=VARCHAR},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=BIGINT},
+            </if>
+            <if test="main_material_price != null">
+                #{main_material_price,jdbcType=REAL},
+            </if>
+            <if test="place != null">
+                #{place,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial">
+        update maintian_raw_material
+        <set>
+            <if test="main_material_name != null">
+                name = #{main_material_name,jdbcType=VARCHAR},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=BIGINT},
+            </if>
+            <if test="main_material_price != null">
+                price = #{main_material_price,jdbcType=REAL},
+            </if>
+            <if test="place != null">
+                place = #{place,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{main_material_id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainRawMaterial">
     update maintian_raw_material
     set name = #{name,jdbcType=VARCHAR},
       quantity = #{quantity,jdbcType=BIGINT},

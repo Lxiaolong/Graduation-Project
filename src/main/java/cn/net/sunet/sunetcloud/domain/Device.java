@@ -11,7 +11,7 @@ public class Device {
 
     private String englishName;
 
-    private String assetCode;
+    private String number;
 
     private Float ratedUPH;
 
@@ -34,6 +34,26 @@ public class Device {
     private Long accountId;
 
     private Integer deviceTypeId;
+
+    private float runtime;
+
+    public float getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(float runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    private String nickname;
 
     public Float getRatedUPH() {
         return ratedUPH;
@@ -77,12 +97,12 @@ public class Device {
         this.englishName = englishName == null ? null : englishName.trim();
     }
 
-    public String getAssetCode() {
-        return assetCode;
+    public String getNumber() {
+        return number;
     }
 
-    public void setAssetCode(String assetCode) {
-        this.assetCode = assetCode == null ? null : assetCode.trim();
+    public void setNumber(String number) {
+        this.number = number == null ? null : number.trim();
     }
 
 

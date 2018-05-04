@@ -24,21 +24,21 @@ public class UnifiedExceptionHandler {
     public Map otherException(HttpServletRequest httpServletRequest, OtherException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg(e.getMessage()).setContent(data).asJsonObject();
 
     }
     @ExceptionHandler(value = DatabaseException.class)
     public Map databaseException(HttpServletRequest httpServletRequest, DatabaseException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(data).asJsonObject();
 
     }
     @ExceptionHandler(value = RequestParameterException.class)
     public Map serverException(HttpServletRequest httpServletRequest, RequestParameterException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data)
+        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setContent(data)
                 .asJsonObject();
 
     }
@@ -46,7 +46,7 @@ public class UnifiedExceptionHandler {
     public Map expiredJwtException(HttpServletRequest httpServletRequest, ExpiredJwtException e) {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setData(data)
+        return new JSONGenerator().setStatus(Constant.REQUEST_PARAMETER_ERROR).setMsg(e.getMessage()).setContent(data)
                 .asJsonObject();
 
     }
@@ -54,7 +54,7 @@ public class UnifiedExceptionHandler {
     public Map myException(RuntimeException e) {
         Map<String, Object> data = new HashMap<>();
         //data.put("url", httpServletRequest.getRequestURL());
-        return new JSONGenerator().setCode(Constant.LOGIC_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setCode(Constant.LOGIC_ERROR).setMsg(e.getMessage()).setContent(data).asJsonObject();
 
     }*/
     /*@ExceptionHandler(value = Exception.class)
@@ -63,7 +63,7 @@ public class UnifiedExceptionHandler {
         Map<String, Object> data = new HashMap<>();
         data.put("url", httpServletRequest.getRequestURL());
 
-        return new JSONGenerator().setCode(Constant.LOGIC_ERROR).setMsg(e.getMessage()).setData(data).asJsonObject();
+        return new JSONGenerator().setCode(Constant.LOGIC_ERROR).setMsg(e.getMessage()).setContent(data).asJsonObject();
 
     }*/
 }

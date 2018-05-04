@@ -35,6 +35,12 @@
     from account
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="querytotal" resultType="java.lang.Integer">
+    SELECT
+	COUNT(*)
+    FROM
+	account
+  </select>
   <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
@@ -59,17 +65,27 @@
     from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id
     where a.email = #{email}
   </select>
-  <select id="query" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="query" resultMap="BaseResultMap"  >
     select
     a.id, a.username, a.password, a.nickname, a.employee_number, a.department_id, a.gender, a.telephone,
     a.email, a.avatar_url, a.account_type_id, a.is_check, a.is_lock,a.department_id,
     ac.name,ac.roles,ac.id a_id,d.id d_id,d.name d_name
     from account a LEFT  JOIN account_type ac on a.account_type_id = ac.id LEFT JOIN department d ON a
-    .department_id=d.id
+    .department_id=d.id ORDER BY a.id ASC limit #{page},#{count}
+  </select>
+  <select id="queryMaintenance" resultMap="BaseResultMap"  >
+    select
+   username,nickname
+    from account
+    WHERE account_type_id=4
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from account
     where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByUsername" parameterType="java.lang.String" >
+    delete from account
+    where username = #{username}
   </delete>
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.Account" >
     insert into account (id, username, password, 

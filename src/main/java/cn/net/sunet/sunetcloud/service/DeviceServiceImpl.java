@@ -13,6 +13,8 @@ import cn.net.sunet.sunetcloud.domain.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 /**
  * @author Lxiaolong
  */
@@ -21,16 +23,19 @@ public class DeviceServiceImpl {
     @Autowired
     private DeviceMapper deviceMapper;
 
-    public Boolean insert(Device device) {
-        int flag = deviceMapper.insert(device);
-        if (flag == 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public int insert(Device device) {
+        return deviceMapper.insert(device);
+
     }
     public Device selectById(long id){
         return deviceMapper.selectByPrimaryKey(id);
     }
+    public HashMap queryPage(int page,int count){
+        HashMap hashMap=new HashMap();
+        hashMap.put("data",deviceMapper.queryPage((page-1)*count,count));
+        hashMap.put("page_total",deviceMapper.queryTotal());
+        return hashMap;
+    }
+
 
 }

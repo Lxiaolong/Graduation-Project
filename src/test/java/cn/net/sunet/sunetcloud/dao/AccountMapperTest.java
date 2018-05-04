@@ -1,7 +1,6 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.Account;
-import cn.net.sunet.sunetcloud.domain.Service;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.swing.*;
 import java.util.List;
 
 /*
@@ -26,8 +24,8 @@ public class AccountMapperTest {
     private AccountMapper serviceMapper;
     @Test
     public void query(){
-        List<Account> services=serviceMapper.query();
-        System.out.println(new JSONGenerator().setData(services).asJson());
+        List<Account> services=serviceMapper.query(1,1);
+        System.out.println(new JSONGenerator().setContent(services).asJson());
     }
 
 }

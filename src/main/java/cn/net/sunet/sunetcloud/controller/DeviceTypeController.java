@@ -8,17 +8,14 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
-import cn.net.sunet.sunetcloud.domain.AccountType;
 import cn.net.sunet.sunetcloud.domain.DeviceType;
 import cn.net.sunet.sunetcloud.service.AccountTypeServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceTypeServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.DataAccessException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +37,12 @@ public class DeviceTypeController {
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public String query() {
         List<DeviceType> typeList = deviceTypeService.query();
-        List<AccountType> accountTypes = accountTypeService.query();
+        //List<AccountType> accountTypes = accountTypeService.queryPage();
         HashMap hashMap = new HashMap();
-        hashMap.put("rank", accountTypes);
-        hashMap.put("department", typeList);
+        //hashMap.put("rank", accountTypes);
+        hashMap.put("data", typeList);
         if (!hashMap.isEmpty()) {
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setData(hashMap)
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setContent(hashMap)
                     .asJson();
         } else {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("无查询结果").asJson();
@@ -54,10 +51,21 @@ public class DeviceTypeController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insert(@ModelAttribute DeviceType deviceType) {
-        if (deviceTypeService.insert(deviceType)) {
+        try {
+            deviceTypeService.insert(deviceType);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("添加部门成功").asJson();
-        } else {
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.OTHER_ERROR).setMsg("添加部门失败").asJson();
+        } catch (DataAccessException e) {
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("添加部门失败").asJson();
+        }
+    }
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public String delete(@RequestParam int deviceTypeId){
+        try {
+            deviceTypeService.delete(deviceTypeId);
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("删除成功").asJson();
+        }catch (DataAccessException e){
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("请检查相关信息后再删除")
+                    .asJson();
         }
     }
 

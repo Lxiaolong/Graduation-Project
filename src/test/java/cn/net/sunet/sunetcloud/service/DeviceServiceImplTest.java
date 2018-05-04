@@ -10,18 +10,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 /*
  * Copyright 2018. sunet corporation All rights reserved.
  * 作者： xiaolong
- * 日期： 2018/4/17
+ * 日期： 2018/5/3
  * 邮箱： 623585001@qq.com
  * 网址： www.sunet.net.cn
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DeviceTypeServiceImplTest {
+public class DeviceServiceImplTest {
     @Autowired
-    private DeviceTypeServiceImpl deviceTypeService;
+    private DeviceServiceImpl deviceService;
     @Test
-    public void query() throws Exception {
-        System.out.println(new JSONGenerator().setContent(deviceTypeService.query()).asJson());
+    public void queryPage() throws Exception {
+        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceService.queryPage(1,10)).asJson());
     }
 
 }

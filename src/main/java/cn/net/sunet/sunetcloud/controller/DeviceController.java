@@ -13,11 +13,9 @@ import cn.net.sunet.sunetcloud.service.DeviceServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Lxiaolong
@@ -33,14 +31,20 @@ public class DeviceController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String inset(@ModelAttribute Device device) {
-        String certificate=device.getAssetCode()+System.currentTimeMillis();
+        String certificate=device.getNumber()+System.currentTimeMillis();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         certificate = bCryptPasswordEncoder.encode(certificate);
         device.setCertificate(certificate);
-        if (deviceService.insert(device)){
+        try {
+            deviceService.insert(device);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("添加成功").asJson();
-        } else {
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("添加失败").asJson();
+        }catch (DataAccessException e){
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).asJson();
         }
+    }
+    @RequestMapping(value = "/querypage",method = RequestMethod.GET)
+    public String queryPage(@RequestParam int page, @RequestParam int count){
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查找成功").setContent
+                (deviceService.queryPage(page, count)).asJson();
     }
 }

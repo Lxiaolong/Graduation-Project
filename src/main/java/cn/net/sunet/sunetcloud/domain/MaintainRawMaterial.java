@@ -1,30 +1,30 @@
 package cn.net.sunet.sunetcloud.domain;
 
 public class MaintainRawMaterial {
-    private Long id;
+    private Long main_material_id;
 
-    private String name;
+    private String main_material_name;
 
     private Long quantity;
 
-    private Float price;
+    private Float main_material_price;
 
     private String place;
 
-    public Long getId() {
-        return id;
+    public Long getMain_material_id() {
+        return main_material_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMain_material_id(Long main_material_id) {
+        this.main_material_id = main_material_id;
     }
 
-    public String getName() {
-        return name;
+    public String getMain_material_name() {
+        return main_material_name;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setMain_material_name(String main_material_name) {
+        this.main_material_name = main_material_name;
     }
 
     public Long getQuantity() {
@@ -35,12 +35,12 @@ public class MaintainRawMaterial {
         this.quantity = quantity;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getMain_material_price() {
+        return main_material_price;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setMain_material_price(Float main_material_price) {
+        this.main_material_price = main_material_price;
     }
 
     public String getPlace() {

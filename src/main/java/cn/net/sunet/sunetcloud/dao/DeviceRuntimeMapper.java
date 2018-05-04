@@ -1,8 +1,11 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public interface DeviceRuntimeMapper {
     int deleteByPrimaryKey(Long id);
@@ -18,4 +21,6 @@ public interface DeviceRuntimeMapper {
     int updateByPrimaryKey(DeviceRuntime record);
 
     public ArrayList<DeviceRuntime> selectByDeviceId(Long deiviceId);
+    public List queryByTime(@Param("deviceId") Long deviceId, @Param("startTime") Date startTime,@Param("endTime") Date
+            endTime);
 }

@@ -23,11 +23,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -103,11 +104,14 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         //将生成的token存入redis，用于以后的验证使用
 
         Jedisutils.getInstance().getJedis().set(authResult.getName(), token);
+        ServletContext sc = getServletContext();
+        RequestDispatcher rd=sc.getNamedDispatcher("login_1");
         response.addHeader("token", "sunet" + token);
         response.setStatus(Constant.SUCCESS);
-        try {
+        rd.forward(request,response);
+        /*try {
             PrintWriter out = response.getWriter();
-            out.write(new JSONGenerator().createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setData
+            out.write(new JSONGenerator().createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setContent
                     (authResult.getAuthorities()
                             .iterator())
                     .asJson
@@ -116,7 +120,8 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
 
     }
 

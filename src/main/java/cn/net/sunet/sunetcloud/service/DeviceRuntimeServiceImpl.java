@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,5 +38,8 @@ public class DeviceRuntimeServiceImpl {
     public DeviceRuntime selectTestTime(Long deiviceId){
         ArrayList<DeviceRuntime> list=deviceRuntimeMapper.selectByDeviceId(deiviceId);
         return list.get(0);
+    }
+    public List queryByTime(long deviceId, Date startTime,Date endTime){
+        return deviceRuntimeMapper.queryByTime(deviceId,startTime,endTime);
     }
 }

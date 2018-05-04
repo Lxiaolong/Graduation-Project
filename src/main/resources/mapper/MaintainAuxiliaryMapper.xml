@@ -2,20 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.net.sunet.sunetcloud.dao.MaintainAuxiliaryMapper" >
   <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.MaintainAuxiliary" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+    <id column="id" property="other_material_id" jdbcType="BIGINT" />
+    <result column="name" property="other_material_name" jdbcType="VARCHAR" />
     <result column="quantity" property="quantity" jdbcType="BIGINT" />
-    <result column="price" property="price" jdbcType="REAL" />
+    <result column="price" property="other_material_price" jdbcType="REAL" />
     <result column="place" property="place" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, quantity, price, place
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from maintian_auxiliary
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="query" resultMap="BaseResultMap" >
+    select
+   id,name
+    from maintian_auxiliary
+  </select>
+  <select id="queryTotal" resultType="java.lang.Integer" >
+    SELECT
+	COUNT(*)
+    FROM
+	maintian_auxiliary
+  </select>
+  <select id="queryPage" resultMap="BaseResultMap" >
+    select
+    id,name,price
+    from maintian_auxiliary ORDER BY id ASC limit #{page},#{count}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from maintian_auxiliary
@@ -24,22 +40,22 @@
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.MaintainAuxiliary" >
     insert into maintian_auxiliary (id, name, quantity, 
       price, place)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT}, 
-      #{price,jdbcType=REAL}, #{place,jdbcType=VARCHAR})
+    values (#{other_material_id,jdbcType=BIGINT}, #{other_material_name,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT},
+      #{other_material_price,jdbcType=REAL}, #{place,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainAuxiliary" >
     insert into maintian_auxiliary
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+      <if test="other_material_id != null" >
         id,
       </if>
-      <if test="name != null" >
+      <if test="other_material_name != null" >
         name,
       </if>
       <if test="quantity != null" >
         quantity,
       </if>
-      <if test="price != null" >
+      <if test="other_material_price != null" >
         price,
       </if>
       <if test="place != null" >
@@ -47,17 +63,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+      <if test="other_material_id != null" >
+        #{other_material_id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="other_material_name != null" >
+        #{other_material_name,jdbcType=VARCHAR},
       </if>
       <if test="quantity != null" >
         #{quantity,jdbcType=BIGINT},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=REAL},
+      <if test="other_material_price != null" >
+        #{other_material_price,jdbcType=REAL},
       </if>
       <if test="place != null" >
         #{place,jdbcType=VARCHAR},
@@ -67,20 +83,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.MaintainAuxiliary" >
     update maintian_auxiliary
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="other_material_name != null" >
+        name = #{other_material_name,jdbcType=VARCHAR},
       </if>
       <if test="quantity != null" >
         quantity = #{quantity,jdbcType=BIGINT},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=REAL},
+      <if test="other_material_price != null" >
+        price = #{other_material_price,jdbcType=REAL},
       </if>
       <if test="place != null" >
         place = #{place,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{other_material_id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.MaintainAuxiliary" >
     update maintian_auxiliary

@@ -96,7 +96,7 @@ public class Collection {
             deviceRuntimeService.insert(deviceRuntime);
             return "ok";
         } catch (DataAccessException e) {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(e).asJson();
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
 
     }
@@ -108,7 +108,7 @@ public class Collection {
             deviceRuntimeService.update(deviceRuntime);
             return "ok";
         } catch (DataAccessException e) {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(e).asJson();
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
 
     }
@@ -123,7 +123,7 @@ public class Collection {
             deviceRuntimeService.update(deviceRuntime);
 
         } catch (DataAccessException e) {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setData(e).asJson();
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
         float runtime = (deviceRuntime.getDownTime().getTime() - deviceRuntime1.getWorkTime().getTime()) / (float) 3600000;
         try {

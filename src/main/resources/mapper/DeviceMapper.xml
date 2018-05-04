@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="chinese_name" property="chineseName" jdbcType="VARCHAR" />
     <result column="english_name" property="englishName" jdbcType="VARCHAR" />
-    <result column="asset_code" property="assetCode" jdbcType="VARCHAR" />
+    <result column="asset_code" property="number" jdbcType="VARCHAR" />
     <result column="rated_uph" property="ratedUPH" jdbcType="REAL" />
     <result column="rated_voltage" property="ratedVoltage" jdbcType="REAL" />
     <result column="rated_power" property="ratedPower" jdbcType="REAL" />
@@ -18,9 +18,11 @@
     <result column="account_id" property="accountId" jdbcType="BIGINT" />
     <result column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
     <result column="certificate" property="certificate" jdbcType="VARCHAR"/>
+    <result column="runtime" property="runtime" />
+    <result column="nickname" property="nickname"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, chinese_name, english_name, asset_code, rated_uph, rated_voltage, rated_power, 
+    id, chinese_name, english_name, asset_code, rated_uph, rated_voltage, rated_power,
     rated_pressure, product_date, life_cycle, connect_device, device_new_value, device_origin_value, 
     account_id, device_type_id,certificate
   </sql>
@@ -30,10 +32,27 @@
     from device
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="queryPage" resultMap="BaseResultMap" >
+    select
+    d.chinese_name, d.english_name, d.asset_code, d.rated_uph, d.rated_voltage, d.rated_power,
+    d.rated_pressure, d.product_date, d.life_cycle,d.device_new_value, d.device_origin_value,r.run_time
+    runtime,a.nickname
+    nickname
+    from device d LEFT JOIN device_performance r ON d.id=r.device_id LEFT JOIN account a ON r.malfuntion_person_id =
+    a.id
+    ORDER BY d.id ASC limit #{page},#{count}
+  </select>
+  <select id="queryTotal" resultType="java.lang.Integer"  >
+    SELECT
+	COUNT(*)
+    FROM
+	device
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from device
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.Device" >
     insert into device (id, chinese_name, english_name, 
       asset_code, rated_uph, rated_voltage, 
@@ -42,7 +61,7 @@
       device_origin_value, account_id, device_type_id,certificate
       )
     values (#{id,jdbcType=BIGINT}, #{chineseName,jdbcType=VARCHAR}, #{englishName,jdbcType=VARCHAR}, 
-      #{assetCode,jdbcType=VARCHAR}, #{ratedUPH,jdbcType=REAL}, #{ratedVoltage,jdbcType=REAL},
+      #{number,jdbcType=VARCHAR}, #{ratedUPH,jdbcType=REAL}, #{ratedVoltage,jdbcType=REAL},
       #{ratedPower,jdbcType=REAL}, #{ratedPressure,jdbcType=REAL}, #{productDate,jdbcType=TIMESTAMP}, 
       #{lifeCycle,jdbcType=INTEGER}, #{connectDevice,jdbcType=VARCHAR}, #{deviceNewValue,jdbcType=REAL}, 
       #{deviceOriginValue,jdbcType=REAL}, #{accountId,jdbcType=BIGINT}, #{deviceTypeId,jdbcType=INTEGER},
@@ -61,7 +80,7 @@
       <if test="englishName != null" >
         english_name,
       </if>
-      <if test="assetCode != null" >
+      <if test="number != null" >
         asset_code,
       </if>
       <if test="ratedUPH != null" >
@@ -108,8 +127,8 @@
       <if test="englishName != null" >
         #{englishName,jdbcType=VARCHAR},
       </if>
-      <if test="assetCode != null" >
-        #{assetCode,jdbcType=VARCHAR},
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
       </if>
       <if test="ratedUPH != null" >
         #{ratedUph,jdbcType=REAL},
@@ -155,8 +174,8 @@
       <if test="englishName != null" >
         english_name = #{englishName,jdbcType=VARCHAR},
       </if>
-      <if test="assetCode != null" >
-        asset_code = #{assetCode,jdbcType=VARCHAR},
+      <if test="number != null" >
+        asset_code = #{number,jdbcType=VARCHAR},
       </if>
       <if test="ratedUPH != null" >
         rated_uph = #{ratedUph,jdbcType=REAL},
@@ -198,7 +217,7 @@
     update device
     set chinese_name = #{chineseName,jdbcType=VARCHAR},
       english_name = #{englishName,jdbcType=VARCHAR},
-      asset_code = #{assetCode,jdbcType=VARCHAR},
+      asset_code = #{number,jdbcType=VARCHAR},
       rated_uph = #{ratedUPH,jdbcType=REAL},
       rated_voltage = #{ratedVoltage,jdbcType=REAL},
       rated_power = #{ratedPower,jdbcType=REAL},

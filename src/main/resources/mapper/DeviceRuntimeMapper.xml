@@ -26,6 +26,14 @@
     where device_id = #{deviceId,jdbcType=BIGINT}
     ORDER BY test_time DESC
   </select>
+  <select id="queryByTime" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from device_runtime
+    where device_id = #{deviceId,jdbcType=BIGINT} AND work_time&gt;=#{startTime} AND
+    work_time &lt;#{endTime}
+    ORDER BY work_time DESC
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from device_runtime
     where id = #{id,jdbcType=BIGINT}
