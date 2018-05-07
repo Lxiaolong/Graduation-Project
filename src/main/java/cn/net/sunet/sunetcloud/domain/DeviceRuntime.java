@@ -19,6 +19,16 @@ public class DeviceRuntime {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date downTime;
 
+    private Float runtime;
+
+    public Float getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(Float runtime) {
+        this.runtime = runtime;
+    }
+
     public Long getId() {
         return id;
     }

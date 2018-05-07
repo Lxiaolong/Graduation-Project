@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.net.sunet.sunetcloud.dao.ScheduleMapper" >
+  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.Schedule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="worktime" property="worktime" jdbcType="TIME" />
+    <result column="offtime" property="offtime" jdbcType="TIME" />
+    <result column="operatinghours" property="operatinghours" jdbcType="REAL" />
+    <result column="deviceid" property="deviceid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, worktime, offtime, operatinghours, deviceid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from schedule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByDeviceId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from schedule
+    where deviceid = #{deviceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from schedule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.Schedule" >
+    insert into schedule (id, worktime, offtime, 
+      operatinghours, deviceid)
+    values (#{id,jdbcType=INTEGER}, #{worktime,jdbcType=TIME}, #{offtime,jdbcType=TIME}, 
+      #{operatinghours,jdbcType=REAL}, #{deviceid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.Schedule" >
+    insert into schedule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="worktime != null" >
+        worktime,
+      </if>
+      <if test="offtime != null" >
+        offtime,
+      </if>
+      <if test="operatinghours != null" >
+        operatinghours,
+      </if>
+      <if test="deviceid != null" >
+        deviceid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="worktime != null" >
+        #{worktime,jdbcType=TIME},
+      </if>
+      <if test="offtime != null" >
+        #{offtime,jdbcType=TIME},
+      </if>
+      <if test="operatinghours != null" >
+        #{operatinghours,jdbcType=REAL},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.Schedule" >
+    update schedule
+    <set >
+      <if test="worktime != null" >
+        worktime = #{worktime,jdbcType=TIME},
+      </if>
+      <if test="offtime != null" >
+        offtime = #{offtime,jdbcType=TIME},
+      </if>
+      <if test="operatinghours != null" >
+        operatinghours = #{operatinghours,jdbcType=REAL},
+      </if>
+      <if test="deviceid != null" >
+        deviceid = #{deviceid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.Schedule" >
+    update schedule
+    set worktime = #{worktime,jdbcType=TIME},
+      offtime = #{offtime,jdbcType=TIME},
+      operatinghours = #{operatinghours,jdbcType=REAL},
+      deviceid = #{deviceid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

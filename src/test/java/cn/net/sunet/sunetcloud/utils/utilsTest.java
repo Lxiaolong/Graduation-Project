@@ -1,3 +1,4 @@
+/*
 package cn.net.sunet.sunetcloud.utils;
 
 
@@ -11,13 +12,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.concurrent.ScheduledFuture;
 
+*/
 /*
  * Copyright 2018. sunet corporation All rights reserved.
  * 作者： xiaolong
  * 日期： 2018/4/24
  * 邮箱： 623585001@qq.com
  * 网址： www.sunet.net.cn
- */
+ *//*
+
 public class utilsTest {
     private HashMap<Integer,ScheduledFuture<?>> future=new HashMap<>();
     @Test
@@ -54,4 +57,4 @@ public class utilsTest {
 
     }
 
-}
+}*/

@@ -82,12 +82,12 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
-        <table schema="sunetcloud" tableName="device_performance"
+        <!--<table schema="sunetcloud" tableName="device_performance"
                domainObjectName="DevicePerformance"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-        </table>
+        </table>-->
     <!--    <table schema="sunetcloud" tableName="device_quality"
                domainObjectName="DeviceQuality"
                enableCountByExample="false" enableUpdateByExample="false"
@@ -185,6 +185,12 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>-->
+        <table schema="sunetcloud" tableName="schedule"
+               domainObjectName="Schedule"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
 
     </context>
 </generatorConfiguration>

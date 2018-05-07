@@ -27,14 +27,19 @@ public class DeviceServiceImpl {
         return deviceMapper.insert(device);
 
     }
-    public Device selectById(long id){
+
+    public Device selectById(long id) {
         return deviceMapper.selectByPrimaryKey(id);
     }
-    public HashMap queryPage(int page,int count){
-        HashMap hashMap=new HashMap();
-        hashMap.put("data",deviceMapper.queryPage((page-1)*count,count));
-        hashMap.put("page_total",deviceMapper.queryTotal());
+
+    public HashMap queryPage(int page, int count) {
+        HashMap hashMap = new HashMap();
+        hashMap.put("data", deviceMapper.queryPage((page - 1) * count, count));
+        hashMap.put("page_total", deviceMapper.queryTotal());
         return hashMap;
+    }
+    public void updateStatus(Device device){
+        deviceMapper.updateByPrimaryKeySelective(device);
     }
 
 

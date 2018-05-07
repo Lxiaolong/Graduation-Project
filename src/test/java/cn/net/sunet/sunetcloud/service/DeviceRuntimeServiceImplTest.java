@@ -25,10 +25,11 @@ public class DeviceRuntimeServiceImplTest {
     @Test
     public void queryByTime() throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date start=formatter.parse("2018-01-01 00:00:00");
-        Date end=formatter.parse("2019-01-01 00:00:00");
-        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceRuntimeService.queryByTime(1,
-                start,end)).asJson());
+        Date start=formatter.parse("2018-05-06 00:00:00");
+        Date end=formatter.parse("2018-05-13 00:00:00");
+        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceRuntimeService
+                .timeActivation(deviceRuntimeService.queryByTime(1,
+                start,end))).asJson());
     }
 
 }

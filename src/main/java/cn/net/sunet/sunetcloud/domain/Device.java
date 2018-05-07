@@ -37,6 +37,16 @@ public class Device {
 
     private float runtime;
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    private int status;
+
     public float getRuntime() {
         return runtime;
     }

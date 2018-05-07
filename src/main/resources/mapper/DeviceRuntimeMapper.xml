@@ -9,9 +9,10 @@
     <result column="test_time" property="testTime" jdbcType="TIMESTAMP" />
     <result column="work_time" property="workTime" jdbcType="TIMESTAMP" />
     <result column="down_time" property="downTime" jdbcType="TIMESTAMP" />
+    <result column="runtime" property="runtime"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, device_id, runtime_output, additive_output, test_time, work_time, down_time
+    id, device_id, runtime_output, additive_output, test_time, work_time, down_time,runtime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -115,6 +116,9 @@
       </if>
       <if test="downTime != null" >
         down_time = #{downTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runtime != null" >
+        runtime = #{runtime},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

@@ -8,6 +8,7 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
+import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
 import cn.net.sunet.sunetcloud.service.DeviceRuntimeServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
@@ -40,8 +41,12 @@ public class DeviceRuntimeController {
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startTime,
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime) {
         try{
-            List<?> deviceRuntimes=deviceRuntimeService.queryByTime(deviceId,startTime,endTime);
-            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setContent(deviceRuntimes).asJson();
+            List<DeviceRuntime> deviceRuntimes=deviceRuntimeService.queryByTime(deviceId,startTime,endTime);
+            if(deviceRuntimes.isEmpty()){
+                return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询为空").asJson();
+            }
+            List<?> result=deviceRuntimeService.timeActivation(deviceRuntimes);
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setContent(result).asJson();
         }
         catch (DataAccessException e){
             return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("查询出错").asJson();

@@ -8,10 +8,7 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
-import cn.net.sunet.sunetcloud.domain.DevicePerformance;
-import cn.net.sunet.sunetcloud.domain.DeviceQuality;
-import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
-import cn.net.sunet.sunetcloud.domain.MaintainMalfunction;
+import cn.net.sunet.sunetcloud.domain.*;
 import cn.net.sunet.sunetcloud.exception.DatabaseException;
 import cn.net.sunet.sunetcloud.service.*;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
@@ -106,6 +103,10 @@ public class Collection {
         try {
             deviceRuntime.setId(deviceRuntimeService.selectTestTime(deviceRuntime.getDeviceId()).getId());
             deviceRuntimeService.update(deviceRuntime);
+            Device device=new Device();
+            device.setStatus(1);
+            device.setId(deviceRuntime.getDeviceId());
+            deviceService.updateStatus(device);
             return "ok";
         } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
@@ -117,7 +118,13 @@ public class Collection {
     public String downtime(@ModelAttribute DeviceRuntime deviceRuntime) throws DatabaseException {
         DeviceRuntime deviceRuntime1 = deviceRuntimeService.selectTestTime(deviceRuntime.getDeviceId());
         deviceRuntime.setId(deviceRuntime1.getId());
+        float runtime = (deviceRuntime.getDownTime().getTime() - deviceRuntime1.getWorkTime().getTime()) / (float) 3600000;
         deviceRuntime.setAdditiveOutput(deviceRuntime1.getAdditiveOutput() + deviceRuntime.getRuntimeOutput());
+        deviceRuntime.setRuntime(runtime);
+        Device device=new Device();
+        device.setStatus(2);
+        device.setId(deviceRuntime.getDeviceId());
+        deviceService.updateStatus(device);
         try {
 
             deviceRuntimeService.update(deviceRuntime);
@@ -125,7 +132,7 @@ public class Collection {
         } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
-        float runtime = (deviceRuntime.getDownTime().getTime() - deviceRuntime1.getWorkTime().getTime()) / (float) 3600000;
+
         try {
             DevicePerformance devicePerformance = devicePerformanceService.selectByDeviceId(deviceRuntime1.getDeviceId());
             devicePerformance.setRunTime(devicePerformance.getRunTime() + runtime);
@@ -135,7 +142,6 @@ public class Collection {
         }
         return "ok";
     }
-
     @RequestMapping(value = "/devicemaintain", method = RequestMethod.POST)
     public String maintain(@RequestParam long deviceId,
                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -164,6 +170,10 @@ public class Collection {
         future = threadPoolTaskScheduler.schedule(new SendEmail(javaMailSender, maintainMalfunction1), new
                 CronTrigger(cron));
         System.out.println("DynamicTaskController.startCron()");
+        Device device=new Device();
+        device.setStatus(3);
+        device.setId(deviceId);
+        deviceService.updateStatus(device);
         return "startTask";
     }
 
