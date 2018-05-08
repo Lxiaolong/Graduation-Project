@@ -1,3 +1,4 @@
+/*
 package cn.net.sunet.sunetcloud.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -26,3 +27,4 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	}
 
 }
+*/

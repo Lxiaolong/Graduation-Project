@@ -100,8 +100,8 @@ public class AccountController {
     }
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
     public String delete(@RequestParam String username,
-                         @RequestParam int page,
-                         @RequestParam int count){
+                         @RequestParam(required = false,defaultValue = "1") int page,
+                         @RequestParam(required = false,defaultValue = "10") int count){
         try{
             HashMap hashMap=accountService.delete(page, count, username);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("删除成功").setContent(hashMap)
