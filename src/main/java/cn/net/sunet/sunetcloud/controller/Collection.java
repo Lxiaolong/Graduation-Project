@@ -91,7 +91,7 @@ public class Collection {
         try {
             deviceRuntime.setAdditiveOutput(deviceRuntimeService.selectTestTime(deviceRuntime.getDeviceId()).getAdditiveOutput());
             deviceRuntimeService.insert(deviceRuntime);
-            return "ok";
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
         } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
@@ -107,7 +107,7 @@ public class Collection {
             device.setStatus(1);
             device.setId(deviceRuntime.getDeviceId());
             deviceService.updateStatus(device);
-            return "ok";
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
         } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
@@ -138,9 +138,9 @@ public class Collection {
             devicePerformance.setRunTime(devicePerformance.getRunTime() + runtime);
             devicePerformanceService.update(devicePerformance);
         } catch (DataAccessException e) {
-            return "notok";
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
-        return "ok";
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
     }
     @RequestMapping(value = "/devicemaintain", method = RequestMethod.POST)
     public String maintain(@RequestParam long deviceId,
@@ -162,7 +162,7 @@ public class Collection {
 
         } catch (DataAccessException e) {
             System.out.println(e.getMessage());
-            return "notok";
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
         MaintainMalfunction maintainMalfunction1 = maintainMalfunctionService.selectById(maintainMalfunction.getId());
         Calendar now1 = Calendar.getInstance();
@@ -174,7 +174,7 @@ public class Collection {
         device.setStatus(3);
         device.setId(deviceId);
         deviceService.updateStatus(device);
-        return "startTask";
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
     }
 
     @RequestMapping(value = "devicemaintain/accept", method = RequestMethod.POST)
@@ -185,12 +185,12 @@ public class Collection {
         try {
             maintainMalfunctionService.update(maintainMalfunction);
         } catch (DataAccessException e) {
-            return "notok";
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
         if (future != null) {
             future.cancel(true);
         }
-        return "stopTask";
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
     }
 
     @RequestMapping(value = "/devicemaintain/complete", method = RequestMethod.POST)
@@ -207,7 +207,7 @@ public class Collection {
         try {
             maintainMalfunctionService.update(maintainMalfunction);
         } catch (DataAccessException e) {
-            return "notok";
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
         MaintainMalfunction maintainMalfunction1 = maintainMalfunctionService.selectById(maintainMalfunction.getId());
         Date start_time = maintainMalfunction1.getStartTime();
@@ -222,7 +222,7 @@ public class Collection {
         devicePerformance.setMttrTime((float) devicePerformance.getMalfunctionTime() / devicePerformance.getMalfunctionNumber
                 ());
         devicePerformanceService.update(devicePerformance);
-        return "ok";
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
 
     }
     @RequestMapping(value = "devicequality",method = RequestMethod.POST)
@@ -233,13 +233,11 @@ public class Collection {
                                 @RequestParam int retest_number,
                                 @RequestParam int error_loading_number,
                                 @RequestParam long deviceId,
-                                @RequestParam int statusId,
                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date collection_time){
 
         DeviceQuality deviceQuality=new DeviceQuality();
         deviceQuality.setCollectionTime(collection_time);
         deviceQuality.setDeviceId(deviceId);
-        deviceQuality.setStatusId(statusId);
         deviceQuality.setDischargeNumber(discharge_number);
         deviceQuality.setErrorLoadingNumber(error_loading_number);
         deviceQuality.setLeakageNumber(leakage_number);
@@ -249,9 +247,9 @@ public class Collection {
         try {
             deviceQualityService.insert(deviceQuality);
         }catch (DataAccessException e){
-            return "notok";
+            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
         }
-        return "ok";
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
     }
 
 }

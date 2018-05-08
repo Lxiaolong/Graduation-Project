@@ -8,7 +8,9 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
+import cn.net.sunet.sunetcloud.domain.DeviceQuality;
 import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
+import cn.net.sunet.sunetcloud.service.DeviceQualityServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceRuntimeServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
@@ -35,6 +37,8 @@ public class DeviceRuntimeController {
     private DeviceRuntimeServiceImpl deviceRuntimeService;
     @Autowired
     private JSONGenerator jsonGenerator;
+    @Autowired
+    private DeviceQualityServiceImpl deviceQualityService;
 
     @RequestMapping(value = "/queryByTime", method = RequestMethod.GET)
     public String queryByTime(@RequestParam long deviceId,
@@ -42,10 +46,11 @@ public class DeviceRuntimeController {
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime) {
         try{
             List<DeviceRuntime> deviceRuntimes=deviceRuntimeService.queryByTime(deviceId,startTime,endTime);
+            List<DeviceQuality> deviceQualities=deviceQualityService.queryByTime(deviceId, startTime, endTime);
             if(deviceRuntimes.isEmpty()){
                 return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询为空").asJson();
             }
-            List<?> result=deviceRuntimeService.timeActivation(deviceRuntimes);
+            List<?> result=deviceRuntimeService.timeActivation(deviceRuntimes,deviceQualities);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setContent(result).asJson();
         }
         catch (DataAccessException e){

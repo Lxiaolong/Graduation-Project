@@ -1,186 +1,187 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceQualityMapper" >
-  <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceQuality" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="device_id" property="deviceId" jdbcType="BIGINT" />
-    <result column="status_id" property="statusId" jdbcType="INTEGER" />
-    <result column="through_rate" property="throughRate" jdbcType="REAL" />
-    <result column="leakage_rate" property="leakageRate" jdbcType="REAL" />
-    <result column="retest_rate" property="retestRate" jdbcType="REAL" />
-    <result column="error_loading_rate" property="errorLoadingRate" jdbcType="REAL" />
-    <result column="feed_number" property="feedNumber" jdbcType="INTEGER" />
-    <result column="discharge_number" property="dischargeNumber" jdbcType="INTEGER" />
-    <result column="ng_number" property="ngNumber" jdbcType="INTEGER" />
-    <result column="leakage_number" property="leakageNumber" jdbcType="INTEGER" />
-    <result column="retest_number" property="retestNumber" jdbcType="INTEGER" />
-    <result column="error_loading_number" property="errorLoadingNumber" jdbcType="INTEGER" />
-    <result column="collection_time" property="collectionTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, device_id, status_id, through_rate, leakage_rate, retest_rate, error_loading_rate, 
+<mapper namespace="cn.net.sunet.sunetcloud.dao.DeviceQualityMapper">
+    <resultMap id="BaseResultMap" type="cn.net.sunet.sunetcloud.domain.DeviceQuality">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="device_id" property="deviceId" jdbcType="BIGINT"/>
+        <result column="through_rate" property="throughRate" jdbcType="REAL"/>
+        <result column="leakage_rate" property="leakageRate" jdbcType="REAL"/>
+        <result column="retest_rate" property="retestRate" jdbcType="REAL"/>
+        <result column="error_loading_rate" property="errorLoadingRate" jdbcType="REAL"/>
+        <result column="feed_number" property="feedNumber" jdbcType="INTEGER"/>
+        <result column="discharge_number" property="dischargeNumber" jdbcType="INTEGER"/>
+        <result column="ng_number" property="ngNumber" jdbcType="INTEGER"/>
+        <result column="leakage_number" property="leakageNumber" jdbcType="INTEGER"/>
+        <result column="retest_number" property="retestNumber" jdbcType="INTEGER"/>
+        <result column="error_loading_number" property="errorLoadingNumber" jdbcType="INTEGER"/>
+        <result column="collection_time" property="collectionTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, device_id,through_rate, leakage_rate, retest_rate, error_loading_rate,
     feed_number, discharge_number, ng_number, leakage_number, retest_number, error_loading_number, 
     collection_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from device_quality
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="queryByTime" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from device_quality
+        where device_id = #{deviceId,jdbcType=BIGINT} AND collection_time&gt;=#{startTime} AND
+        collection_time &lt;#{endTime}
+        ORDER BY collection_time DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from device_quality
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality" >
-    insert into device_quality (id, device_id, status_id, 
-      through_rate, leakage_rate, retest_rate, 
-      error_loading_rate, feed_number, discharge_number, 
-      ng_number, leakage_number, retest_number, 
-      error_loading_number, collection_time)
-    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{statusId,jdbcType=INTEGER}, 
+    <insert id="insert" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality">
+    insert into device_quality (
+    id, device_id,through_rate, leakage_rate, retest_rate, error_loading_rate,
+    feed_number, discharge_number, ng_number, leakage_number, retest_number, error_loading_number,
+    collection_time
+    )
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT},
       #{throughRate,jdbcType=REAL}, #{leakageRate,jdbcType=REAL}, #{retestRate,jdbcType=REAL}, 
       #{errorLoadingRate,jdbcType=REAL}, #{feedNumber,jdbcType=INTEGER}, #{dischargeNumber,jdbcType=INTEGER}, 
       #{ngNumber,jdbcType=INTEGER}, #{leakageNumber,jdbcType=INTEGER}, #{retestNumber,jdbcType=INTEGER}, 
       #{errorLoadingNumber,jdbcType=INTEGER}, #{collectionTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality" >
-    insert into device_quality
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="deviceId != null" >
-        device_id,
-      </if>
-      <if test="statusId != null" >
-        status_id,
-      </if>
-      <if test="throughRate != null" >
-        through_rate,
-      </if>
-      <if test="leakageRate != null" >
-        leakage_rate,
-      </if>
-      <if test="retestRate != null" >
-        retest_rate,
-      </if>
-      <if test="errorLoadingRate != null" >
-        error_loading_rate,
-      </if>
-      <if test="feedNumber != null" >
-        feed_number,
-      </if>
-      <if test="dischargeNumber != null" >
-        discharge_number,
-      </if>
-      <if test="ngNumber != null" >
-        ng_number,
-      </if>
-      <if test="leakageNumber != null" >
-        leakage_number,
-      </if>
-      <if test="retestNumber != null" >
-        retest_number,
-      </if>
-      <if test="errorLoadingNumber != null" >
-        error_loading_number,
-      </if>
-      <if test="collectionTime != null" >
-        collection_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="deviceId != null" >
-        #{deviceId,jdbcType=BIGINT},
-      </if>
-      <if test="statusId != null" >
-        #{statusId,jdbcType=INTEGER},
-      </if>
-      <if test="throughRate != null" >
-        #{throughRate,jdbcType=REAL},
-      </if>
-      <if test="leakageRate != null" >
-        #{leakageRate,jdbcType=REAL},
-      </if>
-      <if test="retestRate != null" >
-        #{retestRate,jdbcType=REAL},
-      </if>
-      <if test="errorLoadingRate != null" >
-        #{errorLoadingRate,jdbcType=REAL},
-      </if>
-      <if test="feedNumber != null" >
-        #{feedNumber,jdbcType=INTEGER},
-      </if>
-      <if test="dischargeNumber != null" >
-        #{dischargeNumber,jdbcType=INTEGER},
-      </if>
-      <if test="ngNumber != null" >
-        #{ngNumber,jdbcType=INTEGER},
-      </if>
-      <if test="leakageNumber != null" >
-        #{leakageNumber,jdbcType=INTEGER},
-      </if>
-      <if test="retestNumber != null" >
-        #{retestNumber,jdbcType=INTEGER},
-      </if>
-      <if test="errorLoadingNumber != null" >
-        #{errorLoadingNumber,jdbcType=INTEGER},
-      </if>
-      <if test="collectionTime != null" >
-        #{collectionTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality" >
-    update device_quality
-    <set >
-      <if test="deviceId != null" >
-        device_id = #{deviceId,jdbcType=BIGINT},
-      </if>
-      <if test="statusId != null" >
-        status_id = #{statusId,jdbcType=INTEGER},
-      </if>
-      <if test="throughRate != null" >
-        through_rate = #{throughRate,jdbcType=REAL},
-      </if>
-      <if test="leakageRate != null" >
-        leakage_rate = #{leakageRate,jdbcType=REAL},
-      </if>
-      <if test="retestRate != null" >
-        retest_rate = #{retestRate,jdbcType=REAL},
-      </if>
-      <if test="errorLoadingRate != null" >
-        error_loading_rate = #{errorLoadingRate,jdbcType=REAL},
-      </if>
-      <if test="feedNumber != null" >
-        feed_number = #{feedNumber,jdbcType=INTEGER},
-      </if>
-      <if test="dischargeNumber != null" >
-        discharge_number = #{dischargeNumber,jdbcType=INTEGER},
-      </if>
-      <if test="ngNumber != null" >
-        ng_number = #{ngNumber,jdbcType=INTEGER},
-      </if>
-      <if test="leakageNumber != null" >
-        leakage_number = #{leakageNumber,jdbcType=INTEGER},
-      </if>
-      <if test="retestNumber != null" >
-        retest_number = #{retestNumber,jdbcType=INTEGER},
-      </if>
-      <if test="errorLoadingNumber != null" >
-        error_loading_number = #{errorLoadingNumber,jdbcType=INTEGER},
-      </if>
-      <if test="collectionTime != null" >
-        collection_time = #{collectionTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality" >
+    <insert id="insertSelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality">
+        insert into device_quality
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deviceId != null">
+                device_id,
+            </if>
+            <if test="statusId != null">
+                status_id,
+            </if>
+            <if test="throughRate != null">
+                through_rate,
+            </if>
+            <if test="leakageRate != null">
+                leakage_rate,
+            </if>
+            <if test="retestRate != null">
+                retest_rate,
+            </if>
+            <if test="errorLoadingRate != null">
+                error_loading_rate,
+            </if>
+            <if test="feedNumber != null">
+                feed_number,
+            </if>
+            <if test="dischargeNumber != null">
+                discharge_number,
+            </if>
+            <if test="ngNumber != null">
+                ng_number,
+            </if>
+            <if test="leakageNumber != null">
+                leakage_number,
+            </if>
+            <if test="retestNumber != null">
+                retest_number,
+            </if>
+            <if test="errorLoadingNumber != null">
+                error_loading_number,
+            </if>
+            <if test="collectionTime != null">
+                collection_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="deviceId != null">
+                #{deviceId,jdbcType=BIGINT},
+            </if>
+            <if test="statusId != null">
+                #{statusId,jdbcType=INTEGER},
+            </if>
+            <if test="throughRate != null">
+                #{throughRate,jdbcType=REAL},
+            </if>
+            <if test="leakageRate != null">
+                #{leakageRate,jdbcType=REAL},
+            </if>
+            <if test="retestRate != null">
+                #{retestRate,jdbcType=REAL},
+            </if>
+            <if test="errorLoadingRate != null">
+                #{errorLoadingRate,jdbcType=REAL},
+            </if>
+            <if test="feedNumber != null">
+                #{feedNumber,jdbcType=INTEGER},
+            </if>
+            <if test="dischargeNumber != null">
+                #{dischargeNumber,jdbcType=INTEGER},
+            </if>
+            <if test="ngNumber != null">
+                #{ngNumber,jdbcType=INTEGER},
+            </if>
+            <if test="leakageNumber != null">
+                #{leakageNumber,jdbcType=INTEGER},
+            </if>
+            <if test="retestNumber != null">
+                #{retestNumber,jdbcType=INTEGER},
+            </if>
+            <if test="errorLoadingNumber != null">
+                #{errorLoadingNumber,jdbcType=INTEGER},
+            </if>
+            <if test="collectionTime != null">
+                #{collectionTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality">
+        update device_quality
+        <set>
+            <if test="deviceId != null">
+                device_id = #{deviceId,jdbcType=BIGINT},
+            </if>
+            <if test="statusId != null">
+                status_id = #{statusId,jdbcType=INTEGER},
+            </if>
+            <if test="throughRate != null">
+                through_rate = #{throughRate,jdbcType=REAL},
+            </if>
+            <if test="leakageRate != null">
+                leakage_rate = #{leakageRate,jdbcType=REAL},
+            </if>
+            <if test="retestRate != null">
+                retest_rate = #{retestRate,jdbcType=REAL},
+            </if>
+            <if test="errorLoadingRate != null">
+                error_loading_rate = #{errorLoadingRate,jdbcType=REAL},
+            </if>
+            <if test="feedNumber != null">
+                feed_number = #{feedNumber,jdbcType=INTEGER},
+            </if>
+            <if test="dischargeNumber != null">
+                discharge_number = #{dischargeNumber,jdbcType=INTEGER},
+            </if>
+            <if test="ngNumber != null">
+                ng_number = #{ngNumber,jdbcType=INTEGER},
+            </if>
+            <if test="leakageNumber != null">
+                leakage_number = #{leakageNumber,jdbcType=INTEGER},
+            </if>
+            <if test="retestNumber != null">
+                retest_number = #{retestNumber,jdbcType=INTEGER},
+            </if>
+            <if test="errorLoadingNumber != null">
+                error_loading_number = #{errorLoadingNumber,jdbcType=INTEGER},
+            </if>
+            <if test="collectionTime != null">
+                collection_time = #{collectionTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.net.sunet.sunetcloud.domain.DeviceQuality">
     update device_quality
     set device_id = #{deviceId,jdbcType=BIGINT},
       status_id = #{statusId,jdbcType=INTEGER},
