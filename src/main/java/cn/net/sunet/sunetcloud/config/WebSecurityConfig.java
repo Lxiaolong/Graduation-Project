@@ -69,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy
+                .STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/logout", "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/images/**",
                         "/v2/api-docs", "swagger.json", "/configuration/ui", "/configuration/security", "/staff/**",

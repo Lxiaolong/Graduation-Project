@@ -37,6 +37,16 @@ public class Device {
 
     private float runtime;
 
+    public Long getAdditiveOutput() {
+        return additiveOutput;
+    }
+
+    public void setAdditiveOutput(Long additiveOutput) {
+        this.additiveOutput = additiveOutput;
+    }
+
+    private Long additiveOutput;
+
     public int getStatus() {
         return status;
     }

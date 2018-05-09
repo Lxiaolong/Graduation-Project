@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Lxiaolong
@@ -40,6 +41,10 @@ public class DeviceServiceImpl {
     }
     public void updateStatus(Device device){
         deviceMapper.updateByPrimaryKeySelective(device);
+    }
+
+    public List querySummary(long deviceId,int page,int count){
+        return deviceMapper.querySummary(deviceId,(page-1)*count,count);
     }
 
 

@@ -20,6 +20,8 @@
     <result column="certificate" property="certificate" jdbcType="VARCHAR"/>
     <result column="runtime" property="runtime" />
     <result column="nickname" property="nickname"/>
+    <result column="additive_output" property="additiveOutput"/>
+    <result column="status_id" property="status"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, chinese_name, english_name, asset_code, rated_uph, rated_voltage, rated_power,
@@ -47,6 +49,19 @@
 	COUNT(*)
     FROM
 	device
+  </select>
+  <select id="querySummary" resultMap="BaseResultMap">
+    SELECT
+	d.asset_code,
+	d.chinese_name,
+	d.english_name,
+	d.rated_uph,
+	d.status_id,
+	p.run_time
+FROM
+	 device d LEFT JOIN device_performance p ON d.id = p.device_id
+WHERE
+	d.device_type_id =#{deviceId} ORDER BY asset_code DESC limit #{page},#{count}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from device

@@ -25,4 +25,10 @@ public class DevicePerformanceServiceImpl {
     public void update(DevicePerformance devicePerformance){
         devicePerformanceMapper.updateByPrimaryKeySelective(devicePerformance);
     }
+    public void insert(DevicePerformance devicePerformance){
+        devicePerformanceMapper.insertSelective(devicePerformance);
+    }
+    public DevicePerformance queryBydeviceId(long deviceId){
+        return devicePerformanceMapper.selectByDeviceId(deviceId);
+    }
 }

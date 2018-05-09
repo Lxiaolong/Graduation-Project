@@ -14,6 +14,8 @@ public interface DevicePerformanceMapper {
     int updateByPrimaryKeySelective(DevicePerformance record);
 
     int updateByPrimaryKey(DevicePerformance record);
+
     DevicePerformance selectByDeviceId(Long id);
+
 
 }

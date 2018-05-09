@@ -25,7 +25,7 @@
      m.id, m.start_time, m.code, m.description, m.method, m.solved_time, m.device_id,d.asset_code
      devicecode,d.chinese_name devicename,a.nickname accountname,a.telephone accountphone,a.email accountemail,c.email maintainemail
     from (maintain_malfunction m LEFT  JOIN device d ON device_id =d.id)LEFT  JOIN account a ON d.account_id=a.id
-    LEFT JOIN device_performance p ON d.id=p.malfuntion_person_id LEFT JOIN account c on p.malfuntion_person_id=c.id
+    LEFT JOIN device_performance p ON d.id=p.device_id LEFT JOIN account c on p.malfuntion_person_id=c.id
     where m.id =#{id,jdbcType=BIGINT}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -116,6 +116,9 @@
       </if>
       <if test="deviceId != null" >
         device_id = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="schedule != null" >
+        schedule = #{schedule,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

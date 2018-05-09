@@ -29,6 +29,7 @@ public class DeviceRuntimeServiceImpl {
     private final ScheduleMapper scheduleMapper;
     private final DeviceMapper deviceMapper;
     private final DeviceQualityMapper deviceQualityMapper;
+
     @Autowired
     public DeviceRuntimeServiceImpl(DeviceRuntimeMapper deviceRuntimeMapper, ScheduleMapper scheduleMapper, DeviceMapper deviceMapper, DeviceQualityMapper deviceQualityMapper) {
         this.deviceRuntimeMapper = deviceRuntimeMapper;
@@ -36,6 +37,7 @@ public class DeviceRuntimeServiceImpl {
         this.deviceMapper = deviceMapper;
         this.deviceQualityMapper = deviceQualityMapper;
     }
+
     public void insert(DeviceRuntime deviceRuntime) {
         deviceRuntimeMapper.insert(deviceRuntime);
     }
@@ -46,7 +48,15 @@ public class DeviceRuntimeServiceImpl {
 
     public DeviceRuntime selectTestTime(Long deiviceId) {
         ArrayList<DeviceRuntime> list = deviceRuntimeMapper.selectByDeviceId(deiviceId);
-        return list.get(0);
+        if (!list.isEmpty()) {
+            return list.get(0);
+        }
+        else {
+            DeviceRuntime deviceRuntime=new DeviceRuntime();
+            deviceRuntime.setDeviceId(deiviceId);
+            deviceRuntime.setAdditiveOutput((long) 0);
+            return deviceRuntime;
+        }
     }
 
     public List<DeviceRuntime> queryByTime(long deviceId, Date startTime, Date endTime) {
@@ -60,10 +70,10 @@ public class DeviceRuntimeServiceImpl {
         HashMap hashMap2 = new HashMap();
         int sum = 0;
         List<Schedule> schedules = scheduleMapper.selectByDeviceId(list.get(0).getDeviceId());
-        float uph= deviceMapper.selectByPrimaryKey(list.get(0).getDeviceId()).getRatedUPH();
-        float time=0;
-        for (Schedule schedule:schedules){
-            time+=schedule.getOperatinghours();
+        float uph = deviceMapper.selectByPrimaryKey(list.get(0).getDeviceId()).getRatedUPH();
+        float time = 0;
+        for (Schedule schedule : schedules) {
+            time += schedule.getOperatinghours();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         for (DeviceRuntime deviceRuntime : list) {
@@ -79,26 +89,26 @@ public class DeviceRuntimeServiceImpl {
         for (DeviceQuality deviceQuality : deviceQualities) {
             String key = sdf.format(deviceQuality.getCollectionTime());
             if (hashMap2.containsKey(key)) {
-                sum+=1;
-                hashMap2.put(key, ((float)hashMap2.get(key)*(sum-1) + deviceQuality.getThroughRate())/sum);
+                sum += 1;
+                hashMap2.put(key, ((float) hashMap2.get(key) * (sum - 1) + deviceQuality.getThroughRate()) / sum);
             } else {
-                sum=1;
-                hashMap2.put(key, deviceQuality.getThroughRate()/1);
+                sum = 1;
+                hashMap2.put(key, deviceQuality.getThroughRate() / 1);
 
             }
         }
         Iterator entries = hashMap.entrySet().iterator();
         for (Map.Entry<String, Float> entry : hashMap.entrySet()) {
-            float timeactivation=entry.getValue()/time;
-            float performanceactivation=((long)hashMap1.get(entry.getKey())/time)/uph;
-            float qualityactivation= (float) hashMap2.get(entry.getKey());
-            float oee=timeactivation*performanceactivation*qualityactivation;
+            float timeactivation = entry.getValue() / time;
+            float performanceactivation = ((long) hashMap1.get(entry.getKey()) / time) / uph;
+            float qualityactivation = (float) hashMap2.get(entry.getKey());
+            float oee = timeactivation * performanceactivation * qualityactivation;
             HashMap hashMap3 = new HashMap();
             hashMap3.put("date", entry.getKey());
             hashMap3.put("timeactivation", timeactivation);
             hashMap3.put("performanceactivation", performanceactivation);
-            hashMap3.put("qualityactivation",qualityactivation);
-            hashMap3.put("oee",oee);
+            hashMap3.put("qualityactivation", qualityactivation);
+            hashMap3.put("oee", oee);
             result.add(hashMap3);
         }
         return result;

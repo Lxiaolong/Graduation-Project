@@ -24,7 +24,7 @@
   </select>
     <select id="queryPage" resultMap="BaseResultMap">
     select
-    id,name,price
+    id, name, quantity, price, place
     from maintian_raw_material ORDER BY id ASC LIMIT #{page}, #{count}
   </select>
     <select id="queryTotal" resultType="java.lang.Integer">

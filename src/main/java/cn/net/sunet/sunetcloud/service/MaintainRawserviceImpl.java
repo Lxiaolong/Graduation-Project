@@ -41,6 +41,9 @@ public class MaintainRawserviceImpl {
     public void insert(MaintainRawMaterial maintainRawMaterial){
         maintainRawMaterialMapper.insertSelective(maintainRawMaterial);
     }
+    public List query(){
+        return maintainRawMaterialMapper.query();
+    }
     public void update(MaintainRawMaterial maintainRawMaterial){
         maintainRawMaterialMapper.updateByPrimaryKeySelective(maintainRawMaterial);
     }

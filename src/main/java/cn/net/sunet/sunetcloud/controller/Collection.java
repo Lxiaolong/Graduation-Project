@@ -135,7 +135,18 @@ public class Collection {
 
         try {
             DevicePerformance devicePerformance = devicePerformanceService.selectByDeviceId(deviceRuntime1.getDeviceId());
+            if (devicePerformance==null){
+                devicePerformance=new DevicePerformance();
+                devicePerformance.setDeviceId(deviceRuntime1.getDeviceId());
+                devicePerformanceService.insert(devicePerformance);
+            }
             devicePerformance.setRunTime(devicePerformance.getRunTime() + runtime);
+            if(devicePerformance.getMalfunctionNumber()==0){
+                devicePerformance.setMtbfTime(devicePerformance.getRunTime());
+            }
+            else {
+                devicePerformance.setMtbfTime(devicePerformance.getRunTime()/devicePerformance.getMalfunctionNumber());
+            }
             devicePerformanceService.update(devicePerformance);
         } catch (DataAccessException e) {
             return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
@@ -167,8 +178,8 @@ public class Collection {
         MaintainMalfunction maintainMalfunction1 = maintainMalfunctionService.selectById(maintainMalfunction.getId());
         Calendar now1 = Calendar.getInstance();
         int minute = now1.get(Calendar.MINUTE) + 1;
-        future = threadPoolTaskScheduler.schedule(new SendEmail(javaMailSender, maintainMalfunction1), new
-                CronTrigger(cron));
+        //future = threadPoolTaskScheduler.schedule(new SendEmail(javaMailSender, maintainMalfunction1), new
+               // CronTrigger(cron));
         System.out.println("DynamicTaskController.startCron()");
         Device device=new Device();
         device.setStatus(3);
@@ -204,6 +215,7 @@ public class Collection {
         maintainMalfunction.setDescription(description);
         maintainMalfunction.setSolvedTime(solvedTime);
         maintainMalfunction.setMethod(method);
+        maintainMalfunction.setSchedule(2);
         try {
             maintainMalfunctionService.update(maintainMalfunction);
         } catch (DataAccessException e) {

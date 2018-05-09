@@ -23,5 +23,10 @@ public class DeviceServiceImplTest {
     public void queryPage() throws Exception {
         System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceService.queryPage(1,10)).asJson());
     }
+    @Test
+    public void querySummary(){
+        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceService.querySummary(1,1,6))
+                .asJson());
+    }
 
 }

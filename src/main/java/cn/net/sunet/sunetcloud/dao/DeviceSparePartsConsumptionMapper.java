@@ -1,6 +1,7 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeviceSparePartsConsumptionMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +15,6 @@ public interface DeviceSparePartsConsumptionMapper {
     int updateByPrimaryKeySelective(DeviceSparePartsConsumption record);
 
     int updateByPrimaryKey(DeviceSparePartsConsumption record);
+
+
 }

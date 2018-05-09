@@ -44,10 +44,10 @@ public class CollectionTest {
     public void testTime() throws Exception {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar ca = Calendar.getInstance();
-        Date date = dateFormat.parse("2018-05-09 00:01:00");
+        Date date = dateFormat.parse("2018-05-09 08:01:00");
         ca.setTime(date);
 
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 10; i++) {
             Calendar calendar = Calendar.getInstance();
             Calendar cb = Calendar.getInstance();
             Date workTime = new Date();
@@ -57,31 +57,33 @@ public class CollectionTest {
             int all = 0;
             calendar = (Calendar) ca.clone();
             testTime = calendar.getTime();
-            mvc.perform(MockMvcRequestBuilders.post("/collection/deviceruntime/test_time").param("deviceId", String.valueOf(1)
+            mvc.perform(MockMvcRequestBuilders.post("/collection/deviceruntime/test_time").param("deviceId", String
+                    .valueOf(3)
             ).param("testTime", dateFormat.format(testTime)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("200"));
             System.out.println(testTime);
             calendar.add(Calendar.MINUTE, 5 + (int) (Math.random() * 5));
             workTime = calendar.getTime();
             System.out.println(workTime);
-            mvc.perform(MockMvcRequestBuilders.post("/collection/deviceruntime/work_time").param("deviceId", String.valueOf(1)
+            mvc.perform(MockMvcRequestBuilders.post("/collection/deviceruntime/work_time").param("deviceId", String
+                    .valueOf(3)
             ).param("workTime", dateFormat.format(workTime)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("200"));
             cb = (Calendar) calendar.clone();
-            calendar.add(Calendar.HOUR_OF_DAY, 6 + (int) (Math.random() * 2));
+            calendar.add(Calendar.HOUR_OF_DAY, 11 + (int) (Math.random() * 2));
             calendar.add(Calendar.MINUTE, (int) (Math.random() * 30));
             cb.add(Calendar.HOUR_OF_DAY, 1);
             while (cb.before(calendar)) {
                 quality = cb.getTime();
-                int feed = (int) (180 + Math.random() * 30);
-                int firstNg = (int) (5 + Math.random() * 10);
+                int feed = (int) (450 + Math.random() * 50);
+                int firstNg = (int) (20 + Math.random() * 20);
                 int error = (int) (Math.random() * firstNg);
-                int leakage = (int) (Math.random() * 5);
+                int leakage = (int) (Math.random() * 10);
                 int retest = (int)(( 0.3+(0.5*Math.random())) * feed+error+leakage);
                 int throught = feed - firstNg + error - leakage;
                 int ng = firstNg - error + leakage;
                 mvc.perform(MockMvcRequestBuilders.post("/collection/devicequality")
-                        .param("deviceId", String.valueOf(1))
+                        .param("deviceId", String.valueOf(3))
                         .param("feed_number", String.valueOf(feed))
                         .param("discharge_number", String.valueOf(throught))
                         .param("ng_number", String.valueOf(ng))
@@ -101,16 +103,16 @@ public class CollectionTest {
             endTime = calendar.getTime();
             cb.add(Calendar.HOUR_OF_DAY, -1);
             float min = (float) (endTime.getTime() - cb.getTime().getTime()) / (1000 * 60 * 60);
-            int feed = (int) ((int) (180 + Math.random() * 30) * min);
-            int firstNg = (int) ((int) (5 + Math.random() * 10) * min);
+            int feed = (int) ((int) (450 + Math.random() * 50) * min);
+            int firstNg = (int) ((int) (20 + Math.random() * 20) * min);
             int error = (int) ((int) (Math.random() * firstNg) * min);
-            int leakage = (int) ((int) (Math.random() * 5) * min);
+            int leakage = (int) ((int) (Math.random() * 10) * min);
             int retest = (int) ((0.3+(0.5*Math.random())) * feed+error+leakage);
             int throught = feed - firstNg + error - leakage;
             int ng = firstNg - error + leakage;
             System.out.println(feed + "-" + firstNg + "-" + error + "-" + leakage + "-" + retest + "-" + throught);
             mvc.perform(MockMvcRequestBuilders.post("/collection/devicequality")
-                    .param("deviceId", String.valueOf(1))
+                    .param("deviceId", String.valueOf(3))
                     .param("feed_number", String.valueOf(feed))
                     .param("discharge_number", String.valueOf(throught))
                     .param("ng_number", String.valueOf(ng))
@@ -127,11 +129,11 @@ public class CollectionTest {
             System.out.println(min);
             System.out.println(endTime);
             mvc.perform(MockMvcRequestBuilders.post("/collection/deviceruntime/down_time")
-                    .param("deviceId", String.valueOf(1))
+                    .param("deviceId", String.valueOf(3))
                     .param("downTime", dateFormat.format(endTime))
                     .param("runtimeOutput", String.valueOf(all)))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("200"));
-            ca.add(Calendar.HOUR_OF_DAY, 8);
+            ca.add(Calendar.HOUR_OF_DAY, 24);
         }
     }
 

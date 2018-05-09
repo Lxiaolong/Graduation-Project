@@ -15,6 +15,12 @@
     from device_spare_parts_manage
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByDeviceTypeIdAnd" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from device_spare_parts_manage
+    where device_type_id = #{deviceTypeId,jdbcType=BIGINT} AND spare_parts_id=#{sparePartsId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from device_spare_parts_manage
     where id = #{id,jdbcType=BIGINT}

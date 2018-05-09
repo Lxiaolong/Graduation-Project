@@ -8,9 +8,12 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
+import cn.net.sunet.sunetcloud.domain.DeviceParePartsManage;
+import cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption;
 import cn.net.sunet.sunetcloud.domain.DeviceType;
 import cn.net.sunet.sunetcloud.service.AccountTypeServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceTypeServiceImpl;
+import cn.net.sunet.sunetcloud.service.SparePartsServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,8 @@ public class DeviceTypeController {
     private AccountTypeServiceImpl accountTypeService;
     @Autowired
     private JSONGenerator jsonGenerator;
+    @Autowired
+    private SparePartsServiceImpl sparePartsService;
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public String query() {
@@ -67,6 +72,23 @@ public class DeviceTypeController {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("请检查相关信息后再删除")
                     .asJson();
         }
+    }
+    @RequestMapping(value = "/configmaterial",method = RequestMethod.POST)
+    public String configMaterial(@RequestParam int deviceTypeId,
+                                 @RequestParam(required = false,defaultValue = "0") int rawMaterialId,
+                                 @RequestParam(required = false,defaultValue = "0") int auxiliaryId,
+                                 @RequestParam(required = false,defaultValue = "0") int sparePartsId){
+        if (sparePartsId!=0){
+            if(sparePartsService.selectByDeviceTypeIdAnd(deviceTypeId,sparePartsId)==null){
+               DeviceParePartsManage sparePartsConsumption= new DeviceParePartsManage();
+               sparePartsConsumption.setDeviceTypeId(deviceTypeId);
+               sparePartsConsumption.setSparePartsId((long) sparePartsId);
+                sparePartsService.insert(sparePartsConsumption);
+            }
+
+
+        }
+        return "ok";
     }
 
 }

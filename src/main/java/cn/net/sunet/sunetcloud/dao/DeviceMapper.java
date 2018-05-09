@@ -21,4 +21,6 @@ public interface DeviceMapper {
     List<Device> queryPage(@Param("page") int page, @Param("count") int count);
 
     int queryTotal();
+
+    List<Device> querySummary(@Param("deviceId") long deviceId,@Param("page") long page,@Param("count") int count);
 }

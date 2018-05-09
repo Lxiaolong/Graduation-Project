@@ -1,6 +1,7 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.DeviceParePartsManage;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeviceParePartsManageMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +15,6 @@ public interface DeviceParePartsManageMapper {
     int updateByPrimaryKeySelective(DeviceParePartsManage record);
 
     int updateByPrimaryKey(DeviceParePartsManage record);
+    DeviceParePartsManage selectByDeviceTypeIdAnd(@Param("deviceTypeId") int deviceTypeId, @Param("sparePartsId") long
+            sparePartsId);
 }

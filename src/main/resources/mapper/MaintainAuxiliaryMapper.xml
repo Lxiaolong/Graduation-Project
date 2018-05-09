@@ -30,7 +30,7 @@
   </select>
   <select id="queryPage" resultMap="BaseResultMap" >
     select
-    id,name,price
+    id, name, quantity, price, place
     from maintian_auxiliary ORDER BY id ASC limit #{page},#{count}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

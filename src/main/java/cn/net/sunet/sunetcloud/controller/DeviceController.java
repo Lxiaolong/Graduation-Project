@@ -9,6 +9,8 @@ package cn.net.sunet.sunetcloud.controller;
 
 import cn.net.sunet.sunetcloud.constant.Constant;
 import cn.net.sunet.sunetcloud.domain.Device;
+import cn.net.sunet.sunetcloud.domain.DevicePerformance;
+import cn.net.sunet.sunetcloud.service.DevicePerformanceServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
@@ -28,6 +30,8 @@ public class DeviceController {
     private DeviceServiceImpl deviceService;
     @Autowired
     private JSONGenerator jsonGenerator;
+    @Autowired
+    private DevicePerformanceServiceImpl devicePerformanceService;
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String inset(@ModelAttribute Device device) {
@@ -47,4 +51,34 @@ public class DeviceController {
         return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查找成功").setContent
                 (deviceService.queryPage(page, count)).asJson();
     }
+    @RequestMapping(value = "/querysummary",method = RequestMethod.GET)
+    public String querySummary(@RequestParam long deviceTypeId,
+                               @RequestParam int page,
+                               @RequestParam int count){
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setContent
+                (deviceService.querySummary(deviceTypeId,page,count)).asJson();
+    }
+    @RequestMapping(value = "/configmaintenance",method = RequestMethod.POST)
+    public String configMaintenance(@RequestParam long deviceId,
+                                    @RequestParam long accountId){
+        DevicePerformance devicePerformance =new DevicePerformance();
+        devicePerformance.setDeviceId(deviceId);
+        devicePerformance.setMalfuntionPersonId(accountId);
+        DevicePerformance devicePerformance1=devicePerformanceService.selectByDeviceId(deviceId);
+        try {
+
+            if (devicePerformance1 == null) {
+                devicePerformanceService.insert(devicePerformance);
+            } else {
+                devicePerformance.setId(devicePerformance1.getId());
+                devicePerformanceService.update(devicePerformance);
+            }
+        }catch (Exception e){
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage())
+                    .asJson();
+        }
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("请求成功").asJson();
+
+    }
+
 }

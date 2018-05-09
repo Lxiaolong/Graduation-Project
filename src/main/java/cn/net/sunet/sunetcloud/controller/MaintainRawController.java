@@ -28,8 +28,8 @@ public class MaintainRawController {
     @Autowired
     private JSONGenerator jsonGenerator;
 
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
-    public String query() {
+    @RequestMapping(value = "/queryRA", method = RequestMethod.GET)
+    public String queryRA() {
         return jsonGenerator.createJSONGenerator().setContent(maintainRawservice.queryRA()).setStatus(Constant
                 .SUCCESS).setMsg("查找成功").asJson();
     }
@@ -67,5 +67,10 @@ public class MaintainRawController {
         }catch (DataAccessException e){
             return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("删除失败").asJson();
         }
+    }
+    @RequestMapping(value = "/query",method = RequestMethod.GET)
+    public String query(){
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setContent
+                (maintainRawservice.query()).asJson();
     }
 }
