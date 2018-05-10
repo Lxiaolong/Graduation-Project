@@ -7,6 +7,27 @@ public class RoleServiceControl {
 
     private Long accountId;
 
+    private String role;
+
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getRole() {
+
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }

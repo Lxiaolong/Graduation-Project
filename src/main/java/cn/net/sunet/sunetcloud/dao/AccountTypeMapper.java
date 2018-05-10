@@ -18,4 +18,5 @@ public interface AccountTypeMapper {
     int updateByPrimaryKey(AccountType record);
 
     List<AccountType> query();
+
 }

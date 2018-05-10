@@ -5,6 +5,9 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="service_id" property="serviceId" jdbcType="INTEGER" />
     <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="role" property="role" />
+    <result column="url" property="url"/>
+
   </resultMap>
   <sql id="Base_Column_List" >
     id, service_id, account_id
@@ -14,6 +17,17 @@
     <include refid="Base_Column_List" />
     from role_service_control
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="query" resultMap="BaseResultMap" >
+    SELECT
+	c.id id,
+	a.roles role,
+	s.url url
+FROM
+	( role_service_control c LEFT JOIN account_type a ON c.account_id = a.id )
+	LEFT JOIN service s ON c.service_id = s.id
+ORDER BY
+	a.id ASC limit #{page},#{count}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from role_service_control

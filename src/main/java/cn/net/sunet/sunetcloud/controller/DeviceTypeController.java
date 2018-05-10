@@ -8,12 +8,8 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
-import cn.net.sunet.sunetcloud.domain.DeviceParePartsManage;
-import cn.net.sunet.sunetcloud.domain.DeviceSparePartsConsumption;
-import cn.net.sunet.sunetcloud.domain.DeviceType;
-import cn.net.sunet.sunetcloud.service.AccountTypeServiceImpl;
-import cn.net.sunet.sunetcloud.service.DeviceTypeServiceImpl;
-import cn.net.sunet.sunetcloud.service.SparePartsServiceImpl;
+import cn.net.sunet.sunetcloud.domain.*;
+import cn.net.sunet.sunetcloud.service.*;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +33,7 @@ public class DeviceTypeController {
     @Autowired
     private JSONGenerator jsonGenerator;
     @Autowired
-    private SparePartsServiceImpl sparePartsService;
+    private DeviceTypeMaterialServiceImpl deviceTypeMaterialService;
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public String query() {
@@ -63,32 +59,38 @@ public class DeviceTypeController {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("添加部门失败").asJson();
         }
     }
-    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public String delete(@RequestParam int deviceTypeId){
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public String delete(@RequestParam int deviceTypeId) {
         try {
             deviceTypeService.delete(deviceTypeId);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("删除成功").asJson();
-        }catch (DataAccessException e){
+        } catch (DataAccessException e) {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("请检查相关信息后再删除")
                     .asJson();
         }
     }
-    @RequestMapping(value = "/configmaterial",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/configmaterial", method = RequestMethod.POST)
     public String configMaterial(@RequestParam int deviceTypeId,
-                                 @RequestParam(required = false,defaultValue = "0") int rawMaterialId,
-                                 @RequestParam(required = false,defaultValue = "0") int auxiliaryId,
-                                 @RequestParam(required = false,defaultValue = "0") int sparePartsId){
-        if (sparePartsId!=0){
-            if(sparePartsService.selectByDeviceTypeIdAnd(deviceTypeId,sparePartsId)==null){
-               DeviceParePartsManage sparePartsConsumption= new DeviceParePartsManage();
-               sparePartsConsumption.setDeviceTypeId(deviceTypeId);
-               sparePartsConsumption.setSparePartsId((long) sparePartsId);
-                sparePartsService.insert(sparePartsConsumption);
+                                 @RequestParam int materialId
+    ) {
+        if (deviceTypeMaterialService.selectBydeviceIdAnd(deviceTypeId, materialId) == null) {
+            try {
+
+                DeviceMaterial deviceMaterial = new DeviceMaterial();
+                deviceMaterial.setDeviceTypeId(deviceTypeId);
+                deviceMaterial.setMaterialId(materialId);
+                deviceTypeMaterialService.insert(deviceMaterial);
+            } catch (DataAccessException e) {
+                return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("请检查要分配的种类")
+                        .asJson();
             }
-
-
+            return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("分配成功").asJson();
+        }else {
+            return jsonGenerator.createJSONGenerator().setMsg("已分配,请勿重复").setStatus(Constant.SUCCESS).asJson();
         }
-        return "ok";
     }
+
 
 }

@@ -8,7 +8,9 @@ package cn.net.sunet.sunetcloud.service;
  */
 
 import cn.net.sunet.sunetcloud.dao.DeviceAuxiliaryConsumptionMapper;
+import cn.net.sunet.sunetcloud.dao.DeviceAuxiliaryManageMapper;
 import cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryConsumption;
+import cn.net.sunet.sunetcloud.domain.DeviceAuxiliaryManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuxiliaryServiceImpl {
     @Autowired
-    private DeviceAuxiliaryConsumptionMapper auxiliaryConsumptionMapper;
+    private DeviceAuxiliaryManageMapper auxiliaryManageMapper;
 
-    public void insert(DeviceAuxiliaryConsumption auxiliaryConsumption) {
-        auxiliaryConsumptionMapper.insert(auxiliaryConsumption);
+    public void insert(DeviceAuxiliaryManage auxiliaryManage) {
+        auxiliaryManageMapper.insert(auxiliaryManage);
     }
+
+    public DeviceAuxiliaryManage selectByDeviceTypeIdAnd(int deivceTypeId, long auxiliaryId) {
+        return auxiliaryManageMapper.selectByDeviceTypeIdAnd(deivceTypeId, auxiliaryId);
+    }
+
 }

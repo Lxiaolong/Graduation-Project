@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/maintainauxiliary")
-@Api(value = "maintainauxiliary",description = "辅料管理")
 public class MaintainAuxiliaryController {
     @Autowired
     private MaintainAuxiliaryServiceImpl maintainAuxiliaryService;

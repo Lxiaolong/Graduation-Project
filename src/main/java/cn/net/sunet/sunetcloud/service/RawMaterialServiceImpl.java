@@ -8,7 +8,9 @@ package cn.net.sunet.sunetcloud.service;
  */
 
 import cn.net.sunet.sunetcloud.dao.DeviceRawMaterialConsumptionMapper;
+import cn.net.sunet.sunetcloud.dao.DeviceRawMaterialManageMapper;
 import cn.net.sunet.sunetcloud.domain.DeviceRawMaterialConsumption;
+import cn.net.sunet.sunetcloud.domain.DeviceRawMaterialManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class RawMaterialServiceImpl {
     @Autowired
-    DeviceRawMaterialConsumptionMapper rawMaterialConsumptionMapper;
-    public void insert(DeviceRawMaterialConsumption deviceRawMaterialConsumption){
-        rawMaterialConsumptionMapper.insert(deviceRawMaterialConsumption);
+    DeviceRawMaterialManageMapper rawMaterialManageMapper;
+
+    public void insert(DeviceRawMaterialManage rawMaterialManage) {
+        rawMaterialManageMapper.insert(rawMaterialManage);
+    }
+
+    public DeviceRawMaterialManage selectByDeviceTypeIdAnd(int deviceTypeId, long rawMaterialId) {
+        return rawMaterialManageMapper.selectByDeviceTypeIdAnd(deviceTypeId, rawMaterialId);
     }
 }

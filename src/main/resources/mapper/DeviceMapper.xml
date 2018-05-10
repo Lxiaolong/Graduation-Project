@@ -28,11 +28,18 @@
     rated_pressure, product_date, life_cycle, connect_device, device_new_value, device_origin_value, 
     account_id, device_type_id,certificate
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from device
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectIp" resultType="java.lang.String" parameterType="java.lang.Long" >
+    select
+    ip
+    from device
+    where id = #{id}
   </select>
   <select id="queryPage" resultMap="BaseResultMap" >
     select

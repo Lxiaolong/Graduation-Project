@@ -1,6 +1,9 @@
 package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.RoleServiceControl;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RoleServiceControlMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,6 @@ public interface RoleServiceControlMapper {
     int updateByPrimaryKeySelective(RoleServiceControl record);
 
     int updateByPrimaryKey(RoleServiceControl record);
+
+    List<RoleServiceControl> query(@Param("page") int page,@Param("count") int count);
 }

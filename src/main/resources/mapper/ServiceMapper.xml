@@ -24,6 +24,11 @@
     from service s LEFT JOIN role_service_control r on s.id=r.service_id LEFT JOIN account_type ac on r.account_id =
     ac.id
   </select>
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select
+     id, name, url
+     FROM service
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from service
     where id = #{id,jdbcType=INTEGER}

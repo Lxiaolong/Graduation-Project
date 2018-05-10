@@ -7,11 +7,15 @@ package cn.net.sunet.sunetcloud.config;
  * 网址： www.sunet.net.cn
  */
 
+import cn.net.sunet.sunetcloud.dao.DeviceMapper;
+import cn.net.sunet.sunetcloud.intercept.CollectionIntercept;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -25,6 +29,8 @@ import java.util.List;
 
 @Configuration
 class WebMvcConfig extends WebMvcConfigurerAdapter {
+    @Autowired
+    private DeviceMapper deviceMapper;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -50,6 +56,15 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void configureContentNegotiation(
             ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(false);
+    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // addPathPatterns 用于添加拦截规则
+        // excludePathPatterns 用户排除拦截
+        registry.addInterceptor(new CollectionIntercept(deviceMapper)).addPathPatterns("/collection/devicemaintain")
+                .excludePathPatterns
+                ("/toLogin","/login");
+        super.addInterceptors(registry);
     }
 }
 

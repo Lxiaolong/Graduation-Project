@@ -22,7 +22,7 @@
   </select>
   <select id="query" resultMap="BaseResultMap" >
     select
-    <include refid="Base_Column_List" />
+    id,name,roles
     from account_type
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

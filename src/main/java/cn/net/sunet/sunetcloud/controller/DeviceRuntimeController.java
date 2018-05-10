@@ -8,8 +8,11 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import cn.net.sunet.sunetcloud.constant.Constant;
+import cn.net.sunet.sunetcloud.domain.DeviceParePartsManage;
+import cn.net.sunet.sunetcloud.domain.DevicePerformance;
 import cn.net.sunet.sunetcloud.domain.DeviceQuality;
 import cn.net.sunet.sunetcloud.domain.DeviceRuntime;
+import cn.net.sunet.sunetcloud.service.DevicePerformanceServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceQualityServiceImpl;
 import cn.net.sunet.sunetcloud.service.DeviceRuntimeServiceImpl;
 import cn.net.sunet.sunetcloud.utils.JSONGenerator;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,8 +43,10 @@ public class DeviceRuntimeController {
     private JSONGenerator jsonGenerator;
     @Autowired
     private DeviceQualityServiceImpl deviceQualityService;
+    @Autowired
+    private DevicePerformanceServiceImpl devicePerformanceService;
 
-    @RequestMapping(value = "/queryByTime", method = RequestMethod.GET)
+    @RequestMapping(value = "/oee/queryByTime", method = RequestMethod.GET)
     public String queryByTime(@RequestParam long deviceId,
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startTime,
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime) {
@@ -57,5 +63,21 @@ public class DeviceRuntimeController {
             return jsonGenerator.createJSONGenerator().setStatus(Constant.DATABASE_ERROR).setMsg("查询出错").asJson();
         }
 
+    }
+    @RequestMapping(value = "/quality/queryByTime",method = RequestMethod.GET)
+    public String quality(@RequestParam long deviceId,
+                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startTime,
+                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime){
+        return jsonGenerator.setStatus(Constant.SUCCESS).setMsg("查询成功").setContent(deviceQualityService.queryByTime
+                (deviceId, startTime, endTime)).asJson();
+    }
+    @RequestMapping(value ="/stability",method = RequestMethod.GET)
+    public String stability(@RequestParam long deviceId){
+        DevicePerformance devicePerformance=devicePerformanceService.queryBydeviceId(deviceId);
+        HashMap hashMap=new HashMap();
+        hashMap.put("MTTR",devicePerformance.getMttrTime());
+        hashMap.put("MTBF",devicePerformance.getMtbfTime());
+        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询成功").setContent(hashMap)
+                .asJson();
     }
 }

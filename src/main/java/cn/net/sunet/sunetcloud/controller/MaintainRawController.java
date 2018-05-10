@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/maintainrow")
-@Api(value = "maintainrow", description = "原料管理")
 public class MaintainRawController {
     @Autowired
     private MaintainRawserviceImpl maintainRawservice;

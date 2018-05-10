@@ -23,4 +23,6 @@ public interface DeviceMapper {
     int queryTotal();
 
     List<Device> querySummary(@Param("deviceId") long deviceId,@Param("page") long page,@Param("count") int count);
+
+    String selectIp(Long ip);
 }
