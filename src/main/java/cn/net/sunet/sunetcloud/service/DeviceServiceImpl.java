@@ -46,6 +46,8 @@ public class DeviceServiceImpl {
     public List querySummary(long deviceId,int page,int count){
         return deviceMapper.querySummary(deviceId,(page-1)*count,count);
     }
-
+    public List queryStatus(){
+        return deviceMapper.queryStatus();
+    }
 
 }

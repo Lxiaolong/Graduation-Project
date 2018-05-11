@@ -18,10 +18,11 @@
     <result column="account_id" property="accountId" jdbcType="BIGINT" />
     <result column="device_type_id" property="deviceTypeId" jdbcType="INTEGER" />
     <result column="certificate" property="certificate" jdbcType="VARCHAR"/>
-    <result column="runtime" property="runtime" />
+    <result column="run_time" property="runtime" />
     <result column="nickname" property="nickname"/>
     <result column="additive_output" property="additiveOutput"/>
-    <result column="status_id" property="status"/>
+    <result column="status_id" property="statusId"/>
+    <result column="status" property="status"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, chinese_name, english_name, asset_code, rated_uph, rated_voltage, rated_power,
@@ -41,11 +42,19 @@
     from device
     where id = #{id}
   </select>
+  <select id="queryStatus" resultMap="BaseResultMap">
+    SELECT
+	d.id,
+	s.name status
+FROM
+	device d
+	LEFT JOIN device_status s ON d.status_id = s.id
+  </select>
   <select id="queryPage" resultMap="BaseResultMap" >
     select
     d.chinese_name, d.english_name, d.asset_code, d.rated_uph, d.rated_voltage, d.rated_power,
     d.rated_pressure, d.product_date, d.life_cycle,d.device_new_value, d.device_origin_value,r.run_time
-    runtime,a.nickname
+    ,a.nickname
     nickname
     from device d LEFT JOIN device_performance r ON d.id=r.device_id LEFT JOIN account a ON r.malfuntion_person_id =
     a.id
@@ -232,8 +241,8 @@ WHERE
       <if test="deviceTypeId != null" >
         device_type_id = #{deviceTypeId,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
-        status_id = #{status,jdbcType=INTEGER},
+      <if test="statusId != null" >
+        status_id = #{statusId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

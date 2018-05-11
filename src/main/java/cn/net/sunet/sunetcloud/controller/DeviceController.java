@@ -80,5 +80,9 @@ public class DeviceController {
         return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("请求成功").asJson();
 
     }
+    @RequestMapping(value = "/queryStatus",method = RequestMethod.GET)
+    public String queryStatus(){
+        return jsonGenerator.createJSONGenerator().setContent(deviceService.queryStatus()).asJson();
+    }
 
 }

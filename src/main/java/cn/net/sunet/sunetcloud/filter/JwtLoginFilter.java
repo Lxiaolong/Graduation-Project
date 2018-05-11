@@ -111,7 +111,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         rd.forward(request,response);
         /*try {
             PrintWriter out = response.getWriter();
-            out.write(new JSONGenerator().createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setContent
+            out.write(new JSONGenerator().createJSONGenerator().setStatusId(Constant.SUCCESS).setMsg("ok").setContent
                     (authResult.getAuthorities()
                             .iterator())
                     .asJson

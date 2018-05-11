@@ -1,4 +1,3 @@
-/*
 package cn.net.sunet.sunetcloud.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +21,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/my-websocket").setAllowedOrigins
-				("http://localhost:8080").setHandshakeHandler(new DefaultHandshakeHandler(new
+				("*").setHandshakeHandler(new DefaultHandshakeHandler(new
 				TomcatRequestUpgradeStrategy())).withSockJS();
 	}
 
 }
-*/

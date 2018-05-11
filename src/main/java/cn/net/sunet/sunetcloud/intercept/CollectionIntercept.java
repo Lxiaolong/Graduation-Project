@@ -8,7 +8,7 @@ package cn.net.sunet.sunetcloud.intercept;
  */
 
 import cn.net.sunet.sunetcloud.dao.DeviceMapper;
-import org.apache.ibatis.annotations.Param;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +49,6 @@ public class CollectionIntercept implements HandlerInterceptor {
         }
         return ip.equals(deviceMapper.selectIp(deviceID));
     }
-
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
 

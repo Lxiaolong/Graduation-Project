@@ -2,6 +2,7 @@ package cn.net.sunet.sunetcloud.dao;
 
 import cn.net.sunet.sunetcloud.domain.Device;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface DeviceMapper {
     List<Device> querySummary(@Param("deviceId") long deviceId,@Param("page") long page,@Param("count") int count);
 
     String selectIp(Long ip);
+@Cacheable(value = "device",key = "'status'",unless = "#result eq null")
+    List<Device> queryStatus();
 }

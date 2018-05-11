@@ -8,6 +8,8 @@ package cn.net.sunet.sunetcloud.controller;
  */
 
 import org.apache.coyote.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 public class HomeController {
+    @Autowired
+    private WebSocketController webSocketController;
     @GetMapping("login_1")
-    public String login_1(HttpServletRequest request){
+    @CacheEvict(value = "device",key = "'status'")
+    public String login_1(@RequestParam long deviceId,HttpServletRequest request){
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
@@ -38,6 +43,11 @@ public class HomeController {
         }
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
+        }
+        try {
+            webSocketController.callback1(deviceId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return ip;
     }

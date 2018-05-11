@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -52,11 +53,23 @@ public class Collection {
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private WebSocketController webSocketController;
 
     /**
      * 在ScheduledFuture中有一个cancel可以停止定时任务。
      */
     private ScheduledFuture<?> future;
+
+    public HashMap<Integer,ScheduledFuture<?>> getFutureHash() {
+        return futureHash;
+    }
+
+    private HashMap futureHash=new HashMap();
+
+    public ScheduledFuture<?> getFuture() {
+        return future;
+    }
 
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
@@ -78,12 +91,12 @@ public class Collection {
         if (device != null) {
             if (certificate.equals(device.getCertificate())) {
                 deviceQualityService.insert(deviceQuality);
-                return jsonGenerator.setStatus(Constant.SUCCESS).asJson();
+                return jsonGenerator.setStatusId(Constant.SUCCESS).asJson();
             } else {
-                return jsonGenerator.setStatus(Constant.LOGIC_ERROR).asJson();
+                return jsonGenerator.setStatusId(Constant.LOGIC_ERROR).asJson();
             }
         }
-        return jsonGenerator.setStatus(Constant.REQUEST_PARAMETER_ERROR).asJson();
+        return jsonGenerator.setStatusId(Constant.REQUEST_PARAMETER_ERROR).asJson();
     }*/
 
     @RequestMapping(value = "/deviceruntime/test_time", method = RequestMethod.POST)
@@ -104,7 +117,7 @@ public class Collection {
             deviceRuntime.setId(deviceRuntimeService.selectTestTime(deviceRuntime.getDeviceId()).getId());
             deviceRuntimeService.update(deviceRuntime);
             Device device=new Device();
-            device.setStatus(1);
+            device.setStatusId(1);
             device.setId(deviceRuntime.getDeviceId());
             deviceService.updateStatus(device);
             return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
@@ -122,7 +135,7 @@ public class Collection {
         deviceRuntime.setAdditiveOutput(deviceRuntime1.getAdditiveOutput() + deviceRuntime.getRuntimeOutput());
         deviceRuntime.setRuntime(runtime);
         Device device=new Device();
-        device.setStatus(2);
+        device.setStatusId(2);
         device.setId(deviceRuntime.getDeviceId());
         deviceService.updateStatus(device);
         try {
@@ -178,65 +191,23 @@ public class Collection {
         MaintainMalfunction maintainMalfunction1 = maintainMalfunctionService.selectById(maintainMalfunction.getId());
         Calendar now1 = Calendar.getInstance();
         int minute = now1.get(Calendar.MINUTE) + 1;
-        //future = threadPoolTaskScheduler.schedule(new SendEmail(javaMailSender, maintainMalfunction1), new
-               // CronTrigger(cron));
+        future = threadPoolTaskScheduler.schedule(new SendEmail(javaMailSender, maintainMalfunction1), new
+               CronTrigger(cron));
+        futureHash.put(maintainMalfunction.getId(),future);
         System.out.println("DynamicTaskController.startCron()");
         Device device=new Device();
-        device.setStatus(3);
+        device.setStatusId(3);
         device.setId(deviceId);
         deviceService.updateStatus(device);
+       /* try {
+            webSocketController.callback1(deviceId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
         return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
     }
 
-    @RequestMapping(value = "devicemaintain/accept", method = RequestMethod.POST)
-    public String accept(@RequestParam long id) {
-        MaintainMalfunction maintainMalfunction=new MaintainMalfunction();
-        maintainMalfunction.setId(id);
-        maintainMalfunction.setSchedule(1);
-        try {
-            maintainMalfunctionService.update(maintainMalfunction);
-        } catch (DataAccessException e) {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
-        }
-        if (future != null) {
-            future.cancel(true);
-        }
-        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
-    }
 
-    @RequestMapping(value = "/devicemaintain/complete", method = RequestMethod.POST)
-    public String complete(@RequestParam long id,
-                           @RequestParam String description,
-                           @RequestParam String method,
-                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                       Date solvedTime) {
-        MaintainMalfunction maintainMalfunction=new MaintainMalfunction();
-        maintainMalfunction.setId(id);
-        maintainMalfunction.setDescription(description);
-        maintainMalfunction.setSolvedTime(solvedTime);
-        maintainMalfunction.setMethod(method);
-        maintainMalfunction.setSchedule(2);
-        try {
-            maintainMalfunctionService.update(maintainMalfunction);
-        } catch (DataAccessException e) {
-            return jsonGenerator.setStatus(Constant.DATABASE_ERROR).setMsg(e.getMessage()).setContent(e).asJson();
-        }
-        MaintainMalfunction maintainMalfunction1 = maintainMalfunctionService.selectById(maintainMalfunction.getId());
-        Date start_time = maintainMalfunction1.getStartTime();
-        Date end_time = maintainMalfunction1.getSolvedTime();
-
-
-        float timeInterval = (end_time.getTime() - start_time.getTime()) / (float) 3600000;
-        DevicePerformance devicePerformance = devicePerformanceService.selectByDeviceId(maintainMalfunction1.getDeviceId
-                ());
-        devicePerformance.setMalfunctionTime(devicePerformance.getMalfunctionTime() + timeInterval);
-        devicePerformance.setMalfunctionNumber(devicePerformance.getMalfunctionNumber() + 1);
-        devicePerformance.setMttrTime((float) devicePerformance.getMalfunctionTime() / devicePerformance.getMalfunctionNumber
-                ());
-        devicePerformanceService.update(devicePerformance);
-        return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).asJson();
-
-    }
     @RequestMapping(value = "devicequality",method = RequestMethod.POST)
     public String devicequality(@RequestParam int feed_number,
                                 @RequestParam int discharge_number,

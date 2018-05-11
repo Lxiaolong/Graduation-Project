@@ -35,7 +35,35 @@ public class Device {
 
     private Integer deviceTypeId;
 
-    private float runtime;
+    private Float runtime;
+
+    private Integer statusId;
+
+    public Float getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(Float runtime) {
+        this.runtime = runtime;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
 
     public Long getAdditiveOutput() {
         return additiveOutput;
@@ -46,24 +74,6 @@ public class Device {
     }
 
     private Long additiveOutput;
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    private int status;
-
-    public float getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(float runtime) {
-        this.runtime = runtime;
-    }
 
     public String getNickname() {
         return nickname;

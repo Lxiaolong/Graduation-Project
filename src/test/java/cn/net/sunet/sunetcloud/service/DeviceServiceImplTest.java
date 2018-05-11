@@ -25,7 +25,7 @@ public class DeviceServiceImplTest {
     }
     @Test
     public void querySummary(){
-        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceService.querySummary(1,1,6))
+        System.out.println(new JSONGenerator().createJSONGenerator().setContent(deviceService.queryStatus())
                 .asJson());
     }
 
