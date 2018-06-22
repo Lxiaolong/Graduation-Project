@@ -45,7 +45,7 @@ public class HomeController {
             ip = request.getRemoteAddr();
         }
         try {
-            webSocketController.callback1(deviceId);
+            //webSocketController.callback1(deviceId);
         } catch (Exception e) {
             e.printStackTrace();
         }

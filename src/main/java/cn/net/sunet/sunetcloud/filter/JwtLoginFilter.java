@@ -29,6 +29,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -105,13 +106,13 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         Jedisutils.getInstance().getJedis().set(authResult.getName(), token);
         ServletContext sc = getServletContext();
-        RequestDispatcher rd=sc.getNamedDispatcher("login_1");
+      //  RequestDispatcher rd=sc.getNamedDispatcher("login_1");
         response.addHeader("token", "sunet" + token);
         response.setStatus(Constant.SUCCESS);
-        rd.forward(request,response);
-        /*try {
+      //  rd.forward(request,response);
+        try {
             PrintWriter out = response.getWriter();
-            out.write(new JSONGenerator().createJSONGenerator().setStatusId(Constant.SUCCESS).setMsg("ok").setContent
+            out.write(new JSONGenerator().createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("ok").setContent
                     (authResult.getAuthorities()
                             .iterator())
                     .asJson
@@ -120,7 +121,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
     }

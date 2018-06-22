@@ -17,11 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
 import javax.xml.crypto.Data;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,14 +42,14 @@ public class WebSocketController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/send")
-    @SendTo("/topic/send")
-    public String send(String s) throws Exception {
+    public void send(String s,Principal principal) throws Exception {
+        System.out.println(s+principal.getName());
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return s;
+        messagingTemplate.convertAndSendToUser(principal.getName(),"/queue/send",s);
     }
 
     @Scheduled(fixedRate = 1000)
-    @SendTo("/topic/callback")
+    //@SendToUser("/topic/callback")
     public Object callback() throws Exception {
         // 发现消息
         List<Device> de = deviceService.queryStatus();
@@ -67,7 +69,9 @@ public class WebSocketController {
         HashMap hashMap1=new HashMap();
         hashMap1.put("time",date);
         hashMap1.put("data",hashMap);
-        messagingTemplate.convertAndSend("/topic/callback", new JSONGenerator().createJSONGenerator().setContent
+        messagingTemplate.convertAndSendToUser("15581311816","/topic/callback", new JSONGenerator()
+                .createJSONGenerator
+                ().setContent
                 (hashMap1).asJson());
         return "callback";
     }

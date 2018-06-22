@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +48,13 @@ public class DeviceRuntimeController {
     private DevicePerformanceServiceImpl devicePerformanceService;
 
     @RequestMapping(value = "/oee/queryByTime", method = RequestMethod.GET)
-    public String queryByTime(@RequestParam long deviceId,
+    public String queryByTime(Principal principal, @RequestParam long deviceId,
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startTime,
                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime) {
         try{
             List<DeviceRuntime> deviceRuntimes=deviceRuntimeService.queryByTime(deviceId,startTime,endTime);
             List<DeviceQuality> deviceQualities=deviceQualityService.queryByTime(deviceId, startTime, endTime);
+            System.out.println("pr"+principal.getName());
             if(deviceRuntimes.isEmpty()){
                 return jsonGenerator.createJSONGenerator().setStatus(Constant.SUCCESS).setMsg("查询为空").asJson();
             }
