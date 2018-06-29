@@ -1,12 +1,14 @@
 package cn.net.sunet.sunetcloud.config;
 
-import cn.net.sunet.sunetcloud.constant.Constant;
+import cn.net.sunet.sunetcloud.domain.StompPrincipe;
 import cn.net.sunet.sunetcloud.utils.Jedisutils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -17,19 +19,14 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.DefaultCsrfToken;
-import org.springframework.util.StringUtils;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.server.standard.TomcatRequestUpgradeStrategy;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,18 +36,20 @@ import java.util.Map;
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
+	private Logger logger= LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.enableSimpleBroker("/topic","queue");
-		config.setUserDestinationPrefix("/user/");
 		config.setApplicationDestinationPrefixes("/app");
-	}
+}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/my-websocket").setAllowedOrigins
-				("*").setHandshakeHandler(new DefaultHandshakeHandler(new
-				TomcatRequestUpgradeStrategy())).withSockJS();
+				("*").addInterceptors(new WebSocketHandshakeInterceptor()).setHandshakeHandler(new
+				CustomHandshakeHandler())
+				.withSockJS();
 	}
 
 	@Override
@@ -62,13 +61,20 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 				if (StompCommand.CONNECT.equals(accessor.getCommand())) {
 					String jwtToken = accessor.getFirstNativeHeader("token");
 					//LOG.debug("webSocket token is {}", jwtToken);
-					if (!jwtToken.isEmpty()) {
-						Map sessionAttributes = SimpMessageHeaderAccessor.getSessionAttributes(message.getHeaders());
-						sessionAttributes.put(CsrfToken.class.getName(), new DefaultCsrfToken("token", "token",
-								jwtToken));
+
+					if (jwtToken != null ) {
+						Map<String, Object> sessionAttributes = SimpMessageHeaderAccessor.
+								getSessionAttributes(message.getHeaders());
+
 						UsernamePasswordAuthenticationToken authToken = getAuthencation(jwtToken);
+
+						if (authToken != null) {
+							sessionAttributes.put("user", authToken.getPrincipal().toString());
+						}
 						SecurityContextHolder.getContext().setAuthentication(authToken);
+
 						accessor.setUser(authToken);
+						logger.error(accessor.getUser().getName());
 					}
 				}
 				return message;
@@ -109,5 +115,14 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
 
 }
-
+class CustomHandshakeHandler extends DefaultHandshakeHandler {
+	// Custom class for storing principal
+	@Override
+	protected Principal determineUser(ServerHttpRequest request,
+									  WebSocketHandler wsHandler,
+									  Map<String, Object> attributes) {
+		// Generate principal with UUID as name
+		return new StompPrincipe("15581311816");
+	}
+}
 

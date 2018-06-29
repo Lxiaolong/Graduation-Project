@@ -7,28 +7,24 @@ package cn.net.sunet.sunetcloud.controller;
  * 网址： www.sunet.net.cn
  */
 
-import cn.net.sunet.sunetcloud.domain.Device;
-import cn.net.sunet.sunetcloud.domain.DevicePerformance;
-import cn.net.sunet.sunetcloud.service.DevicePerformanceServiceImpl;
+import cn.net.sunet.sunetcloud.config.SystemWebsocketHandler;
 import cn.net.sunet.sunetcloud.service.DeviceServiceImpl;
-import cn.net.sunet.sunetcloud.utils.JSONGenerator;
-import io.swagger.models.auth.In;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.TextMessage;
 
-import javax.xml.crypto.Data;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Lxiaolong
@@ -36,19 +32,35 @@ import java.util.List;
 @Controller
 @EnableScheduling
 public class WebSocketController {
+    private Logger logger=LoggerFactory.getLogger(this.getClass());
     @Autowired
     private DeviceServiceImpl deviceService;
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
+    @Bean
+    public SystemWebsocketHandler systemWebsocketHandler(){
+        return new SystemWebsocketHandler();
+    }
+
     @MessageMapping("/send")
+
     public void send(String s,Principal principal) throws Exception {
         System.out.println(s+principal.getName());
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        messagingTemplate.convertAndSendToUser(principal.getName(),"/queue/send",s);
+        logger.info(messagingTemplate.getUserDestinationPrefix()+"--"+messagingTemplate.getMessageChannel());
+        systemWebsocketHandler().sendMessageToUser(principal.getName(),new TextMessage(s));
+        messagingTemplate.convertAndSendToUser(principal.getName(),"/queue/send",df);
+
+    }
+    private MessageHeaders createHeaders(String sessionId) {
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+        headerAccessor.setSessionId(sessionId);
+        headerAccessor.setLeaveMutable(true);
+        return headerAccessor.getMessageHeaders();
     }
 
-    @Scheduled(fixedRate = 1000)
+/*    @Scheduled(fixedRate = 1000)
     //@SendToUser("/topic/callback")
     public Object callback() throws Exception {
         // 发现消息
@@ -82,5 +94,5 @@ public class WebSocketController {
         messagingTemplate.convertAndSend("/topic/callback1", new JSONGenerator().createJSONGenerator().setContent
                 (deviceId).asJson());
         return "callback1";
-    }
+    }*/
 }

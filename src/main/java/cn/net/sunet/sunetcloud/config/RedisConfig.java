@@ -12,14 +12,10 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Lxiaolong
@@ -47,7 +43,7 @@ public class RedisConfig {
         template.afterPropertiesSet();
         return template;
     }
-    @Bean
+    /*@Bean
     public RedisCacheManager cacheManager(RedisTemplate<Object, Object> redisTemplate) {
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
         // 开启使用缓存名称最为key前缀
@@ -61,6 +57,5 @@ public class RedisConfig {
         redisCacheManager.setExpires(expires);
 
         return redisCacheManager;
-    }
-
+    }*/
 }
